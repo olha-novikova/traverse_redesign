@@ -1,0 +1,41 @@
+.credit-card input{
+    margin-bottom: 15px;
+}
+.styled-select {
+    overflow: hidden;
+    width: 49%;
+    padding: 8px 0;
+    border: 1px solid #e0e0e0;
+    background: #fcfcfc url("select_arrow.png") no-repeat 96% 50%;
+    margin-bottom: 15px;
+}
+.styled-select.whild{
+    width: 100%;
+}
+.styled-select select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    max-width: none;
+}
+
+.styled-select select:focus {
+    outline: none;
+}
+
+.styled-select.sm{
+    width: 24.5%;
+}
+.form-row-last:after{
+    content: " ";
+    display: block;
+    float: none;
+    clear: both;
+}
+.clear{
+    clear: both;
+}

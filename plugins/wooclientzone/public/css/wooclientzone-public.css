@@ -1,0 +1,169 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+/* note that these two styles are also defined on the admin side */
+#errorMessage {
+	display: none;
+	font-size: 1.1em;
+	font-weight: bold;
+	background-color: #ffeeee;
+	padding: 15px 15px 15px 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 100%;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #c12323;
+	border-style: solid;
+	border-width: 0px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+#successMessage {
+	display: none;
+	font-size: 1.1em;
+	font-weight: bold;
+	background-color: #eeffee;
+	padding: 15px 15px 15px 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 100%;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #46b450;
+	border-style: solid;
+	border-width: 0px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Style for shadowed and rounded boxes (for public site) )*/
+.wooclientzone_shadowed_box {
+	border-color: rgb(229,229,229);
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.04);
+}
+.wooclientzone_rounded_box {
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+/* Client Zone action boxes styles */
+.wooclientzone_actions_header {
+	text-align: right;
+	padding: 5px;
+}
+.wooclientzone_actions_header_text {
+	font-size: 1.1em;
+	font-weight: bold;
+	display: inline-block;
+}
+.wooclientzone_actions_header_icon {
+	font-size: .8em;
+	display: inline-block;
+	margin-left: .3em;
+}
+.wooclientzone_actions_header_icon:after {
+	content: "\25bc";
+}
+.wooclientzone_actions_header_icon.open:after {
+	content: "\25b2";
+}
+.wooclientzone_actions_content {
+	display:none;
+	font-size: 1.1em;
+	font-weight: bold;
+	background-color: #f8f8f8;
+	padding: 15px 15px 15px 30px;
+	width: 100%;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #35acc1;
+	border-style: solid;
+	border-width: 0px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+
+/* order table clientzone button */
+.my_account_orders .button.clientzone:after {
+	font-size: inherit;
+	-webkit-font-smoothing: antialiased;
+	font-family: dashicons;
+	content: "\f125";
+	display: inline-block;
+	margin-left: .54em;
+	text-rendering: auto;
+}
+
+/* main Client Zone styles */
+#publicWooclientzoneWrapper {
+	margin-top: 50px;
+	padding: 20px 0px;
+}
+#publicWooclientzoneTitle {
+}
+#publicCommunicationsPlaceholder {
+	margin-top: 50px;
+	_min-height: 100px;
+}
+#publicAddCommunicationHeader {
+	margin-top: 30px;
+}
+/* how to align two elements, the first of which might change width
+ * ref: http://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html
+ */
+#publicAddCommunicationHeaderText {
+	display: inline-block;
+	margin-right: 1em;
+}
+#publicAddCommunicationHeaderIcon {
+	display: inline-block;
+	font-size: 1em;
+}
+/* Ref for next two styles is in http://stackoverflow.com/questions/5041494/selecting-and-manipulating-css-pseudo-elements-such-as-before-and-after-usin/21709814#21709814 */
+#publicAddCommunicationHeaderIcon:after {
+	content: "\25b2"; /* we default it open (from v1.0.1) */
+}
+#publicAddCommunicationHeaderIcon.open:after {
+	content: "\25bc"; /* we default it open (from v1.0.1) */
+}
+#publicAddCommunicationContent {
+	_display: none; /* we default it open (from v1.0.1) */
+}
+
+/* Dropzone CSS */
+.dropzone-public {
+	background-color: #EEFFFF;
+	border-style: dashed;
+	border-width: 5px;
+	border-color: #DDDDDD;
+	text-align: center;
+	padding: 33px 10px 33px 10px;
+	margin-top: 33px;
+}
+
+.public-editor {
+	background-color: #FFFFEE;
+}
+
+.public-message-editor-div {
+	background-color: #FFFFFF;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #DDDDDD;
+	text-align: center;
+	padding: 20px 10px 10px 10px;
+	margin-top: 33px;
+}
+
+.public-message-submit-button-div {
+	margin: 30px 0px 10px 0px;
+	text-align: center;
+}
+
+.dz-upload {
+	display: block;
+	height: 50px;
+	width: 0%;
+/*
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+ */
+}

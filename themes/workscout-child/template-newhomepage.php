@@ -1,0 +1,322 @@
+<?php
+
+/*
+* Template Name: New Homepage
+*/
+get_header("newhomepage");
+?>
+<div class="wrapper">
+    <div class="sections">
+        <div class="section section_firstscreen">
+            <div class="container container_firstscreen">
+                <div class="section__text-block">
+                    <h1 class="section__header">Welcome to the #1 Influencer Platform in Travel</h1>
+                    <p class="section__description">We are the best and biggest influencer platform within the travel and outdoor industry with thousands of active influencers all around the world. Locale is a platform for brands to discover and hire leading travel influencers. </p>
+                    <div class="section__buttons"><a href="#" class="section__button">I’M A BRAND / AGENCY</a><a href="#" class="section__button">I’M AN INFLUENCER</a></div>
+                </div>
+                <?php if ( !is_user_logged_in() ) { ?>
+                <div class="firstscreen__form form">
+                    <div class="form__side">
+                        <div class="form__side__top">
+                            <div class="form__side__top__image-block">
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus.png" alt="" class="form__side__image"/>
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus-active.png" alt="" class="form__side__image form__side__image_active opacity1"/>
+                            </div>
+                        </div>
+                        <div class="form__side__bottom">
+                            <div class="form__side__bottom__image-block">
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus-inactive.png" alt="" class="form__side__image"/>
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus.png" alt="" class="form__side__image form__side__image_active"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form__main">
+                        <div class="login">
+                            <p class="form__main__head">Login to Traverse</p>
+                                <form method="post" class="login">
+                                    <?php do_action( 'woocommerce_login_form_start' ); ?>
+                                    <div class="form__main__body">
+                                        <div class="input__block">
+                                            <input id="email" type="text" name="username" class="form__input" value="<?php if ( ! empty( $_POST['username'] ) ) echo esc_attr( $_POST['username'] ); ?>"/>
+                                            <label for="email" class="form__input__label">Your Email</label>
+                                        </div>
+                                        <div class="input__block">
+                                            <input id="password" type="password" name="password" class="form__input"/>
+                                            <label for="password" class="form__input__label">Your Password</label>
+                                        </div>
+                                        <?php do_action( 'woocommerce_login_form' ); ?>
+                                        <div class="checkboxes">
+                                            <div class="checkbox__block">
+                                                <input id="remember" type="checkbox" name="rememberme" class="form__checkbox"/>
+                                                <label for="remember" class="checkbox__label">Remember Me</label>
+                                            </div><a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" class="login__recover-pass">Forgot my Password </a>
+                                        </div>
+                                        <?php wp_nonce_field( 'woocommerce-login' ); ?>
+                                        <input type="hidden" name="login" value="login"/>
+                                        <button type="submit"  class="form__button form__button_orange">Login</button>
+
+                                        <div class="form__devider">
+                                            <div class="devider__block"></div>
+                                            <p class="form__devider__text">or</p>
+                                            <div class="devider__block"></div>
+                                        </div><a href="#" class="form__button form__button_facebook">Login with Facebook</a><a href="#" class="form__button form__button_twitter">Login with Twitter</a>
+                                        <p class="register-text">Don’t you have an account? <a href="#" class="checkbox__link toggle__link">Register Now!</a> It’s really simple and you can start enjoing all the benefits!</p>
+                                    </div>
+                                    <?php do_action( 'woocommerce_login_form_end' ); ?>
+                                </form>
+                        </div>
+                        <div class="register">
+                            <p class="form__main__head">Register to Traverse</p>
+                            <?php
+
+                            $registration_enabled = get_option('users_can_register');
+
+                            if($registration_enabled) { ?>
+                            <form method="post" class="newhomapage_register">
+                                <?php do_action( 'woocommerce_register_form_start' ); ?>
+                                <div class="form__main__body">
+                                    <div class="input__block">
+                                        <input id="firstname" name="firstname" type="text" class="form__input"/>
+                                        <label for="firstname" class="form__input__label">First Name</label>
+                                    </div>
+                                    <div class="input__block">
+                                        <input id="lastname" name="lastname" type="text" class="form__input"/>
+                                        <label for="lastname" class="form__input__label">Last Name</label>
+                                    </div>
+                                    <div class="input__block">
+                                        <input id="email" type="email" name="email" class="form__input"/>
+                                        <label for="email" class="form__input__label">Your Email</label>
+                                    </div>
+                                    <div class="input__block">
+                                        <input id="password" type="password"  name="password" class="form__input"/>
+                                        <label for="password" class="form__input__label">Your Password</label>
+                                    </div>
+                                    <p class="form__text">Who are you?</p>
+                                    <div class="checboxes">
+                                        <div class="checkbox__block">
+                                            <input id="influencer" type="radio" value="candidate" name="role" class="form__checkbox"/>
+                                            <label for="influencer" class="checkbox__label">I’m an Influencer</label>
+                                        </div>
+                                        <div class="checkbox__block">
+                                            <input id="brand" type="radio" value="employer" name="role" class="form__checkbox"/>
+                                            <label for="brand" class="checkbox__label">I’m a Brand</label>
+                                        </div>
+                                        <div class="checkbox__block">
+                                            <input id="agency" type="radio" value="employer" name="role" class="form__checkbox"/>
+                                            <label for="agency" class="checkbox__label">I’m an Agency</label>
+                                        </div>
+                                        <div class="checkbox__block">
+                                            <input id="terms" type="checkbox" name="agreement" class="form__checkbox"/>
+                                            <label for="terms" class="checkbox__label">I accept the <a href="#" class="checkbox__link"> Terms and Conditions </a> of the website</label>
+                                        </div>
+                                    </div>
+                                    <div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php _e( 'Anti-spam', 'workscout' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
+
+                                    <?php do_action( 'woocommerce_register_form' ); ?>
+                                    <?php wp_nonce_field( 'woocommerce-register' ); ?>
+                                    <button type="submit" class="form__button">Complete Registration!</button>
+                                    <div class="form__erorrs"></div>
+                                    <?php do_action( 'woocommerce_register_form_end' ); ?>
+                                </div>
+                            </form>
+                            <?php } ?>
+                        </div> <!-- register -->
+                    </div><!-- form__main -->
+                </div><!-- firstscreen__form -->
+            <?php }?>
+            </div> <!-- container_firstscreen -->
+        </div> <!-- section_firstscreen -->
+
+        <section class="section section_brands">
+            <div class="container container_special">
+                <p class="brands__header">Brands we work with</p>
+                <ul class="brands">
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section section_results">
+            <div class="container container_special container_results">
+                <div class="video">
+                    <p class="video__header">ALOFT HOTELS</p>
+                    <p class="video__descrtiption">30 Second Video with an Influencer to uniquely show things to do in their hotel, especially if it rains.</p>
+                    <div class="wrapper_youtube">
+                        <div data-embed="ydhUu736ZcE" class="youtube">
+                            <div class="play-button"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="results">
+                    <div class="quote">
+                        <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                        <div class="quote__author">
+                            <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
+                            <p class="quote__author__name">Barret Huie</p>
+                        </div>
+                    </div>
+                    <div class="results__campaign">
+                        <p class="results__header">CAMPAIGN RESULTS</p>
+                        <ul class="results__list">
+                            <li class="results__item"><img src="<?php echo get_stylesheet_directory_uri();?>/img/reach.png" alt="" class="result__icon"/>
+                                <p class="result__figure">155K</p>
+                                <p class="result__description">REACH</p>
+                            </li>
+                            <li class="results__item"><img src="<?php echo get_stylesheet_directory_uri();?>/img/plays.png" alt="" class="result__icon"/>
+                                <p class="result__figure">35K</p>
+                                <p class="result__description">PLAYS</p>
+                            </li>
+                            <li class="results__item"><img src="<?php echo get_stylesheet_directory_uri();?>/img/shares.png" alt="" class="result__icon"/>
+                                <p class="result__figure">2.5K</p>
+                                <p class="result__description">SHARES</p>
+                            </li>
+                            <li class="results__item"><img src="<?php echo get_stylesheet_directory_uri();?>/img/likes.png" alt="" class="result__icon"/>
+                                <p class="result__figure">1.9K</p>
+                                <p class="result__description">LIKES</p>
+                            </li>
+                        </ul><a href="#" class="button button_results">Find Out More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section_ready">
+            <div class="container container_ready">
+                <p class="section__header section__header_ready">Are you ready to sign up?</p>
+                <p class="section__description section__description_ready">It’s absolutely free to join.</p>
+                <div class="buttons__ready"><a href="#" class="button button_results button_ready">I'm A Brand</a><a href="#" class="button button_results button_ready">I'm An Agency</a><a href="#" class="button button_results button_ready">I'm An Influencer</a></div>
+                <p class="section__description section__description_small">* We don’t share your personal info with anyone. Check out our <a href="#" class="ready__link">Privacy Policy</a> for more information.</p>
+            </div>
+        </section>
+
+        <section class="section section_faq">
+            <div class="container container_faq">
+                <p class="section__header section__header_faq">Frequently Asked Questions</p>
+                <ul class="questions">
+                    <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
+                        <div class="question__text">
+                            <p class="question__question">Does your platform support Agencies?</p>
+                            <p class="question__asnswer">Yes, we have agency partners to ensure our platform and tools serve the needs of small brands and large agencies alike. We are here to save you time</p>
+                        </div>
+                    </li>
+                    <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
+                        <div class="question__text">
+                            <p class="question__question">What categories do you serve?</p>
+                            <p class="question__asnswer">We serve all categories inside of travel. Lifestyle, Cannabis/Beverage, Clothing, LGBT, Adventure, Nature, etc. etc. etc. </p>
+                        </div>
+                    </li>
+                    <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
+                        <div class="question__text">
+                            <p class="question__question">Another Main Questions About Us</p>
+                            <p class="question__asnswer">Another answer about us.</p>
+                        </div>
+                    </li>
+                    <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
+                        <div class="question__text">
+                            <p class="question__question">Another questions about us</p>
+                            <p class="question__asnswer">Another answer about us.</p>
+                        </div>
+                    </li>
+                </ul>
+                <p class="section__description section__description_faq">Still have questions? Write on <a href="mailto:help@localeinfluence.com" class="faq__link">help@localeinfluence.com</a> for answers.</p>
+            </div>
+        </section>
+
+        <section class="section section_reviews">
+            <div class="container container_reviews">
+                <p class="section__header section__header_review">What Are People Saying</p>
+                <div class="carousel">
+                    <div class="carousel__item">
+                        <div class="carousel__item__wrap">
+                            <div class="quote quote_review">
+                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <div class="quote__author">
+                                    <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
+                                    <p class="quote__author__name">Barret Huie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel__item">
+                        <div class="carousel__item__wrap">
+                            <div class="quote quote_review">
+                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <div class="quote__author">
+                                    <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
+                                    <p class="quote__author__name">Barret Huie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel__item">
+                        <div class="carousel__item__wrap">
+                            <div class="quote quote_review">
+                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <div class="quote__author">
+                                    <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
+                                    <p class="quote__author__name">Barret Huie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel__item">
+                        <div class="carousel__item__wrap">
+                            <div class="quote quote_review">
+                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <div class="quote__author">
+                                    <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
+                                    <p class="quote__author__name">Barret Huie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section_insta">
+            <ul class="insta__photos">
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+            </ul><a href="#" class="button button_results button__insta">Follow us on Instagram</a>
+        </section>
+
+        <section class="section section_contact">
+            <div class="container container_contact">
+                <p class="section__header section__header_contact">Contact us</p>
+                <p class="section__description section__description_contact">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.<br> It is a long established fact that a reader will be distracted. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. It is a long established fact that a reader will be distracted. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                <div class="contacts">
+                    <div class="contacts__block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/marker.png" alt="" class="contacts__icon"/>
+                        <p class="contacts__text">Seattle, Washington</p>
+                    </div>
+                    <div class="contacts__block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/mobile.png" alt="" class="contacts__icon"/>
+                        <p class="contacts__text">+354 123 45 67 help@localeinfluence.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+<?php get_footer("newhomepage"); ?>

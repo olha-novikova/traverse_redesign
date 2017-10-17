@@ -1,0 +1,202 @@
+/* =================================================================== */
+/* Purethemes.net shortcodes CSS
+====================================================================== */
+
+/* Buttons
+====================================*/
+
+.button {
+    padding: 7px 14px;
+    text-decoration: none;
+    display: inline-block;
+    border: 0;
+    font-weight: 500;
+    outline: none;
+    font-size: 14px;
+    cursor: pointer;
+    width: auto;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+   
+}
+
+.button i {
+    margin: 0 2px 0 0;
+}
+
+.button i.black {
+    color: #aaa;
+}
+
+.button.gray {
+    color: #fff;
+    background: #aaa;
+}
+
+.button.gray:hover {
+    background: #a0a0a0;
+}
+
+.button.light {
+    color: #999;
+    background: #f2f2f2;
+    
+}
+
+.button.light:hover {
+    color: #fff;
+    background: #a0a0a0;
+    
+}
+
+.button.color {
+    color: #fff;
+    background: #a0a0a0;
+}
+
+.button.color:hover {
+    background: #a0a0a0;
+}
+
+
+/* Tabs
+====================================*/
+.entry-content ul.tabs-nav,
+.tabs-nav {
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+
+.entry-content .tabs-nav li,
+.tabs-nav li {
+    float: left;
+    line-height: 38px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0px;
+    position: relative;
+}
+
+.tabs-nav li a {
+    background-color: #f2f2f2;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    color: #888;
+    font-weight: 500;
+    display: block;
+    letter-spacing: 0;
+    outline: none;
+    padding: 0 20px;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+   
+}
+
+
+
+.tabs-nav li.active a {
+    background: #a0a0a0;
+    color: #fff;
+   
+}
+
+.tab-content {
+    padding: 10px 0px;
+}
+
+.tabs-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+
+/* Accordions & Toggles
+====================================*/
+.ui-accordion .ui-accordion-header,
+.trigger a {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    line-height: 26px;
+    outline: none;
+    text-decoration: none;
+    color: #888;
+    font-size: 14px;
+    background-color: #f4f4f4;
+   
+    -webkit-transition: background-color 200ms ease-in-out;
+    -moz-transition: background-color 200ms ease-in-out;
+    -o-transition: background-color 200ms ease-in-out;
+    -ms-transition: background-color 200ms ease-in-out;
+    transition: background-color 200ms ease-in-out;
+    padding: 10px 16px;
+    margin-bottom: 10px;
+ 
+}
+
+.ui-accordion .ui-accordion-header-active:hover,
+.ui-accordion .ui-accordion-header-active,
+.trigger.active a,
+.trigger.active a:hover {
+    background: #a0a0a0;
+    color: #fff;
+    
+}
+
+.ui-accordion .ui-accordion-content,
+.toggle-container {
+    padding: 0 16px 10px 16px;
+}
+
+.ui-accordion .ui-accordion-content p {
+    margin: 0;
+}
+
+.ui-accordion .ui-accordion-content {
+}
+
+.toggle-container p {
+    margin: 0;
+}
+
+
+
+
+/* Dropcaps
+====================================*/
+.dropcap {
+    float: left;
+    color: #a0a0a0;
+    font-size: 58px;
+    line-height: 54px;
+    padding-top: 4px;
+    padding-right: 10px;
+    margin-top: -2px;
+}
+
+.dropcap.gray {
+    color: #555;
+}
+
+
+
+/* You can also use a <br class="clear" /> to clear columns */
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}

@@ -1,0 +1,196 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+	Created on : 31-Jan-2017, 11:53:57
+	Author	 : enrico
+*/
+
+/* Style for responsive images */
+.wooclientzone-responsive-img {
+	max-width: 100%;
+	height: auto;
+}
+
+/*
+ * TOOLTIP code based on http://www.w3schools.com/css/css_tooltip.asp
+ * Use as
+ *		  <div class="tooltip">Hover over me
+ *			  <span class="tooltiptext">Tooltip text</span>
+ *		  </div>
+ */
+
+/* Tooltip container */
+.tooltip {
+	position: relative;
+	display: inline-block;
+	NO_border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 200px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+
+	/* Position the tooltip text - see examples below! */
+	position: absolute;
+	z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+/*
+ * START bubbles code based on http://ilikepixels.co.uk/drop/bubbler/
+ */
+
+/* bubble outside text styles */
+.bubble-footer {
+	position: relative;
+	clear: both;
+	margin: -5px 20px 10px 20px;
+	padding: 0px;
+	font-size: 0.8em;
+	font-style: italic;
+	color: #666666;
+}
+.bubble-footer-left {
+	float: left;
+	text-align: left; /* redundant */
+}
+.bubble-footer-right {
+	float: right;
+	text-align: right;
+}
+.bubble-footer-date {
+	display: inline-block;
+}
+.bubble-footer-seen {
+	display: inline-block;
+	margin-left: 5px;
+	color: #29a0cb;
+}
+
+/* main bubble properties */
+.bubble-content p {
+	margin: 0px;
+}
+.bubble-text {
+	padding: 20px 20px 20px 20px;
+}
+.bubble-image {
+	padding: 10px;
+}
+.bubble-icon {
+	padding: 10px;
+	max-width: 35% !important;
+}
+.bubble {
+	max-width: 90%;
+	position: relative;
+	clear: both;
+	margin: 10px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+.bubble:after {
+	content: '';
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	z-index: 1;
+	top: 50%;
+}
+
+/* left and right bubble properties */
+.bubble-left {
+	float: left;
+	text-align: left; /* redundant */
+}
+.bubble-left:after {
+	border-width: 12px 15px 12px 0;
+	left: -15px;
+}
+
+.bubble-right {
+	float: right;
+	text-align: right;
+}
+.bubble-right:after {
+	border-width: 12px 0 12px 15px;
+	right: -15px;
+}
+
+/* this class must be applied to the containing div of all the bubbles
+ * (this is not the bubble-container classed div, which is for the container of each individual bubble) */
+.clearfix::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+/*
+ * END bubbles code
+ */
+
+/*
+ * START ajax loader
+ * code from http://www.w3schools.com/howto/howto_css_loader.asp
+ */
+.loader-public {
+	margin-top: 50px;
+	margin-left: 40%;
+	border: 4px solid #f3f3f3; /* Light grey */
+	border-top: 4px solid #3498db; /* Blue */
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	animation: spin .5s linear infinite;
+}
+
+.loader-admin {
+	margin-top: 50px;
+	margin-left: 40%;
+	border: 4px solid #f3f3f3; /* Light grey */
+	border-top: 4px solid #3498db; /* Blue */
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	animation: spin .5s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@-o-keyframes spin {
+	0% { -o-transform: rotate(0deg); }
+	100% { -o-transform: rotate(360deg); }
+}
+
+@-ms-keyframes spin {
+	0% { -ms-transform: rotate(0deg); }
+	100% { -ms-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@-moz-keyframes spin {
+	0% { -moz-transform: rotate(0deg); }
+	100% { -moz-transform: rotate(360deg); }
+}

@@ -1,0 +1,21 @@
+.wp-list-table .column-orig_string,
+.wp-list-table .column-replacement_string {
+	width: 26%;
+}
+.wp-list-table .column-domain,
+.wp-list-table .column-context
+ {
+	width: 18%;
+}
+.wp-list-table .edit_links,
+.wp-list-table .delete_links {
+	width: 6%;
+}
+.saywhat-gopro {
+	background-color: #ded;
+	border: 1px solid #0a0;
+	padding: 0.5em 1em 0.5em 1em;
+	width: 60%;
+	margin: auto;
+	border-radius: 1em;
+}

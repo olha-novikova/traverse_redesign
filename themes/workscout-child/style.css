@@ -1,0 +1,746 @@
+/*
+Theme Name:   WorkScout Child
+Theme URI: http://workscout.in
+Author: Purethemes
+Author URI: http://themeforest.net/user/purethemes
+Description: WordPress Job Theme
+Version: 1.0
+License: ThemeForest
+License URI: http://themeforest.net/licenses
+Text Domain: workscout
+Domain Path: /languages/
+Tags: light, responsive-layout, post-formats, theme-options, translation-ready, two-columns
+Template:  workscout
+*/
+
+
+/******* Overriding parent style******/
+/* Open Sans */
+
+body{ position: relative;  font-family: "Open Sans", sans-serif;}
+h1, h2, h3, h4, h5, h6 {  font-family: Dosis,"Open Sans", sans-serif;}
+.woocommerce #content div.product div.summary, .woocommerce div.product div.summary, .woocommerce-page #content div.product div.summary, .woocommerce-page div.product div.summary { float: left !important; width: 100% !important;}
+.menu ul { margin: 0;}
+#titlebar.single, #titlebar { display: none}
+#titlebar.resume, .page-template-template-jobcategories #titlebar{display: block;}
+header#main-header {  background-color: rgba(0,0,0,0.8);}
+.alternative #navigation {  width: auto; border-top: 1px solid #e0e0e0;margin:0; padding:15px 0; float: right;}
+header#main-header.transparent { box-shadow: none; background: rgba(0,0,0,0.8);}
+#banner.with-transparent-header { background-attachment: fixed;max-height: 650px;}
+#navigation { float: none; margin-right: 0; }
+header #navigation{float:right}
+.menu ul li {position: relative; margin-left:10px; padding: 0; float:left;}
+.menu ul > li > a { color: #ffffff; font-weight: 600; font-size: 14px !important; line-height: 18px;  padding: 0;  overflow: hidden;  padding: 10px 14px; margin-bottom: 12px;}
+#banner { margin-bottom: 0;}
+#banner22{background-size: cover !important; background-position: center center !important;}
+.home .search-container { padding: 0px;     transform: translateY(0px) !important;}
+.how-it-work{background-size: cover !important; background-position: center center !important;}
+.search-container h2 {  font-size: 46px; color: #fff; margin-bottom: 20px; letter-spacing: -1px;}
+.search-container .introtext .jrrny a{margin-top:50px; padding: 4px 15px; border-radius: 8px; font-size: 16px;  background-color: #282828;}
+.lasbutn{float:left;margin-top:30px;}
+#footer .widget_nav_menu li {  padding: 0; text-transform:uppercase; font-size:14px}
+#footer { background-color: #000; padding: 50px 0 0 0; color: #999;}
+#footer a.button { margin-top: 12px; }
+#footer a.button:hover { background-color: #fff; color: #333; }
+#footer .one-third:first-child{width:26%}
+#footer .one-third:last-child{width:37%}
+#footer .one-third #menu-footermenu2 li{float:left;}
+#footer .one-third #menu-footermenu2 li a{padding-right:15px}
+.introtext{text-align:center;color:#fff; width: 50%; padding: 250px 0 200px;    background: rgba(29, 180, 239, 0.77);}
+.how-it-work-wrap{text-align:center;color:#fff;padding:150px 50px; background: rgba(29, 180, 239, 0.77) none repeat scroll 0 0;}
+.how-it-work-wrap .cxs{margin-bottom: 50px}
+.how-it-work-wrap.introtext{width: 80%; display: inline-block;}
+.how-it-work-content{width:50%;margin:0 auto; text-align: left; float: left; box-sizing: border-box}
+.how-it-work h2 {color: #fff;    font-size: 46px;    letter-spacing: -1px;    margin-bottom: 20px;}
+.how-it-work h3 {color: #fff;    font-size: 32px;    letter-spacing: -1px;    margin-bottom: 20px;}
+@media (max-width: 1200px) { .how-it-work-content{  float: none; width:100%;} }
+@media (max-width: 1020px) { .introtext{  float: none; width:100%;} }
+.how-it-work a.button{  background-color: #282828;   border-radius: 8px;  font-size: 16px;  padding: 4px 15px; box-shadow: none}
+.introtext h2{font-size: 46px;color: #fff;letter-spacing: -1px;margin-bottom:20px}
+.how-it-work-content p{margin-bottom:35px;text-transform:uppercase;font-size:14px}
+.jrrny{font-size: 23px;color:#fff;}
+.lastimg{background-attachment: fixed;padding:150px 0}
+.lastimg h2{color:#fff}
+.wjarrny{color:#fff;max-width:600px}
+.lastimg .wjarrny{    background: rgba(0,0,0,0.7);     padding: 30px;    text-align: left;}
+.wjarrny h2{font-size: 46px;color: #fff; letter-spacing: -1px; margin-bottom: 20px;}
+.wjarrny p{text-transform:uppercase;font-size:14px}
+.wjarrny a{margin-top: 30px; padding: 4px 15px; border-radius: 8px;}
+.search-container1{ background-attachment: fixed; }
+.search-container1 .container{text-align: center;}
+.findCont{padding:0 15px;max-width:480px;width:100%;margin:0 auto;text-align:left}
+.twoBtns{list-style:none;}
+.twoBtns li{display:inline-block;margin:0;width:50%}
+.twoBtns li:first-child{padding-right:20px}
+.twoBtns li a.button.centered{border-radius:8px;display:block;text-align:center;padding:4px 15px; font-size: 16px;background-color: #282828;}
+.findCont h2{color:#fff}
+*{box-sizing:border-box}
+.introtext>h2{color:#fff}
+.greatBg{background:#000;padding:15px 0;color:#fff}
+.greatBg p{margin:0}
+@media (max-width: 1290px) { .sticky-header.cloned { display: none;}}
+.footmenu{float: right;  margin-right: 855px;  margin-top: -61px;}
+.jrrnyb{width: 100%;  text-align: left; padding-left: 23%; padding-right: 23%;}
+#navigation ul.float-right{display:none;}
+.influencer h3{font-size:20px}
+.influencer hr{border-bottom:2px solid #dddddd;}
+.recent-influ-wrap{display:table;border-top:2px solid #eaeaea;margin-bottom:20px;padding:30px 0}
+.recent-influ-wrap .content-heading{margin-bottom:30px}
+.recent-influ-wrap .content-heading h3{margin-top:0;line-height:24px; text-transform: capitalize;margin-top:5px}
+.recent-influ-wrap .content-body h4{font-size:18px;line-height:20px;  text-transform: capitalize;color:#37b36d}
+.recent-influ-wrap .image-left{float:left;display:table-cell;margin-right:20px}
+.recent-influ-wrap .image-left img{width:80px;border-radius:100%;height:80px}
+.recent-influ-wrap .content-body{float:left;width: 88%;overflow:hidden}
+.recent-influ-wrap .content-body p{font-size: 14px; line-height: 20px; margin-bottom: 20px;color:#878787}
+.btn-gray{padding:6px 12px;background:#c0c0c0;color:#ffffff;text-transform:uppercase; display: inline-block;    font-size: 14px;}
+.btn-gray:hover, .btn-gray:focus{background:#333333;color:#ffffff}
+.btn-list{margin-bottom: 14px;}
+.ngg-galleryoverview{margin-top:0 !important;}
+.ngg-galleryoverview .slideshowlink{display:none}
+.ngg-galleryoverview .ngg-gallery-thumbnail{margin:0;border:0 none}
+.ngg-galleryoverview .ngg-gallery-thumbnail-box{width: 16.666%;}
+.ngg-galleryoverview .ngg-gallery-thumbnail a {margin:0}
+.ngg-galleryoverview .ngg-gallery-thumbnail img{width:100%}
+
+/**************************************************************************************************************************************/
+.admin-bar header#main-header.transparent {
+    margin-top: 0;
+}
+.categories-group:first-child {
+    padding-top: 50px;
+}
+.categories-group ul li {
+
+    list-style: outside none none;
+}
+#pricePlans {
+    float: left;
+    margin: 2em auto;
+    width: 100%;
+}
+
+#plans,#plans ul,#plans ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#pricePlans:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+#pricePlans {
+    zoom: 1;
+}
+
+
+
+#pricePlans #plans .plan {
+    background: #fff;
+    float: left;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    margin: 0 0 20px 0;
+
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.planContainer .title h2 {
+    font-size: 26px;
+    font-weight: 300;
+    color: #3e4f6a;
+    margin: 0;
+    padding: .6em 0;
+}
+
+.planContainer .title h2.bestPlanTitle {
+    background: #3e4f6a;
+
+    background: -webkit-linear-gradient(top, #475975, #364761);
+    background: -moz-linear-gradient(top, #475975, #364761);
+    background: -o-linear-gradient(top, #475975, #364761);
+    background: -ms-linear-gradient(top, #475975, #364761);
+    background: linear-gradient(top, #475975, #364761);
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+}
+
+
+.planContainer .price p {
+    background: #3e4f6a;
+
+    background: -webkit-linear-gradient(top, #475975, #364761);
+    background: -moz-linear-gradient(top, #475975, #364761);
+    background: -o-linear-gradient(top, #475975, #364761);
+    background: -ms-linear-gradient(top, #475975, #364761);
+    background: linear-gradient(top, #475975, #364761);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    height: 2.6em;
+    line-height: 2.6em;
+    margin: 0 0 1em;
+}
+
+.planContainer .price p.bestPlanPrice {
+    background: #f7814d;
+}
+
+.planContainer .price p span {
+    color: #8394ae;
+}
+
+.planContainer .options {
+    margin-top: 10em;
+}
+
+.planContainer .options li {
+    font-weight: 700;
+    color: #364762;
+    line-height: 2.5;
+}
+
+.planContainer .options li span {
+    font-weight: 400;
+    color: #979797;
+}
+
+.planContainer li.button a {
+    border: 2px solid #3e4f6a;
+    border-radius: 4px;
+    color: #3e4f6a;
+    display: inline-table;
+    font-weight: 700;
+    height: 2.8em;
+    letter-spacing: 3px;
+    line-height: 2.8em;
+    margin: 1.5em 0 1.8em;
+    padding: 0 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 80%;
+}
+.planContainer li.button a.bestPlanButton {
+    color: #fff;
+    background: #f7814d;
+    border: 2px solid #f7814d;
+}
+
+#credits {
+    text-align: center;
+    font-size: .8em;
+    font-style: italic;
+    color: #777;
+}
+
+#credits a {
+    color: #333;
+}
+
+#credits a:hover {
+    text-decoration: none;
+}
+.alternative #navigation {
+    padding: 0;
+}
+#logo {
+    border-bottom: medium none;
+    width: auto;
+}
+header #navigation,
+header.transparent.alternative #navigation{
+    margin-top: 15px;
+}
+
+.sticky-header.cloned .menu ul.float-right,
+.sticky-header.cloned .menu ul#responsive_new {
+    margin: 21px 0;
+}
+.alternative .menu ul#responsive_new  {
+    max-width: 100%;
+}
+
+@media screen and (min-width: 1025px) {
+
+    #pricePlans {
+        margin: 2em auto;
+    }
+
+    #pricePlans #plans .plan {
+        width: 32%;
+        margin: 0 1.33% 20px 0;
+
+        -webkit-transition: all .25s;
+        -moz-transition: all .25s;
+        -ms-transition: all .25s;
+        -o-transition: all .25s;
+        transition: all .25s;
+    }
+
+    #pricePlans #plans > li:last-child {
+        margin-right: 0;
+    }
+
+    #pricePlans #plans .plan:hover {
+        -webkit-transform: scale(1.04);
+        -moz-transform: scale(1.04);
+        -ms-transform: scale(1.04);
+        -o-transform: scale(1.04);
+        transform: scale(1.04);
+    }
+
+    .planContainer .button a {
+        -webkit-transition: all .25s;
+        -moz-transition: all .25s;
+        -ms-transition: all .25s;
+        -o-transition: all .25s;
+        transition: all .25s;
+    }
+
+    .planContainer .button a:hover {
+        background: #3e4f6a;
+        color: #fff;
+    }
+
+    .planContainer .button a.bestPlanButton:hover {
+        background: #ff9c70;
+        border: 2px solid #ff9c70;
+    }
+
+}
+textarea {
+    min-height: 90px;
+    min-width: 100%;
+    transition: none 0s ease 0s ;
+    max-height: 250px;
+}
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+
+    #pricePlans #plans .plan {
+        width: 49%;
+        margin: 0 2% 20px 0;
+    }
+
+    #pricePlans #plans > li:nth-child(2n) {
+        margin-right: 0;
+    }
+
+}
+@media only screen and (max-width: 990px) {
+    .container {
+        margin: 0 15px;
+        width: auto;
+        max-width: 100%;
+    }
+
+
+    html.jPanelMenu{
+        margin-top: 0!important;
+    }
+    #mobile-navigation {
+        display: block;
+        margin-top: 15px;
+    }
+
+    header.transparent #logo {
+        display: inline-block;
+        float: left;
+        width: auto;
+    }
+    .jPanelMenu .container {
+        margin: 0;
+    }
+    .jPanelMenu .container .sixteen.columns {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .search-container {  padding: 0;}
+    #responsive_new { display: none; }
+    header.transparent a.menu-trigger-new { background: rgba(255,255,255,0.2); }
+    a.menu-trigger-new,
+    a.menu-trigger-new i {
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+        -ms-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+    }
+
+    a.menu-trigger-new {
+        color: #fff;
+        float: right;
+        background-color: #282828;
+        display: block;
+        z-index: 100;
+        position: relative;
+        margin: 0 0 30px 0;
+        box-sizing: border-box;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    a.menu-trigger-new:hover {
+        color: #fff;
+        background-color: #505050;
+    }
+
+    a.menu-trigger-new i {
+        font-size: 18px;
+        padding: 17px 17px 18px 17px;
+        background-color: rgba(255,255,255, 0.08);
+        font-weight: 500;
+    }
+
+    a.menu-trigger-new:hover i { background-color: rgba(0, 0, 0, 0.08);  }
+
+    body[data-menu-position="open"] a.menu-trigger-new i.fa.fa-reorder:before { content:""; }
+    body[data-menu-position="closed"] a.menu-trigger-new i.fa.fa-reorder:before { content:""; }
+
+    #jPanelMenu-menu li ul li{
+        width: 100%;
+        display: block;
+    }
+}
+@media screen and (min-width: 481px) and (max-width: 768px) {
+
+    #pricePlans #plans .plan {
+        width: 49%;
+        margin: 0 2% 20px 0;
+    }
+
+    #pricePlans #plans > li:nth-child(2n) {
+        margin-right: 0;
+    }
+
+}
+
+
+ul.planContainer  li.button{ background:none !important;}
+.border_outer li.button a{ background:#3e4f6a !important; color:#fff !important;}
+form.variations_form { width:100%; float:left; visibility:hidden !important;}
+.single table.variations{ visibility:hidden;}
+.single .woocommerce-variation-price{ visibility:hidden;}
+.single .product_meta{ visibility:hidden;}
+.single .reset_variations{ visibility:hidden !important;}
+.single .summary  .quantity{ visibility:hidden !important;}
+.single .woocommerce-variation-add-to-cart{ text-align:center;}
+
+.summary.entry-summary .variations_form {
+    height: 0 !important;
+    margin-top: 0px !important;
+}
+
+
+.job_packages .job-package:empty{ display:none !important; visibility:hidden !important;}
+.archive ul.products .plan-features button{ display:none !important}
+
+
+.job_listing_packages li input {
+    float: left;
+    margin-left: -20px;
+    visibility: hidden;
+}
+
+body .job-package label {
+    display: inline-block !important;
+    left: -24px !important;
+    padding-left: 6px !important;
+    position: relative !important;
+}
+@media(max-width:768px){
+    .archive  .products li.plan{ width:100% !important; float:left !important;}
+}
+.tax-product_cat article > ul.products > li{cursor:pointer !important}
+.add_border{ border:#f00 1px solid !important; cursor:pointer !important}
+
+.single-resume .container strong{ display:block !important;}
+
+.ifc #ifc-app-container.ifc-light .ifc-branding
+{
+    display:none !important;
+}
+.ifc #ifc-app-container.ifc-light .ifc-chat-list .ifc-chat-list-roster .ifc-chat-list-roster-sub-group.ifc-chat-list-roster-room
+{
+    display:none !important;
+}
+
+article.plan{ position:relative;}
+.plan .add_new_package{ position:absolute; width:100%; height:100%; top:0; left:0; z-index:999999; background:rgba(0,0,0,0.5); display:none}
+.plan .add_new_package_open{ display:block;}
+.plan .add_new_package a{
+    text-align:center; margin-top:40%; float:left; color:#fff; padding:8px 12px; border:1px solid #fff; margin-left: 40%;}
+
+
+fieldset .fieldset-rate_min{ display: none !important; }
+
+.msg_set{
+    max-height: 500px;
+    overflow-y: scroll;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+div.msg{
+    margin: 20px 0!important;
+    border-top: 1px solid #e0e0e0;
+}
+div.msg .msg_meta{
+    color: #808080;
+    display: block;
+}
+
+div.msg .msg_meta i.fa{
+    display: inline;
+}
+
+div.msg .msg_meta i.fa.fa-calendar {
+    margin-right: 10px;
+}
+div.msg .msg_meta i.fa.fa-commenting-o {
+    margin-right: 10px;
+    margin-left: 10px;
+
+}
+div.msg .msg_data{
+    font-size: 12px;
+    color: #d3d3d3;
+}
+
+table.job-manager-past-applications tr.application-footer td{
+    border: none!important;
+
+    padding: 20px 0;
+}
+table.job-manager-past-applications tr.application-footer td .buttons{
+    text-align: right;
+}
+body .job_listing_packages, .resume_packages {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    margin-bottom: 25px;
+    padding: 0;
+}
+.job_listing_packages ul.job_packages li.user-job-package{
+    background: none;
+}
+.job_listing_packages ul.job_packages li.user-job-package.active{
+    background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0;
+    border: 1px solid rgb(255,0,0);
+}
+label.col-3{
+    display: inline-block;
+    box-sizing: border-box;
+    width: 30%;
+}
+label.col-3 input[type="radio"]{
+    display: inline;
+    width: auto;
+}
+.small-dialog-content .inner-header{
+    margin: 10px 0;
+    font-weight: bolder;
+}
+.centered{
+    text-align: center;
+}
+
+.description a.btn{
+    display: inline-block;
+    background-color: transparent;
+    color: #2a2a2a;
+    padding: 17px 24px;
+    font-size: 16px;
+    border-radius: 0;
+    text-align: center;
+    border: 2px solid #2a2a2a;
+    float: none;
+}
+.description a.btn:hover{
+    background-color: #2a2a2a;
+    border-color: #2a2a2a;
+    color: #fff;
+}
+.form-body{
+    margin: 0 -1.5%;
+}
+.form-row{
+    margin: 0 1.5%;
+}
+.form-row-first,
+.form-row-last {
+    width: 47%;
+    overflow: visible;
+}
+
+.form-row-first {
+    float: left;
+}
+
+.form-row-last {
+    float: right;
+}
+.form-row-wide {
+    clear: both;
+}
+.workscout_form label textarea {
+    margin-top: 8px;
+    padding-left: 45px;
+}
+
+form.inline.job-manager-application-edit-form.job-manager-form{
+    display: inline-block;
+    line-height: 27px;
+    margin-top: 0;
+    padding: 0;
+    margin-left: 3px;
+    vertical-align: top;
+}
+form.inline.job-manager-application-edit-form.job-manager-form input{
+    display: inline-block;
+    line-height: 27px;
+    margin: 0;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+.delete-application {
+    float: none;
+}
+.delete-application:hover {
+    color: #d51919;
+    background-color: transparent!important;
+}
+.rev-msg{
+    border: 1px solid #efefef;
+    margin: 20px;
+    padding: 20px;
+
+}
+.edit-account fieldset{
+    margin: 10px 0;
+}
+.newsletter_conditional.hide,
+.fieldset-newsletter_total{
+    display: none;
+}
+.fieldset-newsletter_total.visible{
+    display: block;
+}
+/***************************************************/
+.form-row label,
+.field{
+    position: relative;
+}
+
+.form-row label .count_subcr i,
+.field .count_subcr i{
+    font-size: 18px;
+    line-height: 18px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+.form-row label .count_subcr,
+.field .count_subcr{
+    color: #a0a0a0;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 10px;
+    position: absolute;
+    right: 15px;
+    top: 41px;
+    vertical-align: middle;
+}
+
+.field .count_subcr{
+    top: 16px;
+}
+.form-row .error_msg,
+.field.error_msg{
+    background: rgba(255,0,0,0.25);
+    padding: 2px 15px;
+    float: right;
+}
+
+.resume_preview h1, .job_listing_preview h1 {
+    display: block;
+}
+
+/* prelist page styles */
+.custom_campaign .campaign_button{text-align: center;}
+.bold_font h1{font-weight: 700;}
+.top_margin{margin-top: 60px;}
+.social_products_section .plan-features p{border: none;}
+.social_products_section .woocommerce ul.products li.product{border-radius: 5px; margin-bottom: 0; padding: 1px;}
+.social_products_section .woocommerce ul.products li.product:hover{cursor: pointer;}
+.social_products_section .woocommerce ul.products li.product.product_active{border-color: red;}
+.next_button_section {text-align: right;}
+.social_products_section ul li .plan-price a{pointer-events: none;}
+.social_products_section .woocommerce ul.products li.product.product_active:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+}
+i.fa.fa-jrrny{
+    background: url(imgs/jrrnyNewLogo20x58.png) no-repeat 0 0;
+    height: 18px;
+    width: 58px;
+}
+.social_job_listing_add .job_listing_packages_title h2{widows: auto; float: left;}
+.social_job_listing_add .job_listing_packages_title{padding-bottom: 0;}
+.social_job_listing_add .wpb_content_element{margin-bottom: 0;}
+h6.resume_ask{text-transform: capitalize;     font-size: 20px;}
+.resumes-content span.icons{padding: 10px 20px;}
+#titlebar .resumes-content span.resume-category{ background: #05a4e6; color: #fff; padding: 0 5px; border-radius: 3px}
+.resume_preview.single-resume .container strong{display: inline-block !important;}
+.resume_preview.single-resume .container a{margin-right: 10px;}
+a.view_jobs{background-color: #f2f2f2;    padding: 10px 20px;    line-height: 27px;    color: #808080;}
+
+/* brandhome page */
+.my-mfp-zoom-in.mfp-ready .zoom-anim-dialog{padding: 40px;}
+.find_influencer{    background: rgba(29, 180, 239, 0.77);}
+.find_influencer h2{color: white;}
+
+/*home page style */
+.follow_instagram {position: absolute;    text-align: center;    width: 100%;    bottom: 47%;}
+.ng_gallery_section{position: relative;}
+.follow_instagram a{color: white;    background: rgba(52, 219, 80, 0.8);    padding: 10px 25px;    border-radius: 20px;    font-size: 18px;}
+.follow_instagram a span{margin-left: 30px;}
+
+/* job dashboard page styles */
+
+
+@media (max-width: 1280px){
+    .container .woocommerce-account .woocommerce-MyAccount-navigation{width: 22%;}
+    .container .woocommerce-account .woocommerce-MyAccount-content{width: 75%;}
+    .container .woocommerce-MyAccount-content .job-manager-jobs tr th{width: 16%; padding: 2px 1% !important;}
+    .container .woocommerce-MyAccount-content table.manage-table th i{left: 0; top: 5px; position: static;}
+}
+@media (max-width: 992px){
+    .container .woocommerce-account .woocommerce-MyAccount-content {    width: 100%;}
+}
+.fieldset-sync_social .field  { display: table; }
+.fieldset-sync_social .field input[type="checkbox"]{ display: table-footer-group;  margin: 20px 10px 0 0; }
+.fieldset-sync_social .field .instead-lable{ padding: 0 5px }
+.fieldset-sync_social .field .description{ display: table-header-group; }
+input.sync, textarea.sync{ color: green;}
+.company-info img {  width: auto;}
+.woocommerce  .influ-photo img{
+    height: auto;
+    max-width: 50%;
+    margin: 20px auto;
+}
+.woocommerce img.company_logo, .woocommerce-page img.company_logo{
+    max-width: 100px;
+    height: auto;
+}
+

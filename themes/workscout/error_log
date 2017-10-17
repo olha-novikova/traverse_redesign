@@ -1,0 +1,1 @@
+[26-Sep-2017 02:54:36 UTC] PHP Fatal error:  Call to undefined function get_header() in /home/traverse/public_html/wp-content/themes/workscout/index.php on line 15

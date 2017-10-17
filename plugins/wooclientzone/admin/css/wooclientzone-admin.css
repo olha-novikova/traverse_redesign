@@ -1,0 +1,308 @@
+/**
+ * CSS for WooClientZone admin-specific functionality, escluding settings and navigation through Client Zones.
+ */
+
+/* note that these two styles are also defined on the public side */
+#errorMessage {
+	display: none;
+	font-size: 1.2em;
+	font-weight: bold;
+	background-color: #ffeeee;
+	padding: 15px 15px 15px 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 92%;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #c12323;
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+#successMessage {
+	display: none;
+	font-size: 1.2em;
+	font-weight: bold;
+	background-color: #eeffee;
+	padding: 15px 15px 15px 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 92%;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #46b450;
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+.action_message {
+	display: none;
+	font-size: 1em;
+	padding: 15px 15px 15px 30px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+.action_message_warning {
+	display: block; /* this class is for pre-warning, so display:block overrides action_message's class display:none (action_message_warning is here declared after action_message) */
+	background-color: #ffeeee;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #c12323;
+}
+.action_message_error {
+	font-weight: bold;
+	background-color: #ffeeee;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #c12323;
+}
+.action_message_success {
+	font-weight: bold;
+	background-color: #eeffee;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #46b450;
+}
+
+/* Style for shadowed and rounded boxes (for admin site) )*/
+.wooclientzone_shadowed_box {
+	border-color: rgb(229,229,229);
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+.wooclientzone_rounded_box {
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+/* Client Zone main div styles */
+#adminWooclientzoneCommunicationsDiv {
+	display: block;
+	width:55%;
+	margin-top: 20px;
+	padding: 20px 20px 50px 20px;
+	background-color:#ffffff;
+}
+#adminWooclientzoneActionsDiv {
+	display: block;
+	position: fixed;
+	top: 0px;
+	right: 0em;
+	width: 32.5%;
+	margin-top: 52px;
+	margin-right: 20px;
+}
+@media (max-width: 1265px) {
+	#adminWooclientzoneCommunicationsDiv {
+		width:91%;
+	}
+	#adminWooclientzoneActionsDiv {
+		position: static;
+		width:94.5%;
+		margin-top: 20px;
+	}
+}
+
+/* Client Zone action boxes styles */
+.wooclientzone_actions {
+	margin-bottom: 10px;
+	background-color: #ffffff;
+}
+.wooclientzone_actions_header {
+	padding: 10px;
+}
+.wooclientzone_actions_header_text {
+	font-size: 1.1em;
+	font-weight: bold;
+	display: inline-block;
+}
+.wooclientzone_actions_header_icon {
+	font-size: 1.7em;
+	display: inline-block;
+	float: right;
+	margin-right: .3em;
+}
+.wooclientzone_actions_header_icon:after {
+	content: "\25be";
+}
+.wooclientzone_actions_header_icon.open:after {
+	content: "\25b4";
+}
+.wooclientzone_actions_content {
+	display:none;
+	font-size: 1em;
+	font-weight: normal;
+	border-top-color: #eeeeee;
+	border-top-style: solid;
+	border-top-width: 1px;
+	padding: 15px 15px 0px 15px;
+}
+
+/* Client Zone action box for client notification (when there are communications unseen by the client) */
+#wooclientzoneNotifyClientDiv .wooclientzone_actions_header.action_required {
+	_background-color: #ffeeee;
+	color: #c12323;
+	border-left-color: #c12323;
+	border-left-style: solid;
+	border-left-width: 4px;
+}
+#wooclientzoneNotifyClientDiv .wooclientzone_actions_header.action_required:after {
+	font-family: dashicons;
+	font-size: 1em;
+	margin-left: 10px;
+	content: "\f227";
+}
+
+/* Admin Widget notification box refresh icon */
+#dashboardWidgetNotificationsRefreshIconDiv {
+	text-align: right;
+	margin-top: 10px;
+}
+#dashboardWidgetNotificationsRefreshIcon.refreshing {
+	color: #D54E21;
+	opacity:0.8;
+	-webkit-animation-name:				rotate;
+	-webkit-animation-duration:			0.5s;
+	-webkit-animation-iteration-count:  infinite;
+	-webkit-animation-timing-function:  linear;
+}
+@-webkit-keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+/* Admin Widget notification box content */
+.admin_widget_notifications_header_top {
+	float: left;
+	box-sizing: border-box;
+	width: 50%;
+	text-align: center;
+	margin-bottom: 0px;
+}
+.admin_widget_notifications_header {
+	float: left;
+	padding: 0px 10px 10px 10px;
+	box-sizing: border-box;
+}
+.admin_widget_notifications_header_clientzone {
+	width: 50%;
+	text-align: left;
+}
+.admin_widget_notifications_header_unseen {
+	width: 25%;
+	text-align: center;
+}
+.admin_widget_notifications {
+	float: left;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #eeeeee;
+	padding: 10px;
+	box-sizing: border-box;
+}
+.admin_widget_notifications_clientzone {
+	width: 50%;
+	text-align: left;
+}
+.admin_widget_notifications_unseen {
+	width: 25%;
+	text-align: center;
+}
+.dashicons-flag {
+	color: #aa0000;
+}
+.dashicons-yes {
+	color: #5ab01a;
+}
+/* Admin Widget notification box (messages) */
+.admin_widget_notifications_info {
+	font-size: 1em;
+	background-color: #eeffee;
+	padding: 15px 15px 15px 30px;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #46b450;
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+.admin_widget_notifications_error {
+	font-size: 1em;
+	background-color: #ffeeee;
+	padding: 15px 15px 15px 30px;
+	border-color: rgb(229,229,229) rgb(229,229,229) rgb(229,229,229) #c12323;
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Client Zone communications styles */
+#adminWooclientzoneTitle {
+	line-height: 280%;
+	margin-bottom: 40px;
+}
+#adminCommunicationsPlaceholder {
+	margin-top: 50px;
+}
+#adminAddCommunicationHeader {
+	margin-top: 30px;
+}
+/* how to align two elements, the first of which might change width
+ * ref: http://stackoverflow.com/questions/9067892/how-to-align-two-elements-on-the-same-line-without-changing-html
+ */
+#adminAddCommunicationHeaderText {
+	display: inline-block;
+	margin-bottom: -25px;
+	margin-right: 8px;
+}
+#adminAddCommunicationHeaderIcon {
+	display: inline-block;
+	font-size: 25px;
+}
+/* Ref for next two styles is in http://stackoverflow.com/questions/5041494/selecting-and-manipulating-css-pseudo-elements-such-as-before-and-after-usin/21709814#21709814 */
+#adminAddCommunicationHeaderIcon:after {
+	content: "\25b4"; /* we default it open (from v1.0.1) */
+}
+#adminAddCommunicationHeaderIcon.open:after {
+	content: "\25be"; /* we default it open (from v1.0.1) */
+}
+#adminAddCommunicationContent {
+	_display: none; /* we default it open (from v1.0.1) */
+}
+
+/* Dropzone CSS */
+.dropzone-admin {
+	background-color: #EEFFFF;
+	border-style: dashed;
+	border-width: 5px;
+	border-color: #DDDDDD;
+	text-align: center;
+	padding: 33px 10px 33px 10px;
+	margin-top: 33px;
+}
+
+.admin-editor {
+	background-color: #FFFFEE;
+}
+
+.admin-message-editor-div {
+	background-color: #FFFFFF;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #DDDDDD;
+	text-align: center;
+	padding: 20px 10px 10px 10px;
+	margin-top: 33px;
+}
+
+.admin-message-submit-button-div {
+	margin: 30px 0px 10px 0px;
+	text-align: center;
+}
+
+.dz-upload {
+	display: block;
+	height: 50px;
+	width: 0%;
+/*
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+ */
+}

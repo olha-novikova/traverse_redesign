@@ -1,0 +1,94 @@
+/**
+ * CSS for WooClientZone admin-specific functionality related to settings and navigation through Client Zones.
+ */
+
+/* CSS to display the client zone button icon on the actions in the woocommerce -> reports -> customers -> customer list table
+ * and similarly also on the order list table
+ * this code was taken directly from woocommerce's admin.css
+ */
+.user_actions .clientzone-button, .order_actions .clientzone-button
+{
+	display:block;
+	text-indent:-9999px;
+	position:relative;
+	padding:0!important;
+	height:2em!important;
+	width:2em
+}
+.user_actions .clientzone-button:after, .order_actions .clientzone-button:after
+{
+	font-family:Dashicons;
+	speak:none;
+	font-weight:400;
+	font-variant:normal;
+	text-transform:none;
+	-webkit-font-smoothing:antialiased;
+	margin:0;text-indent:0;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	text-align:center;
+	content: "\f125";
+	line-height:1.85
+}
+.column-user_actions, .column-order_actions {
+	width: 120px !important; /* we add 10px to the user actions column to allow our icon to be inline with the other three */
+}
+
+/* WP Users List table: this is the width of the custom column */
+.column-wooclientzone
+{
+	width: 10%;
+	text-align: center !important;
+}
+@media only screen and (max-width: 960px) {
+
+}
+@media screen and (max-width: 782px) {
+	td.wooclientzone.column-wooclientzone:before {
+		content: "Client Zone" !important;
+	}
+	.column-wooclientzone
+	{
+		text-align: left !important;
+	}
+}
+
+/* Edit User page: these styles are for the Client Zone link  */
+#userProfileWooclientzoneLinkDiv {
+	margin-top: 45px;
+	margin-bottom: 30px;
+}
+#userProfileWooclientzoneLinkLabel {
+	display: inline-block;
+	margin-right: 130px;
+	margin-bottom: 0px;
+}
+#userProfileWooclientzoneLinkTag {
+	text-decoration: none;
+}
+#userProfileWooclientzoneIcon {
+	display: inline-block;
+	font-size: 25px;
+}
+
+/* Edit Order page: these styles are for the Client Zone link */
+#orderEditWooclientzoneLinkDiv {
+	text-align: center;
+	padding: 10px;
+/*	float: left; */
+}
+#orderEditWooclientzoneLinkLabel {
+	display: inline-block;
+	margin-right: 15px;
+}
+#orderEditWooclientzoneLinkTag {
+	text-decoration: none;
+}
+#orderEditWooclientzoneIcon {
+	display: inline-block;
+	font-size: 25px;
+}
+
