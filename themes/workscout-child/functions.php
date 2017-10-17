@@ -42,6 +42,7 @@ function overwrite_shortcode() {
     include_once get_stylesheet_directory() . '/inc/spotlight_jobs_custom.php';
     include_once get_stylesheet_directory() . '/inc/spotlight_resumes_custom.php';
     include_once get_stylesheet_directory() . '/inc/jobs_custom.php';
+    include_once get_stylesheet_directory() . '/inc/resume-output.php';
 
     remove_shortcode('spotlight_jobs');
     remove_shortcode('spotlight_resumes');
@@ -2330,13 +2331,16 @@ function re_expiries_listing(){
 
 function remove_all_styles() {
     global $wp_styles;
-	if ($GLOBALS["header_type"]=="newhomepage")
+	if ($GLOBALS["header_type"]=="newhomepage" )
 	{
         global $wp_styles;
-        $wp_styles->queue = array(0 => "admin-bar",1 => "newhomepage-vendor", 2 => "newhomepage-main" );
-        /*foreach ( $wp_styles->queue as $num => $name ){
-            if ( $name == 'workscout-base' ||  $name == 'workscout-style' )    unset ($wp_styles->queue[$num]);
-        }*/
+        if ( is_front_page() )
+            $wp_styles->queue = array(0 => "admin-bar",1 => "newhomepage-vendor", 2 => "newhomepage-main" );
+        else{
+            foreach ( $wp_styles->queue as $num => $name ){
+                if ( $name == 'workscout-base' ||  $name == 'workscout-style' )    unset ($wp_styles->queue[$num]);
+            }
+        }
 	}
 }
 add_action('wp_print_styles', 'remove_all_styles', 100);
@@ -2347,20 +2351,23 @@ function custom_load_stylesheets(){
 			wp_dequeue_style('parent-style');
 			wp_dequeue_style('workscout-style');
 			wp_enqueue_style('newhomepage-vendor', get_stylesheet_directory_uri().'/css/vendor.css');
+
             if ( is_front_page() )
 			    wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/main.css');
-            else
-                wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/general.css');
-
+            elseif (is_page_template('browse-influencers.php') ){
+                wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+                wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
+            }
         }
 	}
 add_action('wp_enqueue_scripts','custom_load_stylesheets');
 
 function custom_load_scripts(){
 		if ($GLOBALS["header_type"]=="newhomepage"){
-		//	wp_dequeue_script( 'jquery' );
+			//wp_dequeue_script( 'jquery' );
+			wp_enqueue_script('vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', array(), '1', true );
 			wp_enqueue_script('newhomepage-main', get_stylesheet_directory_uri() . '/js/main.min.js', array(), '1', true );
-			wp_enqueue_script('actions', get_stylesheet_directory_uri() . '/js/actions.js', array('jquery'), '1', true );
+			wp_enqueue_script('actions', get_stylesheet_directory_uri() . '/js/actions.js', array(), '1', true );
 		}
 		
 	}

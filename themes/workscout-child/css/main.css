@@ -159,6 +159,11 @@ button::-moz-focus-inner {
 .container {
     margin: 0 auto
 }
+.content {
+    padding-left: 1.82vw;
+    padding-right: 1.82vw;
+    padding-top: 1.56vw;
+}
 
 .header {
     position: absolute;
