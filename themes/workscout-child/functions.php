@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 add_action( 'wp_enqueue_scripts', 'workscout_enqueue_styles' );
 function workscout_enqueue_styles() {
@@ -54,6 +54,8 @@ function overwrite_shortcode() {
 }
 
 add_action( 'wp_loaded', 'overwrite_shortcode' );
+
+include_once get_stylesheet_directory() . '/inc/brand-functions.php';
 
 //remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
 
@@ -549,7 +551,7 @@ function my_woocommerce_edit_account_form_child() {
         <?php
         //Both
         $website = get_user_meta( $user_id, 'website', true );
-        $logo = get_user_meta( $user_id, 'logo', true );
+        $logo = get_user_meta( $user_id, 'photo', true );
         $insta = get_user_meta( $user_id, 'insta', true );
         $fb = get_user_meta( $user_id, 'fb', true );
         $twitter = get_user_meta( $user_id, 'twitter', true );
@@ -780,10 +782,10 @@ function my_woocommerce_save_account_details_child( $user_id ) {
 
             if( !$errors ){
                 $dir = wp_get_upload_dir();
-                if (move_uploaded_file($file_tmp, $dir['basedir']."/users/".$new_name)){
-                    update_user_meta( $user_id, 'photo', $new_name );
-                    update_user_meta( $user_id, 'logo', $new_name);
-                }
+                move_uploaded_file($file_tmp, $dir['basedir']."/users/".$new_name);
+                update_user_meta( $user_id, 'photo', $new_name );
+                update_user_meta( $user_id, 'logo', $new_name);
+
             }
         }
 

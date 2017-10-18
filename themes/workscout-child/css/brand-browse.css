@@ -343,3 +343,46 @@
 .carousel__influencer__person {
     margin-bottom: 2.35vw
 }
+.job-manager-pagination {
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    display: block;
+}
+.job-manager-pagination ul li {
+    display: inline-block;
+    margin: 0 3px 0 0;
+    padding: 20px 15px;
+}
+
+.job-manager-pagination li a {
+     text-transform: uppercase;
+}
+
+.job-manager-pagination ul li a, .job-manager-pagination .current{
+    background-color: #f2f2f2;
+    border-bottom: medium none;
+    color: #888;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    padding: 12px 16px;
+    transition: all 200ms ease-in-out 0s;
+}
+.job-manager-pagination ul li a, .job-manager-pagination .current{
+    background-color: #f2f2f2;
+    border-bottom: medium none;
+    color: #888;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    padding: 12px 16px;
+    transition: all 200ms ease-in-out 0s;
+}
+
+.job-manager-pagination .current {
+    display: inline-block;
+    width: auto;
+}
