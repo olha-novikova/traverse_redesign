@@ -3,6 +3,10 @@
  * Template Name: Page Browse Influencers
  *
  */
+if (is_user_logged_in() ){
+    $user = wp_get_current_user();
+    if ( !in_array( 'employer', (array) $user->roles ) && !in_array( 'administrator', (array) $user->roles ) ) wp_redirect(home_url());
+}else wp_redirect(home_url());
 get_header('new');
 global $wpdb;
 get_sidebar();?>
@@ -17,10 +21,10 @@ get_sidebar();?>
                     <div class="panel__sort dropdown show">
                         <p class="panel__sort__label">Order By:</p><a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="panel__sort__input dropdown-toggle">Audience Size</a>
                         <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Audience size</a>
-                            <a href="#" class="dropdown-item">Total Campaigns Completed</a>
-                            <a href="#" class="dropdown-item">Newest to oldest</a>
-                            <a href="#" class="dropdown-item">Oldest to newest</a>
+                            <a href="#" class="dropdown-item" data-sort="asc" data-sort_by="date">Newest to oldest</a>
+                            <a href="#" class="dropdown-item" data-sort="desc" data-sort_by="audience">Audience size</a>
+                            <a href="#" class="dropdown-item" data-sort="desc" data-sort_by="companies">Total Campaigns Completed</a>
+                            <a href="#" class="dropdown-item" data-sort="desc" data-sort_by="date">Oldest to newest</a>
                         </div>
                     </div>
                     <div class="panel__search">

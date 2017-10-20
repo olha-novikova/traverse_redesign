@@ -7,398 +7,131 @@
  * @package WorkScout
  */
 
-get_header(); ?>
-<?php while ( have_posts() ) : the_post(); 
+get_header('new');
+global $wpdb;
+get_sidebar();?>
+<main class="main">
+    <?php
+    while ( have_posts() ) : the_post();
+        $header_image = get_post_meta($post->ID, 'pp_job_header_bg', TRUE);
+        $product_id = get_post_meta($post->ID, '_wcpl_jmfe_product_id',true);
+        $package = get_post( $product_id);
+        ?>
 
-?>
-<!-- Titlebar -->
-<?php 
-$header_image = get_post_meta($post->ID, 'pp_job_header_bg', TRUE);
-$product_id = get_post_meta($post->ID, '_wcpl_jmfe_product_id',true);
+        <section class="section_profile section_profile-completed">
+            <div class="profile__background">
+                <div class="profile__background__gradient"></div>
+                <div class="profile__image_circle" style="background-image: url(' <?php echo get_company_logo_url($post->ID); ?>'); background-size:cover; ">
+                </div>
+            </div>
+            <div class="profile__action">
+                <ul class="profile__links">
+                    <li class="profile__link profile__link_brand"><a href="#" class="profile__brandname"><?php the_company_name(); ?></a></li>
+                </ul>
+            </div>
+        </section>
+        <div class="content">
+            <section class="section section_listing-view">
+                <div class="section__container">
+                    <div class="section__top">
+                        <p class="section__header"><?php the_title(); ?></p>
 
-$package = get_post( $product_id);
+                        <?php do_action( 'single_job_listing_meta_after' ); ?>
 
-if(!empty($header_image)) { ?>
-	<div id="titlebar" class="photo-bg" style="background: url('<?php echo esc_url($header_image); ?>')">
-<?php } else { ?>
-	<div id="titlebar">
-<?php } ?>
-
-		<div class="container">
-			<div class="ten columns">
-		
-			<?php
-			$terms = get_the_terms( $post->ID, 'job_listing_category' );
-									
-			if ( $terms && ! is_wp_error( $terms ) ) : 
-
-				$jobcats = array();
-			 	
-				foreach ( $terms as $term ) {
-					$term_link = get_term_link( $term );
-					$jobcats[] = '<a href="'.$term_link.'">'.$term->name.'</a>';
-				}
-									
-				$print_cats = join( " / ", $jobcats ); ?>
-			 	<?php echo '<span>'.$print_cats.'</span>'; ?>
-			<?php 
-			endif; ?>
-				<h1><?php the_title(); ?> 
-				<?php if ( get_option( 'job_manager_enable_types' ) ) { ?>
-					<span class="job-type <?php echo get_the_job_type() ? sanitize_title( get_the_job_type()->slug ) : ''; ?>"><?php the_job_type(); ?></span>
-				<?php } ?>
-					<?php if(workscout_newly_posted()) { echo '<span class="new_job">'.esc_html__('NEW','workscout').'</span>'; } ?>
-				</h1>
-			</div>
-
-			<div class="six columns">
-			<?php do_action('workscout_bookmark_hook') ?>
-				
-			</div>
-
-		</div>
-	</div>
-
-
-<?php
-
-$layout = Kirki::get_option( 'workscout', 'pp_job_layout' ); ?>
-<div class="container <?php echo esc_attr($layout); ?>">
-	<div class="sixteen columns">
-		<?php do_action('job_content_start'); ?>
-	</div>
-
-<?php if(class_exists( 'WP_Job_Manager_Applications' )) : ?>			
-	<?php if ( is_position_filled() ) : ?>
-			<div class="sixteen columns"><div class="notification closeable notice "><?php esc_html_e( 'This position has been filled', 'workscout' ); ?></div><div class="margin-bottom-35"></div></div>	
-	<?php elseif ( ! candidates_can_apply() && 'preview' !== $post->post_status ) : ?>
-			<div class="sixteen columns"><div class="notification closeable notice "><?php esc_html_e( 'Applications have closed', 'workscout' ); ?></div></div>	
-	<?php endif; ?>
-<?php  endif;  ?>
-
-	<!-- Recent Jobs -->
-	<?php $logo_position = Kirki::get_option( 'workscout','pp_job_list_logo_position', 'left' );?>
-
-	<div class="eleven columns ">
-		<div class="padding-right">
-			<?php if ( get_the_company_name() ) { ?>
-				<!-- Company Info -->
-				<div class="company-info <?php echo ($logo_position == 'left') ? 'left-company-logo' : 'right-company-logo' ;?>" itemscope itemtype="http://data-vocabulary.org/Organization">
-                    <?php if(class_exists('Astoundify_Job_Manager_Companies')) { echo workscout_get_company_link(the_company_name('','',false)); } ?>
-						<?php get_company_meta_logo($post->ID); ?></a>
-					<?php if(class_exists('Astoundify_Job_Manager_Companies')) { echo "</a>"; } ?>
-					<div class="content">
-						<h4>
-							<?php if(class_exists('Astoundify_Job_Manager_Companies')) { echo workscout_get_company_link(the_company_name('','',false)); } ?>
-							<?php the_company_name( '<strong itemprop="name">', '</strong>' ); ?> 
-							<?php if(class_exists('Astoundify_Job_Manager_Companies')) { echo "</a>"; } ?>
-						<?php the_company_tagline( '<span class="company-tagline">- ', '</span>' ); ?></h4>
-						<?php if ( $website = get_the_company_website() ) : ?>
-							<span><a class="website" href="<?php echo esc_url( $website ); ?>" itemprop="url" target="_blank" rel="nofollow"><i class="fa fa-link"></i> <?php esc_html_e( 'Website', 'workscout' ); ?></a></span>
-						<?php endif; ?>
-						<?php if ( get_the_company_twitter() ) : ?>
-							<span><a href="http://twitter.com/<?php echo get_the_company_twitter(); ?>">
-								<i class="fa fa-twitter"></i>
-								@<?php echo get_the_company_twitter(); ?>
-							</a></span>
-						<?php endif; ?>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-			<?php } ?>
-		<?php if ( get_option( 'job_manager_hide_expired_content', 1 ) && 'expired' === $post->post_status ) : ?>
-			<div class="job-manager-info"><?php esc_html_e( 'This listing has expired.', 'workscout' ); ?></div>
-		<?php endif; ?>
-
-			<div class="single_job_listing" itemscope itemtype="http://schema.org/JobPosting">
-				<meta itemprop="title" content="<?php echo esc_attr( $post->post_title ); ?>" />
-
-				<?php if ( get_option( 'job_manager_hide_expired_content', 1 ) && 'expired' === $post->post_status ) : ?>
-					<div class="job-manager-info"><?php esc_html_e( 'This listing has expired.', 'workscout' ); ?></div>
-				<?php else : ?>
-					<div class="job_description" itemprop="description">
-						<?php do_action('workscout_single_job_before_content'); ?>
-						<?php the_company_video(); ?>
-                        <h3><?php  the_title(); ?></h3>
-
-						<?php echo do_shortcode(apply_filters( 'the_job_description', get_the_content() )); ?>
-					</div>
-					<?php
-						/**
-						 * single_job_listing_end hook
-						 */
-						do_action( 'single_job_listing_end' );
-					?>
-
-					<?php 
-						$share_options = Kirki::get_option( 'workscout', 'pp_job_share' ); 
-						
-						if(!empty($share_options)) {
-								$id = $post->ID;
-							    $title = urlencode($post->post_title);
-							    $url =  urlencode( get_permalink($id) );
-							    $summary = urlencode(workscout_string_limit_words($post->post_excerpt,20));
-							    $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($id), 'medium' );
-							    $imageurl = urlencode($thumb[0]);
-							?>
-							<ul class="share-post">
-								<?php if (in_array("facebook", $share_options)) { ?><li><?php echo '<a target="_blank" class="facebook-share" href="https://www.facebook.com/sharer/sharer.php?u=' . $url . '">Facebook</a>'; ?></li><?php } ?>
-								<?php if (in_array("twitter", $share_options)) { ?><li><?php echo '<a target="_blank" class="twitter-share" href="https://twitter.com/share?url=' . $url . '&amp;text=' . esc_attr($summary ). '" title="' . __( 'Twitter', 'workscout' ) . '">Twitter</a>'; ?></li><?php } ?>
-								<?php if (in_array("google-plus", $share_options)) { ?><li><?php echo '<a target="_blank" class="google-plus-share" href="https://plus.google.com/share?url=' . $url . '&amp;title="' . esc_attr($title) . '" onclick=\'javascript:window.open(this.href, "", "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600");return false;\'>Google Plus</a>'; ?></li><?php } ?>
-								<?php if (in_array("pinterest", $share_options)) { ?><li><?php echo '<a target="_blank"  class="pinterest-share" href="http://pinterest.com/pin/create/button/?url=' . $url . '&amp;description=' . esc_attr($summary) . '&media=' . esc_attr($imageurl) . '" onclick="window.open(this.href); return false;">Pinterest</a>'; ?></li><?php } ?>
-								<?php if (in_array("linkedin", $share_options)) { ?><li><?php echo '<a target="_blank"  class="linkedin-share" href="https://www.linkedin.com/cws/share?url=' . $url . '">LinkedIn</a>'; ?></li><?php } ?>
-
-								<!-- <li><a href="#add-review" class="rate-recipe">Add Review</a></li> -->
-							</ul>
-						<?php } ?>
-					<div class="clearfix"></div>
-
-				<?php endif; ?>
-
-				<?php
-				$related = Kirki::get_option( 'workscout', 'pp_enable_related_jobs' ); 
-				
-				 if($related) { get_template_part('template-parts/jobs-related'); }?>
-
-			</div>
-
-		</div>
-	</div>
-
-
-	<!-- Widgets -->
-	<div class="five columns" id="job-details">
-		<?php dynamic_sidebar( 'sidebar-job-before' ); ?>
-		<!-- Sort by -->
-		<div class="widget">
-			<h4><?php esc_html_e('Listing Overview','workscout') ?></h4>
-
-			<div class="job-overview">
-				<?php do_action( 'single_job_listing_meta_before' ); ?>
-				<ul>
-					<?php do_action( 'single_job_listing_meta_start' ); ?>
-					<li>
-						<i class="fa fa-calendar"></i>
-						<div>
-							<strong><?php esc_html_e('Date Posted','workscout'); ?>:</strong>
-							<span><?php printf( esc_html__( 'Posted %s ago', 'workscout' ), human_time_diff( get_post_time( 'U' ), current_time( 'timestamp' ) ) ); ?></span>
-						</div>
-					</li>
-					<?php 
-					$expired_date = get_post_meta( $post->ID, '_job_expires', true );
-					$hide_expiration = get_post_meta( $post->ID, '_hide_expiration', true );
-					
-					if(empty($hide_expiration )) {
-						if(!empty($expired_date)) { ?>
-					<li>
-						<i class="fa fa-calendar"></i>
-						<div>
-							<strong><?php esc_html_e('Expiration date','workscout'); ?>:</strong>
-							<span><?php echo date_i18n( get_option( 'date_format' ), strtotime( get_post_meta( $post->ID, '_job_expires', true ) ) ) ?></span>
-						</div>
-					</li>
-					<?php }
-					} ?>
-
-					<?php 
-					if ( $deadline = get_post_meta( $post->ID, '_application_deadline', true ) ) {
-						$expiring_days = apply_filters( 'job_manager_application_deadline_expiring_days', 2 );
-						$expiring = ( floor( ( time() - strtotime( $deadline ) ) / ( 60 * 60 * 24 ) ) >= $expiring_days );
-						$expired  = ( floor( ( time() - strtotime( $deadline ) ) / ( 60 * 60 * 24 ) ) >= 0 );
-
-						echo '<li class="ws-application-deadline ' . ( $expiring ? 'expiring' : '' ) . ' ' . ( $expired ? 'expired' : '' ) . '"><i class="fa fa-calendar"></i>
-						<div>
-							<strong>' . ( $expired ? __( 'Closed', 'workscout' ) : __( 'Closes', 'workscout' ) ) . ':</strong><span>' . date_i18n( __( 'M j, Y', 'workscout' ), strtotime( $deadline ) ) . '</span></div></li>';
-					} ?>
-					<li>
-						<i class="fa fa-map-marker"></i>
-						<div>
-							<strong><?php esc_html_e('Location','workscout'); ?>:</strong>
-							<span class="location" itemprop="jobLocation"><?php ws_job_location(); ?></span>
-						</div>
-					</li>
-					<li>
-						<i class="fa fa-user"></i>
-						<div>
-							<strong><?php esc_html_e('Campaign Name','workscout'); ?>:</strong>
-							
-							<span><?php the_title(); ?></span>
-						</div>
-					</li>
-					<?php $hours = get_post_meta( $post->ID, '_hours', true ); 
-					 if ( $hours ) { ?>
-					<li>
-						<i class="fa fa-clock-o"></i>
-						<div>
-							<strong><?php esc_html_e('Hours','workscout'); ?>:</strong>
-							<span><?php echo esc_html( $hours ) ?><?php esc_html_e('h / week','workscout'); ?></span>
-						</div>
-					</li>
-					<?php } ?>
-
-					<?php $rate_min = get_post_meta( $post->ID, '_rate_min', true ); 
-					 if ( $rate_min ) { 
-					 	$rate_max = get_post_meta( $post->ID, '_rate_max', true );  ?>
-					<li>
-						<i class="fa fa-money"></i>
-						<div>
-							<strong><?php esc_html_e('Rate:','workscout'); ?></strong>
-							<span>				
-								<?php echo get_workscout_currency_symbol(); echo esc_html( $rate_min ) ?> 
-								<?php if(!empty($rate_max)) { echo '- '.get_workscout_currency_symbol().$rate_max; } ?><?php esc_html_e(' / hour','workscout'); ?>
-							</span>
-						</div>
-					</li>
-					<?php } ?>
-					
-					<?php 
-					$salary = get_post_meta( $post->ID, '_targeted_budget', true );
-					//$salary_max = get_post_meta( $post->ID, '_salary_max', true );
-					 if ( $salary || $salary_max  ) { 
-						
-					 	?>
-					<li>
-						<i class="fa fa-money"></i>
-						<div>
-							<strong><?php esc_html_e('Budget:','workscout'); ?></strong>
-							<span>
-							<?php  
-							if ( $salary ) { echo get_workscout_currency_symbol();  echo esc_html( $salary ); } ?> 
-                
- <!-- budget redundancy -->                
-                
-                <?php } ?>
-					
-					<?php 
-					$salary = get_post_meta( $post->ID, 'Budget_for_the_influencer', true );
-					//$salary_max = get_post_meta( $post->ID, '_salary_max', true );
-					 if ( $salary || $salary_max  ) { 
-						
-					 	?>
-					<li>
-						<i class="fa fa-money"></i>
-						<div>
-							<strong><?php esc_html_e('Budget:','workscout'); ?></strong>
-							<span>
-							<?php  
-							if ( $salary ) { echo get_workscout_currency_symbol();  echo esc_html( $salary ); } ?> 
-   
-              <!-- End of Budget Redundancy --> 
-                
-							<?php if ( $salary_max ) {  ?> - <?php echo get_workscout_currency_symbol();echo esc_html($salary_max); } ?></span>
-						</div>
-					</li>
-					<?php } ?>
-                    <?php
-                    $target_socials      = get_post_meta($post->ID,'_target_social', true);
-                    if ($target_socials){?>
-
-                    <li>
-                        <i class="fa fa-share "></i>
-                        <div>
-                            <strong><?php esc_html_e('Target Social Channels:','workscout'); ?></strong>
-							<span>
-							<?php
-                            foreach($target_socials as $target_social)  {
-                                echo $target_social."<br>" ;
-                            }
+                        <?php if ( candidates_can_apply() &&  !user_has_applied_for_job( get_current_user_id(), $post->ID )) : ?>
+                            <?php
+                            get_job_manager_template( 'job-application.php' );
                             ?>
-                            </span>
+                        <?php endif; ?>
+<!--                        -->
+                    </div>
+                    <div class="section__body">
+                        <img src="<?php echo $header_image;?>" alt="" class="listing-view__image"/>
+                        <div class="listing-view__text">
+                            <div class="listing-view__description">
+                                <p class="listing__view__header">
+                                    <span class="company-name"><?php the_company_name(); ?></span> created the <span class="company-campaign"> Campaign</p>
+                                <p class="listing-view__date">Posted:
+                                    <span class="company-date"><?php printf(get_post_time( 'F d' ))?></span> at
+                                    <span class="company-time"><?php printf(get_post_time( 'g:i a' ))?></span>
+                                </p>
+                                <p class="listing-view__description__text">
+                                    <?php
+                                    echo esc_html__(get_the_content());
+                                    ?>
+                                </p>
+                                <?php do_action( 'single_job_listing_meta_after' ); ?>
+
+                                <?php if ( candidates_can_apply() &&  !user_has_applied_for_job( get_current_user_id(), $post->ID )) : ?>
+                                    <?php
+                                    get_job_manager_template( 'job-application.php' );
+                                    ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="listing-view__overview">
+                                <p class="listing-view__overview__header">Campaign Overview</p>
+                                <p class="listing-view__overview__item listing-view__overview__item_budget">
+                                    <?php   $salary = get_post_meta( $post->ID, '_targeted_budget', true );?>
+                                    Budget: $<span><?php echo esc_html( $salary );?></span>
+                                </p>
+                                <p class="listing-view__overview__item listing-view__overview__item_geo"><?php ws_job_location(); ?></p>
+                                <p class="listing-view__overview__item listing-view__overview__item_date"><?php echo date_i18n( get_option( 'date_format' ), strtotime( get_post_meta( $post->ID, '_job_expires', true ) ) ) ?></p>
+                                <div class="spots">
+                                    <div class="table__influencers">
+                                        <div class="table__influencer"></div>
+                                        <div class="table__influencer"></div>
+                                        <div class="table__influencer"></div>
+                                        <div class="table__influencer"></div>
+                                        <div class="table__influencer"></div>
+                                    </div>
+                                    <p class="spots__text">Spots available: <span><?php echo  get_job_application_count( $post->ID )  ?></span></p>
+                                </div>
+                                <?php $target_socials      = get_post_meta($post->ID,'_target_social', true);
+                                if ( $target_socials ){?>
+                                    <p class="listing-view__overview__item-text">Target Social Channels:</p>
+                                    <div class="listing-view__socials">
+                                        <?php
+                                        foreach($target_socials as $target_social)  {
+                                            if ( $target_social == 'instagram')
+                                                echo '<img src="'.get_stylesheet_directory_uri().'/img/listing-in.png" alt="" class="listing-view__social listing-view__social_in"/>';
+                                            if ( $target_social == 'facebook')
+                                                echo '<img src="'.get_stylesheet_directory_uri().'/img/listing-fb.png" alt="" class="listing-view__social listing-view__social_fb"/>';
+                                        }?>
+                                    </div>
+                                <?php }?>
+                            </div>
                         </div>
-                    </li>
-                    <?php
-                    }
-                    $company_website    = get_post_meta($post->ID,'_company_website', true);
-                    if ($company_website){?>
+                        <?php
+                        $assets_available_link  = get_post_meta($post->ID,'_asset_links', true);
+                        $assets_available_files   = get_post_meta($post->ID,'_asset_upload', true);
 
-                        <li>
-                            <i class="fa fa-link"></i>
-                            <div>
-                                <strong><?php esc_html_e('Website link:','workscout'); ?></strong>
-							<span>
-							<?php
-                                echo $company_website;
-                            ?>
-                            </span>
-                            </div>
-                        </li>
-                    <?php
-                    }
+                        if ( $assets_available_files || $assets_available_link ){?>
+                        <div class="listing__view__assets">
+                            <p class="listing-view__assets__header">Example Assets</p>
+                                <?php
 
-                    $assets_available_link  = get_post_meta($post->ID,'_asset_links', true);
-                    $assets_available_files   = get_post_meta($post->ID,'_asset_upload', true);
+                                if ( $assets_available_link ) echo "<span><a href=\"".$assets_available_link."\" target=\"_blank\">Example URL</a> </span>";
 
-                    if ( $assets_available_files || $assets_available_link ){?>
+                                if ( $assets_available_files ){ ?>
+                                    <div class="assets">
+                                        <?php
+                                        foreach ($assets_available_files as $assets_available_file){?>
+                                            <img src="#" alt="" class="asset"/>
+                                        <?php } ?>
+                                    </div>
+                                <?php }
+                                ?>
+                        </div>
+                        <?php  }?>
+                    </div>
+                </div>
+            </section>
+        </div>
+    <?php
 
-                        <li>
-                            <i class="fa fa-file"></i>
-                            <div>
-                                <strong><?php esc_html_e('Assets provided:','workscout'); ?></strong>
-							<?php
-
-                            if ( $assets_available_link ) echo "<span><a href=\"".$assets_available_link."\" target=\"_blank\">Example URL</a> </span>";
-
-                            if ( $assets_available_files ){
-                                foreach ($assets_available_files as $assets_available_file){
-                                    echo "<span><a href=\"".$assets_available_file."\" target=\"_blank\">Example File</a></span>";
-                                }
-                            }
-                            ?>
-                            </div>
-                        </li>
-                    <?php
-                    }
-                    ?>
-					<?php do_action( 'single_job_listing_meta_end' ); ?>
-				</ul>
-				
-				<?php do_action( 'single_job_listing_meta_after' ); ?>
-				
-				<?php if ( candidates_can_apply() ) : ?>
-					<?php 
-					//	$external_apply = get_post_meta( $post->ID, '_apply_link', true );
-
-					//	if(!empty($external_apply)) {
-						//	echo '<a class="button" target="_blank" href="'.esc_url($external_apply).'">'.esc_html__( 'Apply for job', 'workscout' ).'</a>';
-					//	} else {
-
-							get_job_manager_template( 'job-application.php' );
-					//	}
-					?>
-					
-				<?php endif; ?>
-
-				
-			</div>
-
-		</div>
-
-		<?php 
-		$single_map = Kirki::get_option( 'workscout', 'pp_enable_single_jobs_map' ); 
-		$lng = $post->geolocation_long;
-		if($single_map && !empty($lng)) :
-		?>
-
-			<div class="widget">
-				<h4><?php esc_html_e('Job Location','workscout') ?></h4>
-				
-				<div id="job_map" data-longitude="<?php echo esc_attr( $post->geolocation_long ); ?>" data-latitude="<?php echo esc_attr( $post->geolocation_lat ); ?>">
-					
-				</div>
-			</div>
-
-		<?php 
-		endif;
-		dynamic_sidebar( 'sidebar-job-after' ); ?>
-
-	</div>
-	<!-- Widgets / End -->
-
-
-</div>
-<div class="clearfix"></div>
-<div class="margin-top-55"></div>
-
-<?php endwhile; // End of the loop. ?>
-
-<?php get_footer(); ?>
+    endwhile;
+    ?>
+</main>
+<?php
+get_footer('new');
+?>

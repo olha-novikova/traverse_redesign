@@ -40,10 +40,6 @@ function redesigned_output_resumes( $atts ) {
         $keywords = sanitize_text_field( $_GET['search_keywords'] );
     }
 
-    if ( ! empty( $_GET['search_location'] ) ) {
-        $location = sanitize_text_field( $_GET['search_location'] );
-    }
-
     $resumes = get_resumes( apply_filters( 'resume_manager_output_resumes_args', array(
         'orderby'           => $orderby,
         'order'             => $order,
@@ -53,30 +49,7 @@ function redesigned_output_resumes( $atts ) {
     if ( $resumes->have_posts() ) : ?>
         <div class="influencers__list">
             <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
-                <div class="carousel__influencer">
-                    <div class="carousel__influencer__top"></div>
-                    <div class="carousel__influencer__person"><?php output_candidate_photo(); ?>
-                        <p class="carousel__influencer__name"><a href="<?php echo get_permalink()?>"><?php the_title(); ?></a></p>
-                    </div>
-                    <div class="carousel__influencer__info">
-                        <div class="carousel__influencer__info-block">
-                            <p class="carousel__influencer__number"><?php echo output_candidate_campaigns_count( $resumes->post->post_author); ?></p>
-                            <p class="carousel__influencer__description"><?php echo  _n( 'Campaign', 'Campaigns', output_candidate_campaigns_count($resumes->post->post_author) ); ?></p>
-                        </div>
-                        <div class="carousel__influencer__info-block">
-                            <p class="carousel__influencer__number">56300</p>
-                            <p class="carousel__influencer__description">Audience</p>
-                        </div>
-                        <div class="carousel__influencer__info-block">
-                            <p class="carousel__influencer__number"><?php echo output_candidate_channels_count(get_the_ID());?></p>
-                            <p class="carousel__influencer__description"><?php echo  _n( 'Channel', 'Channels', output_candidate_channels_count(get_the_ID()) ); ?></p>
-                        </div>
-                    </div>
-                    <div class="carousel__influencer__buttons">
-                        <div class="carousel__influencer__button carousel__influencer__button_star"></div>
-                        <div class="carousel__influencer__button carousel__influencer__button_message"></div>
-                    </div>
-                </div>
+                <?php get_template_part('template-parts/content', 'influencer')?>
             <?php endwhile; ?>
         </div>
         <?php
@@ -92,9 +65,9 @@ function redesigned_output_resumes( $atts ) {
             <?php endif; ?>
 
         <?php endif; ?>
-    <?php else :
-        do_action( 'resume_manager_output_resumes_no_results' );
-    endif;
+    <?php else :?>
+        <div class="no-influencers"><?php _e( 'No resumes found matching your selection.', 'wp-job-manager-resumes' ); ?></div>
+    <?php endif;
 
     wp_reset_postdata();
 
