@@ -966,13 +966,33 @@ function get_company_meta_logo( $post, $size = 'thumbnail' ){
     $file_logo = $dir['baseurl']."/users/".$logo;
 
     if ( ! empty( $file_logo ) && ( strstr( $file_logo, 'http' ) || file_exists( $file_logo ) ) ) {
-        echo '<img class="company_logo" src="' . esc_attr( $file_logo ) . '" alt="Company logo" />';
+        echo '<img class="company_logo profile__background__image" src="' . esc_attr( $file_logo ) . '" alt="Company logo" />';
     } else  {
-        echo '<img class="company_logo" src="' . esc_attr( apply_filters( 'job_manager_default_company_logo', JOB_MANAGER_PLUGIN_URL . '/assets/images/company.png' ) ) . '" alt="Company logo" />';
+        echo '<img class="company_logo profile__background__image" src="' . esc_attr( apply_filters( 'job_manager_default_company_logo', JOB_MANAGER_PLUGIN_URL . '/assets/images/company.png' ) ) . '" alt="Company logo" />';
     }
 }
 
+function get_company_logo_url( $post, $size = 'thumbnail' ){
+    $post = get_post( $post );
 
+    if ( $post->post_type !== 'job_listing' ) {
+        return;
+    }
+
+    $user_id = $post->post_author;
+
+    $logo =  get_user_meta( $user_id, 'logo', true );
+
+    $dir = wp_get_upload_dir();
+
+    $file_logo = $dir['baseurl']."/users/".$logo;
+
+    if ( ! empty( $file_logo ) && ( strstr( $file_logo, 'http' ) || file_exists( $file_logo ) ) ) {
+        return  $file_logo;
+    }
+
+    return;
+}
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
@@ -2340,7 +2360,7 @@ function remove_all_styles() {
             $wp_styles->queue = array(0 => "admin-bar",1 => "newhomepage-vendor", 2 => "newhomepage-main" );
         else{
             foreach ( $wp_styles->queue as $num => $name ){
-                if ( $name == 'workscout-base' ||  $name == 'workscout-style' )    unset ($wp_styles->queue[$num]);
+                if ( $name == 'workscout-base' ||  $name == 'workscout-style' || $name == 'workscout-woocommerce' )    unset ($wp_styles->queue[$num]);
             }
         }
 	}
@@ -2348,21 +2368,36 @@ function remove_all_styles() {
 add_action('wp_print_styles', 'remove_all_styles', 100);
 
 function custom_load_stylesheets(){
-		if ($GLOBALS["header_type"]=="newhomepage"){
+    remove_action( 'wp_head', array( $GLOBALS['woocommerce'], 'generator' ) );
+    wp_dequeue_style( 'woocommerce_frontend_styles' );
+    wp_dequeue_style( 'woocommerce-general');
+    wp_dequeue_style( 'woocommerce-layout' );
+    wp_dequeue_script( 'woocommerce' );
+    if ($GLOBALS["header_type"]=="newhomepage"){
 
-			wp_dequeue_style('parent-style');
-			wp_dequeue_style('workscout-style');
-			wp_enqueue_style('newhomepage-vendor', get_stylesheet_directory_uri().'/css/vendor.css');
+        wp_dequeue_style('parent-style');
+        wp_dequeue_style('workscout-style');
+        wp_enqueue_style('newhomepage-vendor', get_stylesheet_directory_uri().'/css/vendor.css');
 
-            if ( is_front_page() )
-			    wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/main.css');
-            elseif (is_page_template('browse-influencers.php') ){
-                wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
-                wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
-            }
+        if ( is_front_page() )
+            wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/main.css');
+        elseif (is_page_template('browse-influencers.php') ){
+            wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+            wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
+        } elseif (is_product_category() || is_page('prelisting')){
+            wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+            wp_enqueue_style('brand-create', get_stylesheet_directory_uri().'/css/brand-create.css');
+        } elseif (is_singular('job_listing')){
+            wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+            wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/brand-single.css');
+        }elseif( is_page('job-dashboard')){
+            wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+            wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/brand-dashboard.css');
         }
-	}
+    }
+}
 add_action('wp_enqueue_scripts','custom_load_stylesheets');
+
 
 function custom_load_scripts(){
 		if ($GLOBALS["header_type"]=="newhomepage"){
@@ -2373,7 +2408,7 @@ function custom_load_scripts(){
 		}
 		
 	}
-	add_action('wp_enqueue_scripts', 'custom_load_scripts', 200);
+add_action('wp_enqueue_scripts', 'custom_load_scripts', 200);
 
 
 function process_login_custom() {

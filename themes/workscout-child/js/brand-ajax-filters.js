@@ -12,13 +12,11 @@ jQuery( document ).ready( function ( $ ) {
     $( '.influencer_output' ).on( 'update_results', function( event, page, append ) {
         var data     = '';
         var target   = $(this);
-        var form     = target.find( '.resume_filters' );
-        var showing  = target.find( '.showing_resumes' );
-        var results  = target.find( '.resumes' );
+        var results  = target.find( '.influencers__list' );
+        var form     = $( '.panel__search').find('.panel__search__input');
         var per_page = target.data( 'per_page' );
         var orderby  = target.data( 'orderby' );
         var order    = target.data( 'order' );
-        var featured = target.data( 'featured' );
         var index    = $( 'div.resumes' ).index(this);
 
         if ( xhr[index] ) {
@@ -29,58 +27,22 @@ jQuery( document ).ready( function ( $ ) {
             $( '.load_more_resumes', target ).addClass( 'loading' );
         } else {
             $( results).addClass( 'loading' );
-            $( 'li.resume, li.no_resumes_found', results ).css( 'visibility', 'hidden' );
+            $( '.carousel__influencer', results ).css( 'visibility', 'hidden' );
         }
 
-        if ( true == target.data( 'show_filters' ) ) {
-
-            var categories = form.find(':input[name^="search_categories"]').map(function () { return $(this).val(); }).get();
-            var keywords  = '';
-            var location  = '';
-            var $keywords = form.find(':input[name="search_keywords"]');
-            var $location = form.find(':input[name="search_location"]');
-
-            // Workaround placeholder scripts
-            if ( $keywords.val() != $keywords.attr( 'placeholder' ) )
-                keywords = $keywords.val();
-
-            if ( $location.val() != $location.attr( 'placeholder' ) )
-                location = $location.val();
-
-            var data = {
-                action: 			'resume_manager_get_resumes',
-                search_keywords: 	keywords,
-                search_location: 	location,
-                search_categories:  categories,
-                per_page: 			per_page,
-                orderby: 			orderby,
-                order: 			    order,
-                page:               page,
-                featured:           featured,
-                show_pagination:    target.data( 'show_pagination' ),
-                form_data:          form.serialize()
-            };
-
-        } else {
-
-            var data = {
-                action: 			'resume_manager_get_resumes',
-                search_categories:  target.data('categories').split(','),
-                search_keywords: target.data('keywords'),
-                search_location: target.data('location'),
-                per_page: 			per_page,
-                orderby: 			orderby,
-                order: 			    order,
-                featured:           featured,
-                page:               page,
-                show_pagination:    target.data( 'show_pagination' ),
-            };
-
-        }
+        data = {
+            action: 			'resume_manager_get_influencers',
+            search_keywords:    form.val(),
+            show_pagination:    target.data( 'show_pagination' ),
+            per_page: 			per_page,
+            orderby: 			orderby,
+            order: 			    order,
+            page:               page
+        };
 
         xhr[index] = $.ajax( {
             type: 		'POST',
-            url: 		resume_manager_ajax_filters.ajax_url,
+            url:        ws.ajaxurl,
             data: 		data,
             success: 	function( response ) {
                 if ( response ) {
@@ -94,12 +56,6 @@ jQuery( document ).ready( function ( $ ) {
                             response = response.split("<!--WPJM_END-->")[0]; // Strip off anything after WPJM_END
 
                         var result = $.parseJSON( response );
-
-                        if ( result.showing ) {
-                            $(showing).show().html('').append( '<span>' + result.showing + '</span>' + result.showing_links );
-                        } else {
-                            $(showing).hide();
-                        }
 
                         if ( result.html ) {
                             if ( append ) {
@@ -137,21 +93,18 @@ jQuery( document ).ready( function ( $ ) {
         } );
     } );
 
-    $( '#search_keywords, #search_location, #search_categories' ).change( function() {
-        var target = $(this).closest( 'div.resumes' );
+    $( '.panel__search' ).on( 'click', '.button_search', function() {
+        var target  = $( 'div.influencer_output' );
 
         target.triggerHandler( 'update_results', [ 1, false ] );
-    } ).change();
 
-    $( '.resume_filters' ).on( 'click', '.reset', function() {
-        var target  = $(this).closest( 'div.resumes' );
-        var form    = $(this).closest( 'form' );
+        return false;
+    } );
 
-        form.find(':input[name="search_keywords"]').not(':input[type="hidden"]').val('');
-        form.find(':input[name="search_location"]').not(':input[type="hidden"]').val('');
-        form.find(':input[name^="search_categories"]').not(':input[type="hidden"]').val( 0 ).trigger( 'chosen:updated' );
+    $( '.panel__search' ).on( 'change', 'input.panel__search__input', function() {
 
-        target.triggerHandler( 'reset' );
+        var target  = $( 'div.influencer_output' );
+
         target.triggerHandler( 'update_results', [ 1, false ] );
 
         return false;
@@ -161,13 +114,31 @@ jQuery( document ).ready( function ( $ ) {
 
         var target = $( this ).closest( 'div.influencer_output' );
         var page   = $( this ).data( 'page' );
-        alert(page);
+
         target.triggerHandler( 'update_results', [ page, false ] );
 
         return false;
     } );
 
-    if ( $.isFunction( $.fn.chosen ) ) {
-        $( 'select[name^="search_categories"]' ).chosen();
-    }
+    $(".dropdown-item").click(function (e) {
+        e.preventDefault();
+        var current = $(this);
+        var showString = $(this).parent().siblings(".dropdown-toggle");
+        showString.text(current.text());
+        showString.addClass("dropdown__label_active");
+
+        var sort = current.data('sort');
+        var sort_by = current.data('sort_by');
+
+        var target  = $( 'div.influencer_output' );
+
+        target.data('orderby',sort_by);
+        target.data('order',sort);
+
+        target.triggerHandler( 'update_results', [ 1, false ] );
+
+    });
+
+
+
 });
