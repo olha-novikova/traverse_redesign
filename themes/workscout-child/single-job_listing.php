@@ -13,7 +13,7 @@ get_sidebar();?>
 <main class="main">
     <?php
     while ( have_posts() ) : the_post();
-        $header_image = get_post_meta($post->ID, 'pp_job_header_bg', TRUE);
+        $header_image = get_post_meta($post->ID, '_header_image', TRUE);
         $product_id = get_post_meta($post->ID, '_wcpl_jmfe_product_id',true);
         $package = get_post( $product_id);
         ?>

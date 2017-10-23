@@ -197,3 +197,75 @@ function add_meta_filter( $query_args, $args ){
     return $query_args;
 
 }
+
+function get_applications( ) {
+
+    $args     = apply_filters( 'job_manager_get_dashboard_jobs_args', array(
+        'post_type'           => 'job_listing',
+        'post_status'         => array( 'publish', 'expired', 'pending' ),
+        'ignore_sticky_posts' => 1,
+        'posts_per_page'      => -1,
+        'orderby'             => 'date',
+        'order'               => 'desc',
+        'author'              => get_current_user_id(),
+        'fields'              =>'ids'
+    ) );
+
+    $jobs_query = new WP_Query();
+
+    $jobs = $jobs_query->query( $args );
+
+    $applications_with_job = array();
+
+    foreach ( $jobs as $key => $job){
+        if ( !get_job_application_count($job) ){
+            unset ($jobs[$key]);
+        }else{
+            $args = apply_filters( 'job_manager_job_applications_args', array(
+                'post_type'           => 'job_application',
+                'post_status'         => array_diff( array_merge( array_keys( get_job_application_statuses() ), array( 'publish' ) ), array( 'archived' ) ),
+                'ignore_sticky_posts' => 1,
+                'posts_per_page'      => -1,
+                'offset'              => '',
+                'post_parent'     => $job,
+                'order'               => 'DESC',
+                'orderby'             => 'date'
+            ) );
+            $applications_query = new WP_Query;
+            $applications = $applications_query->query( $args );
+            $applications_with_job[$job]['job'] = get_post( $job );
+            $applications_with_job[$job]['applications'] = $applications;
+        }
+    }
+
+    return $applications_with_job;
+}
+
+function get_last_application( $job_id = null  ) {
+    if ( !$job_id ) return;
+
+        $job = get_post( $job_id );
+
+    if ( !$job ) return;
+
+    if ( ! job_manager_user_can_edit_job( $job_id)  )  return;
+
+    $args = apply_filters( 'job_manager_job_applications_args', array(
+        'post_type'           => 'job_application',
+        'post_status'         => array_diff( array_merge( array_keys( get_job_application_statuses() ), array( 'publish' ) ), array( 'archived' ) ),
+        'ignore_sticky_posts' => 1,
+        'posts_per_page'      => 1,
+        'offset'              => '',
+        'post_parent'         => $job_id,
+        'order'               => 'DESC',
+        'orderby'             => 'date'
+    ) );
+
+    $applications_query = new WP_Query;
+
+    $applications = $applications_query->query( $args );
+
+    $application = array_shift($applications);
+
+    return $application;
+}
