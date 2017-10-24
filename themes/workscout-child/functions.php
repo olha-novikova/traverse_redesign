@@ -2393,6 +2393,9 @@ function custom_load_stylesheets(){
         }elseif( is_page('job-dashboard')){
             wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
             wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/brand-dashboard.css');
+        }elseif( is_page_template('my-listings.php')){
+            wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+            wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/brand-listing-page.css');
         }
     }
 }

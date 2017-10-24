@@ -254,26 +254,27 @@ button::-moz-focus-inner {
     font-weight: 400
 }
 
-.button_white {
+.button.button_white {
     color: #888da8;
-    border: 1px solid #e8e9f0
+    border: 1px solid #e8e9f0;
+    background-color: #fff;
 }
 
-.button_orange {
+.button.button_orange {
     color: #fff;
     background-color: #ff5e3a
 }
 
-.button_green {
+.button.button_green {
     background-color: #08ddc1
 }
 
-.button_grey {
+.button.button_grey {
     background-color: #9a9fbf;
     color: #fff
 }
 
-.button_blue {
+.button.button_blue {
     color: #fff;
     background-color: #38a9ff
 }
