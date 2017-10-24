@@ -75,6 +75,9 @@ abstract class WP_Job_Manager_SPL_Gateway {
 			$update_job['post_date']     = current_time( 'mysql' );
 			$update_job['post_date_gmt'] = current_time( 'mysql', 1 );
 			wp_update_post( $update_job );
+
+
+
 		}
 
 		do_action( 'wp_job_manager_spl_payment_complete', $job_id );

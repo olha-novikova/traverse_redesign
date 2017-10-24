@@ -12,7 +12,6 @@ function workscout_child_dequeue_script() {
 
 add_action( 'wp_print_scripts', 'workscout_child_dequeue_script', 100 );
 
-
 function workscout_child_scripts(){
     wp_enqueue_script( 'workscout-custom-parent', get_stylesheet_directory_uri() . '/js/custom.parent.js', array('jquery'), '20150705', true );
     wp_enqueue_script( 'workscout-custom-child', get_stylesheet_directory_uri() . '/js/custom-child.js', array('jquery' ,'workscout-custom-parent'), '20150705', true );
@@ -1015,7 +1014,7 @@ function clear_cart() {
 }
 add_action('wp_logout', 'clear_cart');
 
-add_filter( 'job_manager_packages_admin_required_packages_frontend', 'smyles_packages_demo_admin_require_packages' );
+/*add_filter( 'job_manager_packages_admin_required_packages_frontend', 'smyles_packages_demo_admin_require_packages' );
 function smyles_packages_demo_admin_require_packages(){
     return true;
 }
@@ -1025,7 +1024,7 @@ add_action( 'woocommerce_archive_description','add_package_list');
 function add_package_list(){
     echo do_shortcode('[submit_job_form]');
 }
-
+*/
 
 /**********************************Adding status to the job applicatioins ***********************************/
 
@@ -1142,48 +1141,6 @@ function wpc_auto_redirect_after_logout(){
     exit();
 }
 add_action('wp_logout','wpc_auto_redirect_after_logout');
-
-function add_script_in_last()
-{
-    ?>
-    <script>
-
-        if (jQuery('.tax-product_cat article form').hasClass('job-manager-form')) {
-            jQuery('.tax-product_cat article ul.products').remove();
-        }
-
-
-        jQuery('.tax-product_cat article form#job_preview').attr('class','job_preview_artifex');
-
-
-        if (jQuery('.tax-product_cat article form').hasClass('job_preview_artifex')) {
-
-            jQuery('.tax-product_cat article ul.products').remove();
-
-        }
-
-    </script>
-<?php
-}
-add_action('wp_footer','add_script_in_last');
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-define('DEPOSIT_ID', 1286); //live
-
-add_action('admin_footer','add_css_in_header');
-function add_css_in_header()
-{
-    ?>
-    <script>
-        jQuery('input#acf-field-Budget_for_the_influencer').attr('disabled','disabled');
-        jQuery('input#acf-field-job_listing_order_id').attr('disabled','disabled');
-    </script>
-<?php
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1321,21 +1278,6 @@ function create_multiply_job_products( $cart_object ) {
     }
 }
 
-//add_action( 'woocommerce_before_checkout_form', 'deposit_add_checkout_notice', 11 );
-function deposit_add_checkout_notice() {
-    global $woocommerce;
-
-    $products = array();
-    if ( sizeof( WC()->cart->get_cart() ) > 0 ) {
-        foreach ( WC()->cart->get_cart() as  $values ) {
-
-            $_product = $values['data'];
-            wc_add_to_cart_message( $_product->id );
-            $products[] = $_product->id;
-        }
-
-    }
-}
 
 add_action('wp_ajax_application_form_handler_direct', 'application_form_handler_direct');
 add_action('wp_ajax_nopriv_application_form_handler_direct', 'application_form_handler_direct');
@@ -1684,7 +1626,6 @@ function get_candidate_cash_out_sum($user_id){
 require_once 'message_system.php';
 
 
-
 if ( ! function_exists( 'get_application_id_user_has_applied_for_job' ) ) {
 
     function get_application_id_user_has_applied_for_job( $user_id, $job_id ) {
@@ -1710,7 +1651,6 @@ if ( ! function_exists( 'get_application_id_user_has_applied_for_job' ) ) {
         }
     }
 }
-
 
 
 
@@ -1815,176 +1755,10 @@ function wc_paid_listings_has_user_package( $user_id ) {
     return $packages_count;
 }
 
-add_action( 'init', 'add_post_status_to_job_listing', 12 );
+include_once get_stylesheet_directory() . '/inc/job-listing-handler.php';
 
-function add_post_status_to_job_listing(){
-    global $job_manager;
 
-    register_post_status( 'pending_payment', array(
-        'label'                     => __( 'Pending Payment' ),
-        'public'                    => false,
-        'exclude_from_search'       => false,
-        'show_in_admin_all_list'    => false,
-        'show_in_admin_status_list' => true,
-        'label_count'               => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>' ),
-    ) );
-
-   // add_action( 'pending_payment_to_publish', array( $job_manager->post_types, 'set_expirey' ) );
-}
-
-add_filter( 'the_job_status',  'the_job_status_pending' , 10, 2 );
-
-function the_job_status_pending( $status, $job ) {
-
-    if ( $job->post_status == 'pending_payment' ) {
-        $status = __( 'Pending Payment', 'wp-job-manager-simple-paid-listings' );
-    }
-    return $status;
-}
-
-add_filter( 'job_manager_valid_submit_job_statuses',  'valid_submit_job_statuses_pending' );
-
-function valid_submit_job_statuses_pending( $status ) {
-
-    $status[] = 'pending_payment';
-
-    return $status;
-
-}
-add_filter( 'submit_job_steps',  'submit_job_steps_pending' , 10 );
-
-function submit_job_steps_pending( $steps ) {
-
-    $steps['preview']['handler'] =  'preview_handler_pending' ;
-
-    return $steps;
-}
-//echo "<pre>"; print_r($_POST); echo "</pre>";
-function preview_handler_pending() {
-    if ( ! $_POST ) {
-        return;
-    }
-
-    $form = WP_Job_Manager_Form_Submit_Job::instance();
-
-    if ( ! empty( $_POST['edit_job'] ) ) {
-        $form->previous_step();
-    }
-
-    if ( ! empty( $_POST['continue'] ) ) {
-
-        $job = get_post( $_POST['job_id']  );
-
-        if ( $job->post_status == 'preview' ) {
-            $update_job                  = array();
-            $update_job['ID']            = $job->ID;
-            $update_job['post_status']   = 'pending_payment';
-            $update_job['post_date']     = current_time( 'mysql' );
-            $update_job['post_date_gmt'] = current_time( 'mysql', 1 );
-            $update_job['post_author']   = get_current_user_id();
-            wp_update_post( $update_job );
-
-            $job = get_post( $update_job['ID']  );
-
-            $job_package = get_post_meta($job->ID, '_wcpl_jmfe_product_id',true);
-            $product_terms = wp_get_object_terms( $job_package,  'product_cat' );
-
-            $price = get_post_meta( $job_package, '_regular_price', true);
-
-            if ( ! empty( $product_terms ) ) {
-                if ( ! is_wp_error( $product_terms ) ) {
-                    foreach( $product_terms as $term ) {
-                        wp_set_object_terms( $job->ID, esc_html( $term->name ), 'job_listing_category' );
-                    }
-                }
-            }
-
-        }
-
-        $amount = round($price - ($price*0.3), 2);
-
-        update_field('Budget_for_the_influencer',$amount,$job->ID);
-        update_post_meta($job->ID, '_targeted_budget', $amount);
-
-        WC()->cart->empty_cart();
-
-        $is_user_package = false;
-
-        if ( ! empty( $_POST['job_package'] ) ) {
-            if ( is_numeric( $_POST['job_package'] ) ) {
-                $is_user_package = false;
-            } else {
-                $is_user_package = true;
-            }
-        } elseif ( ! empty( $_COOKIE['chosen_package_id'] ) ) {
-            $is_user_package = absint( $_COOKIE['chosen_package_is_user_package'] ) === 1;
-        }
-        $form->next_step();
-    }
-}
-
-add_action( 'woocommerce_order_status_completed', 'so_payment_complete' );
-
-function so_payment_complete( $order_id ){
-
-    $order = wc_get_order( $order_id );
-
-    $order = new WC_Order( $order );
-
-    $order_item = $order->get_items();
-
-    foreach( $order_item as $item_id => $product ) {
-        $job_id = wc_get_order_item_meta ($item_id, '_job_id');
-
-        $args = array(
-            'numberposts'   => -1,
-            'meta_key'      => '_source_job',
-            'meta_value'    => $job_id,
-            'post_type'     => 'job_listing',
-            'post_status'   => 'preview',
-            'fields'        => 'ids'
-        );
-
-        $job_clones = new WP_Query( $args );
-
-        if ($job_clones -> have_posts())  $jobs = $job_clones -> posts;
-
-        foreach($jobs as $job_id){
-            $post = array();
-            $post['ID'] = $job_id;
-            $post['post_status'] = 'publish';
-            wp_update_post($post);
-
-        }
-    }
-}
-
-add_filter( 'job_manager_get_dashboard_jobs_args',  'dashboard_job_args_pending'  );
-add_filter( 'job_manager_my_job_actions',  'my_job_actions_pending' , 10, 2 );
-add_action( 'job_manager_my_job_do_action',  'my_job_do_action_pending' , 10, 2 );
-
-function dashboard_job_args_pending( $args = array() ) {
-    $args['post_status'][] = 'pending_payment';
-
-    return $args;
-}
-
-function my_job_actions_pending( $actions, $job ) {
-    if ( $job->post_status == 'pending_payment' && get_option( 'job_manager_submit_page_slug' ) ) {
-        $actions['pay'] = array( 'label' => __( 'Pay', 'job_manager' ), 'nonce' => true );
-    }
-
-    return $actions;
-}
-
-function my_job_do_action_pending( $action = '', $job_id = 0 ) {
-    if ( $action == 'pay' && $job_id ) {
-        wp_redirect( add_query_arg( array( 'step' => 'preview', 'job_id' => absint( $job_id ) ), get_permalink( get_page_by_path( get_option( 'job_manager_submit_page_slug' ) )->ID ) ) );
-        exit;
-    }
-}
 add_action( 'register_form_child', 'workscout_register_form_child' );
-
 
 remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_registration' ), 20 );
 remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_login'), 20 );
@@ -2065,8 +1839,8 @@ function create_custom_campaign(){
     wp_die();
 }
 
-add_action('wp_ajax_create_custom_campaign', 'create_custom_campaign');
-add_action('wp_ajax_nopriv_create_custom_campaign', 'create_custom_campaign');
+//add_action('wp_ajax_create_custom_campaign', 'create_custom_campaign');
+//add_action('wp_ajax_nopriv_create_custom_campaign', 'create_custom_campaign');
 
 function send_on_review (){
 
@@ -2372,7 +2146,7 @@ function custom_load_stylesheets(){
     wp_dequeue_style( 'woocommerce_frontend_styles' );
     wp_dequeue_style( 'woocommerce-general');
     wp_dequeue_style( 'woocommerce-layout' );
-    wp_dequeue_script( 'woocommerce' );
+   // wp_dequeue_script( 'woocommerce' );
     if ($GLOBALS["header_type"]=="newhomepage"){
 
         wp_dequeue_style('parent-style');
