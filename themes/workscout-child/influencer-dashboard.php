@@ -47,7 +47,7 @@ get_sidebar();?>
 							</div>
 						</div>
 					</div>
-					<div class="table__body">
+					<div class="table__body" id="jobs-table">
             <?php
 
             $query_args = array(
@@ -59,16 +59,25 @@ get_sidebar();?>
 
             $jobs = new WP_Query( $query_args );
 
+
+
 if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); ?>
 
 		        <?php
+              $id = get_the_ID();
+	            $location =  get_post_meta($id, '_job_location', true);
+	            $date =  get_post_meta($id, '_publish_date', true);
+	            $desc =  get_post_meta($id, '_job_description', true);
+	            $count = get_job_application_count( $id );
 
-	            $location =  get_post_meta(get_the_ID(), '_job_location', true);
-	            $date =  get_post_meta(get_the_ID(), '_publish_date', true);
-	            $desc =  get_post_meta(get_the_ID(), '_job_description', true);
-	            $count = get_job_application_count( get_the_ID() );
 
-	echo ( $count = get_job_application_count( the_ID()) ) ? '<a class="button" href="' . add_query_arg( array( 'action' => 'show_applications', 'job_id' => the_ID() ), get_permalink( the_ID() ) ) . '">'.__('Show','workscout').' (' . $count . ')</a>' : '&ndash;';
+              $applications = get_posts( array(
+                'post_type'      => 'job_application',
+                'post_status'    => array_merge( array_keys( get_job_application_statuses() ), array( 'publish' ) ),
+                'posts_per_page' => -1,
+                'post_parent'    => $id
+              ) );
+
 	?>
 
 						<div class="table__row table__row_body">
@@ -86,29 +95,40 @@ if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); 
 							</div>
 							<div class="table__data">
 								<div class="table__influencers">
-									<div class="table__influencer"></div>
-									<div class="table__influencer"></div>
-									<div class="table__influencer"></div>
-									<div class="table__influencer"></div>
-									<div class="table__influencer"></div>
+                  <?php foreach($applications as $application) : ?>
+                      <?php $avatar = get_job_application_avatar($application->ID); ?>
+
+                    <div class="table__influencer">
+                      <?= $avatar ?>
+                    </div>
+		              <?php endforeach; ?>
 									<div class="table__influencer">
-										<div class="table__influencer__number">+31</div>
+										<div class="table__influencer__number"><?php echo $count ?></div>
 									</div>
 								</div>
 							</div>
 							<div class="table__data">
 								<div class="table__buttons">
-									<a class="button button_green">View Campaign</a>
+									<a href="<?php the_permalink() ?>" class="button button_green">View Campaign</a>
 								</div>
 							</div>
 						</div>
 <?php endwhile; endif; ?>
 					</div>
 				</div>
+         <?php if (  $jobs->max_num_pages > 1 ) : ?>
 				<div class="after-table">
-					<div class="button button_green">View More Opportunities</div>
+
+     <script>
+        var true_posts = '<?php echo serialize($jobs->query_vars); ?>';
+        var current_page = <?php echo (get_query_var('paged')) ? get_query_var('paged') : 1; ?>;
+        var max_pages = '<?php echo $jobs->max_num_pages; ?>';
+      </script>
+
+					<div class="button button_green" id="loadmore">View More Opportunities</div>
 				</div>
 			</div>
+			<?php endif; ?>
 		</section>
 		<div class="section__container section__container_pitches">
 			<div class="table table_pitches">
@@ -120,27 +140,51 @@ if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); 
 					</div>
 				</div>
 				<div class="table__body">
+          <?php
+          $pitches = get_pitched_campaigns($user->ID, 'new');
+
+          if ($pitches) : ?>
+          <?php foreach ($pitches as $pitch) : ?>
+            <?php $pitches_data = get_post_meta($pitch[0]->ID, '', true);
+                  $date = $pitch['date'];
+            ?>
 					<div class="table__row table__row_body">
 						<div class="table__data"><i class="icon icon_calendar"></i>
-							<p class="table__data__date">28</p>
-							<p class="table__data__month">May</p>
+							<p class="table__data__date"><?php echo date("d", strtotime($date)) ?></p>
+							<p class="table__data__month"><?php echo date("F", strtotime($date)) ?></p>
 						</div>
 						<div class="table__data">
-							<p class="table__text">Campaign 1 for <span>Brand A</span></p>
+							<p class="table__text">
+                <?php
+                echo esc_html( $pitches_data['_job_title'][0]); echo ($pitches_data['_company_name'][0] != '' ? 'for <span>' . esc_html($pitches_data['_company_name'][0]) : '');
+                ?>
+                </span>
+							</p>
 						</div>
 						<div class="table__data">
-							<p class="table__text">Seattle, Wa</p>
+							<p class="table__text"><?php echo ($pitches_data['_job_location'][0] ? esc_html($pitches_data['_job_location'][0]) : 'Anywhere') ?></p>
 						</div>
 						<div class="table__data">
-							<p class="table__text">Hello, I am John Doe, I have arund 50 followers on Instagram, and 100k on facebook. I think my audience would be a good fit for your campaign because</p>
+							<p class="table__text"><?php echo esc_html($pitch['message'])?></p>
 						</div>
 						<div class="table__data">
 							<div class="table__buttons">
-								<div class="button button_green">View Campaign Details</div>
-								<div class="button button_green">View Full Pitch</div>
+                <div class="table__buttons">
+                  <div class="button button_green"><a href="<?= get_post_permalink($pitch[0]->ID) ?>">View Campaign Details</a></div>
+                  <div class="button button_green"><a href="<?= get_post_permalink($pitch['id']) ?>">View Full Pitch</a></div>
+                </div>
 							</div>
 						</div>
 					</div>
+					<?php endforeach; else: ?>
+					<div class="table__body">
+					<div class="table__row table__row_body table__row_empty">
+						<div class="empty"><i class="icon icon_calendar"></i>
+							<p class="empty-text">There are no completed campaigns to show</p>
+						</div>
+					</div>
+				</div>
+				<?php endif; ?>
 				</div>
 				<div class="table__head">
 					<div class="table__row table__row_header">
@@ -149,13 +193,51 @@ if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); 
 						</div>
 					</div>
 				</div>
-				<div class="table__body">
-					<div class="table__row table__row_body table__row_empty">
-						<div class="empty"><i class="icon icon_calendar"></i>
-							<p class="empty-text">There are no completed campaigns to show</p>
-						</div>
-					</div>
-				</div>
+        <div class="table__body">
+			<?php
+			$pitches = get_pitched_campaigns($user->ID, 'completed');
+
+			if ($pitches) : ?>
+				<?php foreach ($pitches as $pitch) : ?>
+					<?php $pitches_data = get_post_meta($pitch[0]->ID, '', true);
+					$date = $pitch['date'];
+
+					?>
+                <div class="table__row table__row_body">
+                  <div class="table__data"><i class="icon icon_calendar"></i>
+                    <p class="table__data__date"><?php echo date("d", strtotime($date)) ?></p>
+                    <p class="table__data__month"><?php echo date("F", strtotime($date)) ?></p>
+                  </div>
+                  <div class="table__data">
+                    <p class="table__text">
+						<?php
+						echo esc_html( $pitches_data['_job_title'][0]); echo ($pitches_data['_company_name'][0] != '' ? 'for <span>' . esc_html($pitches_data['_company_name'][0]) : '');
+							?>
+                    </p>
+                  </div>
+                  <div class="table__data">
+                    <p class="table__text"><?php echo ($pitches_data['_job_location'][0] ? esc_html($pitches_data['_job_location'][0]) : 'Anywhere') ?></p>
+                  </div>
+                  <div class="table__data">
+                    <p class="table__text"><?php echo esc_html($pitch['message'])?></p>
+                  </div>
+                  <div class="table__data">
+                    <div class="table__buttons">
+                      <div class="button button_green"><a href="<?= get_post_permalink($pitch[0]->ID) ?>">View Campaign Details</a></div>
+                      <div class="button button_green"><a href="<?= get_post_permalink($pitch['id']) ?>">View Full Pitch</a></div>
+                    </div>
+                  </div>
+                </div>
+				<?php endforeach; else: ?>
+              <div class="table__body">
+                <div class="table__row table__row_body table__row_empty">
+                  <div class="empty"><i class="icon icon_calendar"></i>
+                    <p class="empty-text">There are no completed campaigns to show</p>
+                  </div>
+                </div>
+              </div>
+			<?php endif; ?>
+        </div>
 				<div class="table__head">
 					<div class="table__row table__row_header">
 						<div class="table__header">
@@ -163,29 +245,51 @@ if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); 
 						</div>
 					</div>
 				</div>
-				<div class="table__body">
-					<div class="table__row table__row_body">
-						<div class="table__data"><i class="icon icon_calendar"></i>
-							<p class="table__data__date">28</p>
-							<p class="table__data__month">May</p>
-						</div>
-						<div class="table__data">
-							<p class="table__text">Campaign 1 for <span>Brand A</span></p>
-						</div>
-						<div class="table__data">
-							<p class="table__text">Seattle, Wa</p>
-						</div>
-						<div class="table__data">
-							<p class="table__text">Hello, I am John Doe, I have arund 50 followers on Instagram, and 100k on facebook. I think my audience would be a good fit for your campaign because</p>
-						</div>
-						<div class="table__data">
-							<div class="table__buttons">
-								<div class="button button_green">View Campaign Details</div>
-								<div class="button button_green">View Full Pitch</div>
-							</div>
-						</div>
-					</div>
-				</div>
+        <div class="table__body">
+			<?php
+			$pitches = get_pitched_campaigns($user->ID, 'hired');
+
+			if ($pitches) : ?>
+				<?php foreach ($pitches as $pitch) : ?>
+					<?php $pitches_data = get_post_meta($pitch[0]->ID, '', true);
+					$date = $pitch['date'];
+					?>
+                <div class="table__row table__row_body">
+                  <div class="table__data"><i class="icon icon_calendar"></i>
+                    <p class="table__data__date"><?php echo date("d", strtotime($date)) ?></p>
+                    <p class="table__data__month"><?php echo date("F", strtotime($date)) ?></p>
+                  </div>
+                  <div class="table__data">
+                    <p class="table__text">
+						<?php
+			echo esc_html( $pitches_data['_job_title'][0]); echo ($pitches_data['_company_name'][0] != '' ? ' for <span>' . esc_html($pitches_data['_company_name'][0]) : '');
+							?>
+                </span>
+                    </p>
+                  </div>
+                  <div class="table__data">
+                    <p class="table__text"><?php echo ($pitches_data['_job_location'][0] ? esc_html($pitches_data['_job_location'][0]) : 'Anywhere') ?></p>
+                  </div>
+                  <div class="table__data">
+                    <p class="table__text"><?php echo esc_html($pitch['message'])?></p>
+                  </div>
+                  <div class="table__data">
+                    <div class="table__buttons">
+                      <div class="button button_green"><a href="<?= get_post_permalink($pitch[0]->ID) ?>">View Campaign Details</a></div>
+                      <div class="button button_green"><a href="<?= get_post_permalink($pitch['id']) ?>">View Full Pitch</a></div>
+                    </div>
+                  </div>
+                </div>
+				<?php endforeach; else: ?>
+              <div class="table__body">
+                <div class="table__row table__row_body table__row_empty">
+                  <div class="empty"><i class="icon icon_calendar"></i>
+                    <p class="empty-text">There are no completed campaigns to show</p>
+                  </div>
+                </div>
+              </div>
+			<?php endif; ?>
+        </div>
 			</div>
 		</div>
 		<section class="section section_cash">
