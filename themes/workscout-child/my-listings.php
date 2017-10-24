@@ -16,7 +16,7 @@ get_sidebar();?>
             <div class="section_wrap_titles">
                 <div class="section__titles">
                     <a class="button button__title" href="#">My Listings</a>
-                    <a class="button button__title active" href="#">New Pitches<span class="button__badge">2</span></a>
+                    <a class="button button__title active" href="#">New Pitches<span class="button__badge"><?php echo get_total_count_applications();?></span></a>
                 </div>
             </div>
         </section>
