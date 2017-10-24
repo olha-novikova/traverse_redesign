@@ -66,7 +66,7 @@ class WP_Job_Manager_Simple_Paid_Listings extends WPJM_Updater {
 	 * @return float
 	 */
 	public static function get_job_listing_cost() {
-		return apply_filters( 'wp_job_manager_spl_get_job_listing_cost', number_format( get_option( 'job_manager_spl_listing_cost', 0 ), 2, '.', '' ) );
+		return apply_filters( 'wp_job_manager_spl_get_job_listing_cost', @number_format( get_option( 'job_manager_spl_listing_cost', 0 ), 2, '.', '' ) );
 	}
 
 	/**

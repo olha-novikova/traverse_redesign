@@ -2378,4 +2378,6 @@ add_action('wp_ajax_custom_redirect_newhomepage', 'custom_redirect_newhomepage')
 add_action('wp_ajax_nopriv_custom_redirect_newhomepage', 'custom_redirect_newhomepage');
 
 
-?>
+/*------------------------------------   Dashboard Init -----------------------------------------------*/
+
+require_once 'inc/dashboard-init.php';
