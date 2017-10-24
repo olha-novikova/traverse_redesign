@@ -312,18 +312,19 @@ if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); 
 				</div>
 				<div class="cash-out">
 					<p class="cash-out__header">Cash Out</p>
-					<form class="form form_cash">
+					<form action="send_payment_request" class="form form_cash">
 						<div class="inputs">
 							<div class="input__block">
 								<input id="first" type="text" class="form__input"/>
 								<label for="first" class="form__input__label">How much would you like to cash out?</label>
 							</div>
 							<div class="input__block">
-								<input id="second" type="text" class="form__input"/>
+								<input id="second" type="text" class="form__input" type="email"/>
 								<label for="second" class="form__input__label">Where should we send it?</label>
 							</div>
 						</div>
-						<div class="buttons"><a href="#" class="button button_grey">View Payment History</a>
+						<div class="buttons">
+              <a href="/my-balance" class="button button_grey">View Payment History</a>
 							<button type="submit" class="button button_orange">Cash Me Out</button>
 						</div>
 					</form>
