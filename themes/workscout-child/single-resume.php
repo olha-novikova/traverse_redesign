@@ -13,7 +13,7 @@ get_sidebar();
 while ( have_posts() ) : the_post();
 ?>
 	<main class="main">
-<?php get_template_part('template-parts/single-influencer-header')?>
+    <?php get_template_part('template-parts/single-influencer-header')?>
 		<div class="content">
 			<section class="section section_overview">
 				<div class="section__container">
@@ -72,7 +72,6 @@ while ( have_posts() ) : the_post();
                 if ( $insta_link = get_post_meta( $post->ID, '_instagram_link', true ) ) {
 	                $instagram_followers_count = get_instagram_followers_count( $insta_link );
 
-
 	                if ( $instagram_followers_count > 0 ) {
 		                echo '
                     <p class="section__block__text section__block__text_media">
@@ -87,7 +86,7 @@ while ( have_posts() ) : the_post();
 	                if ( $twitter_followers_count > 0 ) {
 		                echo '
                     <p class="section__block__text section__block__text_media">
-                    <i class="fa fa-youtube"></i>' . $twitter_followers_count . ' subscribers
+                    <i class="fa fa-twitter-square"></i>' . $twitter_followers_count . ' subscribers
                      </p>';
 	                }
                 }
@@ -101,6 +100,16 @@ while ( have_posts() ) : the_post();
                     <i class="fa fa-youtube"></i>'.$youtube_subscriber_count.' subscribers
                      </p>';
                 }
+                }
+
+                if ( $facebook_subscriber_count = get_post_meta( $post->ID, 'fb_subscribers_count', true ) ) {
+
+                    if ( $facebook_subscriber_count > 0 ) {
+                        echo '
+                    <p class="section__block__text section__block__text_media">
+                    <i class="fa facebook-square"></i>'.$facebook_subscriber_count.' subscribers
+                     </p>';
+                    }
                 }
 
                 $website = get_post_meta( $post->ID, '_influencer_website', true );
@@ -139,6 +148,7 @@ get_footer('new');
 ?>
 
 <script>
+
     jQuery( document ).ready(function() {
         var photos =<?php echo json_encode($photo_samples );?>;
         console.log(photos);

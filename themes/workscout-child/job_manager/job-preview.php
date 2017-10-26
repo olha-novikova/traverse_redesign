@@ -16,9 +16,19 @@
                     <span class="company-name"><?php echo get_the_company_name($form->get_job_id()); ?></span> campaign <span class="company-campaign"> estimate</span>
                 </p>
                 <div class="list__options">
-                    <input type="button" class="button button_orange" value="<?php _e( 'Option 1', 'wp-job-manager' ); ?>" />
-                    <input type="button" class="button button_orange" value="<?php _e( 'Option 2', 'wp-job-manager' ); ?>" />
-                    <input type="button" class="button button_orange" value="<?php _e( 'Option 3', 'wp-job-manager' ); ?>" />
+                    <?php
+                    $budget = get_post_meta( $form->get_job_id(), '_targeted_budget', true);
+                    $possible_products = array('pro_inf', 'growth_inf', 'micro_inf');
+
+                    foreach( $possible_products as $possible_product){
+                        $product_id = wc_get_product_id_by_sku( $possible_product );
+                        $product = new WC_Product( $product_id );
+                        $price = $product -> get_price();
+                        ?>
+                        <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                    <?php
+                    }
+                    ?>
                 </div>
                 <p class="list__description">
                     Lorem ipsum dolor sit amet, at eam virtute corpora assueverit.
@@ -36,7 +46,7 @@
                 );
 
                 $resumes = get_resumes( apply_filters( 'resume_manager_get_resumes_args', $args ) );
-                $count = count( $resumes );
+                $count =  $resumes -> post_count;
                 ?>
                 <p class="list__number"><span>Number of influencers: </span> <span> <?php echo $count?></span></p>
                 <p>
@@ -53,37 +63,27 @@
                             <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
 
                                 <?php get_template_part('template-parts/content', 'influencer')?>
-
                                 <?php
-                                if ( !($audience = get_post_meta($resumes->ID, '_audience', true)) ){
-                                    $audience    += get_post_meta($resumes->ID, '_audience', true);
-                                    $audience    += get_post_meta($resumes->ID, '_audience', true);
-                                    $audience    += get_post_meta($resumes->ID, '_audience', true);
-                                    $audience    += get_post_meta($resumes->ID, '_audience', true);
-                                    $audience    += get_post_meta($resumes->ID, '_audience', true);
-                                }
-
-                                if ( $audience ) $possible_reach += $audience;
+                                $resume_id = get_the_ID();
+                                $possible_reach += get_influencer_audience($resume_id);
                                 ?>
 
-                            <?php endwhile; ?>
+                            <?php endwhile; wp_reset_postdata();?>
 
                         <?php endif; ?>
                     </div>
                 </div>
             </section>
             <div class="listing__wrapper">
-                <p class="list__number"><span>Possible Reach: </span><span>Possible Reach: </span></p>
-                <p>
-                    Average   audience   size   of   all   influencers   in   the   category selected   by   the   brand.
-                </p>
-                <p class="list__number"><span>Estimated Engagement: </span><span>Possible Reach: </span></p>
-                <p>
-                    Lorem ipsum dolor sit amet, at eam virtute corpora assueverit.
-                    Eam ne mutat regione eruditi, nulla persecuti adolescens sed no, ferri neglegentur cum an. In vix facer accumsan interesset.
-                </p>
+                <p class="list__number"><span>Possible Reach: </span><span><?php echo $possible_reach; ?></span></p>
+                <p>Average   audience   size   of   all   influencers   in   the   category selected   by   the   brand.</p>
+                <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
+                <p>Average   possible   reach</p>
             </div>
             <div class="buttons">
+                <input type="hidden" name="job_id" value="<?php echo esc_attr( $form->get_job_id() ); ?>" />
+                <input type="hidden" name="prod_id" class="prod_id"/>
+                <input type="hidden" name="prod_count" class="prod_count"/>
                 <input type="hidden" name="job_id" value="<?php echo esc_attr( $form->get_job_id() ); ?>" />
                 <input type="hidden" name="step" value="<?php echo esc_attr( $form->get_step() ); ?>" />
                 <input type="hidden" name="job_manager_form" value="<?php echo $form->get_form_name(); ?>" />
@@ -93,6 +93,20 @@
             </div>
         </form>
     </section>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('.add_prod_to_job').click(function(){
+
+                var $this = $(this);
+                jQuery('.add_prod_to_job').removeClass('active');
+                $this.addClass('active');
+                var prodId = $this.data('prod_id');
+                var prodCount = $this.data('prod_count');
+                jQuery('.prod_id').val(prodId);
+                jQuery('.prod_count').val(prodCount);
+           });
+        })
+    </script>
 </div>  <?php /*echo "<pre>";
                 print_r(get_post_meta($form->get_job_id()));
                 print_r(get_the_terms($form->get_job_id(), 'job_listing_type'));

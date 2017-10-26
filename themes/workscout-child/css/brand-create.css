@@ -813,3 +813,6 @@ form .button_search:before {
     padding-left: 2.34vw;
     padding-right: 2.34vw;
 }
+.add_prod_to_job.active{
+    background: #916bdf;
+}

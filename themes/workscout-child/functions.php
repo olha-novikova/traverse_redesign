@@ -1144,85 +1144,15 @@ add_action('wp_logout','wpc_auto_redirect_after_logout');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//add_action( 'job_manager_update_job_data', 'update_employer_woocommerce_fields', 100, 2 );
+add_action( 'job_manager_update_job_data', 'update_employer_woocommerce_fields', 100, 2 );
 
 function update_employer_woocommerce_fields( $job_id, $values ){
     $user_id = get_current_user_id();
     $user = get_userdata( $user_id );
 
-    $my_input_id = isset( $_POST['job_category'] ) ? intval( $_POST['job_category'] ) : false;
-    $my_input_name = isset( $_POST['job_category_name'] ) ? sanitize_text_field( $_POST['job_category_name'] ) : false;
     $job_company_name = isset( $_POST['job_company_name'] ) ? sanitize_text_field( $_POST['job_company_name'] ) : false;
 
-    if (term_exists( $my_input_id, 'job_listing_category' )){
-        wp_set_object_terms( $job_id, $my_input_id, 'job_listing_category' );
-    }else{
-        wp_set_object_terms( $job_id, $my_input_name, 'job_listing_category' );
-    }
-
-    if( $my_input_name ) update_post_meta( $job_id, '_job_category', $my_input_name );
-
     if( $job_company_name ) update_post_meta( $job_id, '_company_name', $job_company_name );
-
-    /* add new job listings if user check "Would you like to add another influencer to this campaign?" */
-
-    if ( (isset( $_POST['add_influencer'] ) &&  $_POST['add_influencer'] == 'yes') && (isset( $_POST['num_influencers'] ) &&  intval($_POST['num_influencers']) ) ){
-
-        update_post_meta($job_id, '_multiply_job_post', intval($_POST['num_influencers']));
-
-    }
-
-    if ( (isset( $_POST['add_influencer'] ) &&  $_POST['add_influencer'] == 'yes') && (isset( $_POST['num_influencers'] ) &&  intval($_POST['num_influencers']) )){
-
-        $num_new_job_listings = intval($_POST['num_influencers']);
-
-        if ( !$num_new_job_listings ) return;
-
-        $current_listing = get_post( $job_id );
-
-        if (isset( $current_listing ) && $current_listing != null){
-
-            for( $i = 1; $i <= $num_new_job_listings; $i++ ){
-
-                $args = array(
-                    'comment_status' => $current_listing->comment_status,
-                    'ping_status'    => $current_listing->ping_status,
-                    'post_author'    => $current_listing->post_author,
-                    'post_content'   => $current_listing->post_content,
-                    'post_excerpt'   => $current_listing->post_excerpt,
-                    'post_name'      => $current_listing->post_name,
-                    'post_parent'    => $current_listing->post_parent,
-                    'post_password'  => $current_listing->post_password,
-                    'post_status'    => $current_listing->post_status,
-                    'post_title'     => $current_listing->post_title,
-                    'post_type'      => $current_listing->post_type,
-                    'to_ping'        => $current_listing->to_ping,
-                    'menu_order'     => $current_listing->menu_order
-                );
-
-                $new_job_listing = wp_insert_post( $args );
-
-                $data_meta = get_post_custom( $job_id );
-
-                foreach ( $data_meta as $key => $values) {
-                    foreach ($values as $value) {
-                        add_post_meta( $new_job_listing, $key, $value );
-                    }
-                }
-                delete_post_meta( $new_job_listing, '_multiply_job_post');
-                update_post_meta( $new_job_listing, '_source_job', $job_id );
-
-                $job_categories = wp_get_object_terms( $job_id, 'job_listing_category');
-
-                foreach( $job_categories as $job_category ){
-                    wp_set_object_terms( $new_job_listing, $job_category->term_id, 'job_listing_category' );
-
-                }
-            }
-
-        }
-
-    }
 
 }
 
