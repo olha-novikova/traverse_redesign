@@ -1,5 +1,7 @@
+
 <?php
 
+$photo_samples = array_shift(get_post_meta( $post->ID, '_photo_sample'));
 
 get_header('new');
 
@@ -62,37 +64,61 @@ while ( have_posts() ) : the_post();
 	                </p>';
                 endif;
 
-                if ( $insta_link = get_post_meta( $post->ID, '_instagram_link', true ) ){
-                $instagram_followers_count = get_instagram_followers_count($insta_link);
+                if ( $insta_link = get_post_meta( $post->ID, '_instagram_link', true ) ) {
+	                $instagram_followers_count = get_instagram_followers_count( $insta_link );
 
-                var_dump($insta_link);
 
-                if ( $instagram_followers_count >0 )
-                echo '
+	                if ( $instagram_followers_count > 0 ) {
+		                echo '
                     <p class="section__block__text section__block__text_media">
                     <i class="fa fa-instagram"></i>' . $instagram_followers_count . ' followers
                      </p>';
+	                }
                 }
 
+                if ( $twitter = get_post_meta( $post->ID, '_twitter_link', true ) ) {
+	                $twitter_followers_count = get_twitter_followers_count( $twitter );
+
+	                if ( $twitter_followers_count > 0 ) {
+		                echo '
+                    <p class="section__block__text section__block__text_media">
+                    <i class="fa fa-youtube"></i>' . $twitter_followers_count . ' subscribers
+                     </p>';
+	                }
+                }
+
+                if ( $youtube = get_post_meta( $post->ID, '_youtube_link', true ) ) {
+	                $youtube_subscriber_count = get_youtube_subscriber_count($youtube);
+
+	                if ( $youtube_subscriber_count > 0 ) {
+		                echo '
+                    <p class="section__block__text section__block__text_media">
+                    <i class="fa fa-youtube"></i>'.$youtube_subscriber_count.' subscribers
+                     </p>';
+                }
+                }
+
+                $website = get_post_meta( $post->ID, '_influencer_website', true );
+                $monthly_visitors = get_post_meta( $post->ID, '_estimated_monthly_visitors', true );
+
+                if ( $website && $monthly_visitors > 0 ) {
+		                echo '
+                    <p class="section__block__text section__block__text_media">
+                    <i class="fa fa-users"></i>'.$monthly_visitors.' monthly visitors on '. $website. '
+                     </p>';
+                }
+
+                $jrrny_link = get_post_meta( $post->ID, '_jrrny_link', true );
+                $jrrny_followers = get_user_followers_count($jrrny_link);
+
+                if ( $jrrny_followers > 0)  echo '<p class="section__block__text section__block__text_media"><i class="fa fa-jrrny"></i>'.$jrrny_followers.' followers on '.$jrrny_link.'</p>';
+
                 ?>
-								<p class="section__block__text section__block__text_media">
-                  <i class="fa fa-instagram" aria-hidden="true"></i> 526,890
-                </p>
-								<p class="section__block__text section__block__text_media">
-                  126,890
-                </p>
 							</div>
 							<div class="section__block section__block_photo">
 								<p class="section__block__header">Photo Samples</p>
-								<div class="photos">
-									<div class="photo"><img src="#" alt="" class="photo__image"/></div>
-									<div class="photo"><img src="#" alt="" class="photo__image"/></div>
-									<div class="photo"><img src="#" alt="" class="photo__image"/></div>
-									<div class="photo"><img src="#" alt="" class="photo__image"/></div>
-									<div class="photo"><img src="#" alt="" class="photo__image"/>
-										<div class="photo__more__background">
-											<p class="photo__more__text">+24</p>
-										</div>
+								<div id="photos" class="photos">
+
 									</div>
 								</div>
 							</div>
@@ -106,3 +132,13 @@ while ( have_posts() ) : the_post();
 	endwhile; // End of the loop.
 get_footer('new');
 ?>
+
+<script>
+    var photos =<?php echo json_encode($photo_samples );?>;
+    console.log(photos);
+    jQuery('#photos').imagesGrid({
+        images: photos
+    });
+
+</script>
+
