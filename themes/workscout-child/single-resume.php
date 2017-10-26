@@ -3,6 +3,10 @@
 
 $photo_samples = array_shift(get_post_meta( $post->ID, '_photo_sample'));
 
+$videos = array_shift(get_post_meta( $post->ID, '_video_sample_embed'));
+
+preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $videos, $video);
+
 get_header('new');
 
 get_sidebar();
@@ -39,7 +43,8 @@ while ( have_posts() ) : the_post();
 								<div class="video">
 									<div class="video__thumbnail">
 										<div class="wrapper_youtube">
-											<div data-embed="gLb7JhO4ikg" class="youtube">
+
+											<div data-embed="<?= $video[0] ?>" class="youtube">
 												<div class="play-button video__play-button"></div>
 											</div>
 										</div>
@@ -134,10 +139,12 @@ get_footer('new');
 ?>
 
 <script>
-    var photos =<?php echo json_encode($photo_samples );?>;
-    console.log(photos);
-    jQuery('#photos').imagesGrid({
-        images: photos
+    jQuery( document ).ready(function() {
+        var photos =<?php echo json_encode($photo_samples );?>;
+        console.log(photos);
+        jQuery('#photos').imagesGrid({
+            images: photos
+        });
     });
 
 </script>
