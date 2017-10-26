@@ -46,7 +46,7 @@ ul {
 }
 
 body {
-    background-color: #edf2f6
+    background-color: #edf2f6!important;
 }
 
 .clearfix:after {

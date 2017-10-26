@@ -9,7 +9,7 @@ if ( ! empty( $field['ajax'] ) ) {
 	$classes[] = 'wp-job-manager-file-upload';
 ?>
 
-<label class="fake-upload-btn">
+<label class="fake-upload-btn 9999">
 	<div class="job-manager-uploaded-files">
 		<?php if ( ! empty( $field['value'] ) ) : ?>
 			<?php if ( is_array( $field['value'] ) ) : ?>
@@ -27,7 +27,7 @@ if ( ! empty( $field['ajax'] ) ) {
 
 <?php } else { ?>
 
-<label class="fake-upload-btn no_ajax">
+<label class="fake-upload-btn no_ajax 8888">
 	<div class="job-manager-uploaded-files">
 		<?php if ( ! empty( $field['value'] ) ) : ?>
 			<?php if ( is_array( $field['value'] ) ) : ?>
