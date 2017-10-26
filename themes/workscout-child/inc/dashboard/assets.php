@@ -11,6 +11,11 @@ function dashboard_enqueue_styles() {
 		wp_enqueue_style( 'influencer-dashboard-style', get_stylesheet_directory_uri() . '/css/dashboard/influencer-dashboard.css', array() );
 	}
 
+	if (is_singular('resume')) {
+		wp_enqueue_style( 'influencer-single-style', get_stylesheet_directory_uri() . '/css/dashboard/influencer-about.css', array() );
+		wp_enqueue_style( 'workscout-font-awesome');
+	}
+
 }
 
 function dashboard_child_scripts(){

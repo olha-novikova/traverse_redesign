@@ -25,6 +25,7 @@ get_sidebar();?>
 	<div class="content">
 		<?php get_template_part('template-parts/recent-opportunities')?>
 	</div>
+  </main>
 <?php
 get_footer('new');
 ?>

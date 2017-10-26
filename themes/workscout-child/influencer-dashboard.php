@@ -65,6 +65,7 @@ get_sidebar();?>
 			</div>
 		</section>
 	</div>
+  </main>
 <?php
 get_footer('new');
 ?>
