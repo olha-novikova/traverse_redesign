@@ -172,7 +172,7 @@ function get_influencers(){
 
     <?php endif;
 
-    $result['html']    = ob_get_clean();
+    $result['html'] = ob_get_clean();
 
     // Generate pagination
     if ( isset( $_POST['show_pagination'] ) && $_POST['show_pagination'] === 'true' ) {
