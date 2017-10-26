@@ -72,8 +72,7 @@
 						<div class="table__data">
 							<div class="table__influencers">
 								<?php foreach($applications as $application) : ?>
-									<?php $avatar = get_job_application_avatar($application->ID); ?>
-
+									<?php $avatar = get_job_application_avatar($application->ID);  ?>
 									<div class="table__influencer">
 										<?= $avatar ?>
 									</div>
