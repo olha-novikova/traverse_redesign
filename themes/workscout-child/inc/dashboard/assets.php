@@ -27,7 +27,7 @@ function dashboard_child_scripts(){
 	wp_enqueue_script( 'dashboard-ajax', get_stylesheet_directory_uri() . '/js/influencer-ajax.js', array('jquery'), '20150705', true );
 
 	if (is_singular('resume')) {
-		wp_enqueue_script( 'influencer-single-grid-js', get_stylesheet_directory_uri() . '/js/images-grid.js', array('jquery'), '', false);
+		wp_enqueue_script( 'influencer-single-grid-js', get_stylesheet_directory_uri() . '/js/images-grid.js', array('jquery'), '', true);
 	}
 
 }

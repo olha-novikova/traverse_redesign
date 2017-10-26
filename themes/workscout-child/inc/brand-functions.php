@@ -279,7 +279,7 @@ function get_applications( ) {
 function get_last_application( $job_id = null  ) {
     if ( !$job_id ) return;
 
-        $job = get_post( $job_id );
+    $job = get_post( $job_id );
 
     if ( !$job ) return;
 
@@ -303,4 +303,44 @@ function get_last_application( $job_id = null  ) {
     $application = array_shift($applications);
 
     return $application;
+}
+
+
+function get_influencer_audience( $resume_id = null){
+    if ( !$resume_id ) return;
+
+    $resume = get_post( $resume_id );
+
+    if ( !$resume || $resume->post_type != "resume" ) return;
+
+    $audience = 0;
+
+    if ( !($audience = get_post_meta($resume_id, '_audience', true)) ){
+        $insta_link     = get_post_meta( $resume_id, '_instagram_link', true );
+        $youtube        = get_post_meta( $resume_id, '_youtube_link', true );
+        $newsletter     = intval( str_replace(array('.', ','), '' ,get_post_meta( $resume_id, '_newsletter', true )) );
+        $newsletter_total = intval(get_post_meta( $resume_id, '_newsletter_total', true ));
+        $twitter        = get_post_meta( $resume_id, '"_twitter_link', true );
+        $website        = get_post_meta( $resume_id, '_influencer_website', true );
+        $monthly_visitors = intval( str_replace(array('.', ','), '' ,get_post_meta( $resume_id, '_estimated_monthly_visitors', true )) );
+        $jrrny_link = get_post_meta( $resume_id, '_jrrny_link', true );
+        $jrrny_followers = get_user_followers_count($jrrny_link);
+
+
+        if ( $youtube )
+            $audience    += get_youtube_subscriber_count( $youtube );
+        if ( $insta_link )
+            $audience    += get_instagram_followers_count( $insta_link );
+        if ( $newsletter == 'yes' && $newsletter_total > 0 )
+            $audience    += $newsletter_total;
+        if ( $twitter )
+            $audience    += get_twitter_followers_count( $twitter );
+        if ( $website && $monthly_visitors > 0 )
+            $audience    += $monthly_visitors;
+        if ( $jrrny_followers > 0)
+            $audience    +=$jrrny_followers;
+    }
+
+    return $audience;
+
 }

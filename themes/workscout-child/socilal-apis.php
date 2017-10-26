@@ -389,3 +389,97 @@ function aj_get_fb_users_count(){
     }
     wp_die();
 }
+
+
+function get_fb_users_count( $user_id ){
+
+    if ( !$user_id )  return false;
+
+    $url = esc_url_raw( $_POST['link'] );
+
+    $fb = new \Facebook\Facebook([
+        'app_id' => '1886251131695070',
+        'app_secret' => 'ce6870de776471f567948f762c9be157',
+        'default_graph_version' => 'v2.10',
+    ]);
+
+    $helper = $fb->getJavaScriptHelper();
+    $error = '';
+
+    try {
+        $accessToken = $helper->getAccessToken();
+    } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        $error .= 'Graph returned an error: ' ;
+    } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
+    }
+
+    if ( $accessToken) {
+        try {
+            $response_id = $fb->get('/'.$url, $accessToken);
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            $error .= 'Graph returned an error: ' . $e->getMessage();
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            $error .= 'Facebook SDK returned an error: ' . $e->getMessage() ;
+        }
+
+        if ( $response_id -> isError() ) {
+            $e = $response_id ->getThrownException();
+            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+        } else {
+            $body = $response_id -> getDecodedBody();
+            $id = $body['id'];
+
+            try {
+                $response = $fb->get('/'.$id.'?metadata=1', $accessToken);
+            } catch(Facebook\Exceptions\FacebookResponseException $e) {
+                $error .= 'Graph returned an error: ' . $e->getMessage();
+            } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
+            }
+
+            if ( $response-> isError() ) {
+                $e = $response_id ->getThrownException();
+                $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+            } else {
+                $body = $response -> getDecodedBody();
+                $type = $body['metadata']['type'];
+
+                switch ( $type ) {
+                    case 'page':
+                        $response_users = $fb->get('/'.$id.'?fields=fan_count', $accessToken);
+
+                        if ( $response_users -> isError() ) {
+                            $e = $response_id ->getThrownException();
+                            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+                        } else {
+                            $body = $response_users -> getDecodedBody();
+                            $count = $body['fan_count'];
+                        }
+                        break;
+
+                    case 'user':
+                        $response_users = $fb->get('/'.$id.'/friends', $accessToken);
+
+                        if ( $response_users -> isError() ) {
+                            $e = $response_id ->getThrownException();
+                            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+                            exit;
+                        } else {
+                            $body = $response_users -> getDecodedBody();
+                            $count = $body['summary']['total_count'];
+                        }
+                        break;
+                }
+
+                if ( $error == '' && isset($count) ){
+                    update_user_meta( $user_id, 'fb_subscribers_count',$count );
+                    return $count ;
+                }else
+                    return false;
+            }
+        }
+    }
+    return false;
+
+}

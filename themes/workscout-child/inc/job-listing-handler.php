@@ -74,21 +74,6 @@ function preview_handler_pending() {
 
             wp_update_post( $update_job );
 
-            $product_id = 1709;
-            $found = false;
-
-            if ( sizeof( WC()->cart->get_cart() ) > 0 ) {
-                foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {
-                    $_product = $values['data'];
-                    if ( $_product->id == $product_id )
-                        $found = true;
-                }
-                if ( ! $found )
-                    WC()->cart->add_to_cart( $product_id );
-            } else {
-                WC()->cart->add_to_cart( $product_id );
-            }
-
         }
 
         $form->next_step();
@@ -160,6 +145,26 @@ function so_payment_complete( $order_id ){
 }
 
 function done_publish_job( $job_id ) {
+    $job = get_post( $job_id  );
+
+    if ( $job->post_status == 'pending_payment' ) {
+
+        $budget = get_post_meta($job->ID, '_targeted_budget', true);
+
+        WC()->cart->empty_cart();
+
+        $product_id = $_POST['prod_id'];
+        $prod_count = $_POST['prod_count'];
+
+        $product = new WC_Product( $product_id );
+
+        if ( $product ){
+            $price = $product -> get_price();
+           // if ($price*$prod_count <=  $budget)
+            WC()->cart->add_to_cart( $product_id,  $prod_count );
+        }
+    }
+
     wp_redirect( get_permalink( wc_get_page_id( 'checkout' ) ) );
 }
 
