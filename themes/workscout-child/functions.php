@@ -1144,7 +1144,7 @@ add_action('wp_logout','wpc_auto_redirect_after_logout');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-add_action( 'job_manager_update_job_data', 'update_employer_woocommerce_fields', 100, 2 );
+//add_action( 'job_manager_update_job_data', 'update_employer_woocommerce_fields', 100, 2 );
 
 function update_employer_woocommerce_fields( $job_id, $values ){
     $user_id = get_current_user_id();
@@ -2158,7 +2158,7 @@ function custom_load_stylesheets(){
         elseif (is_page_template('browse-influencers.php') ){
             wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
             wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
-        } elseif (is_product_category() || is_page('prelisting')){
+        } elseif ( is_page('create-lising')){
             wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
             wp_enqueue_style('brand-create', get_stylesheet_directory_uri().'/css/brand-create.css');
         } elseif (is_singular('job_listing')){
@@ -2379,5 +2379,5 @@ add_action('wp_ajax_nopriv_custom_redirect_newhomepage', 'custom_redirect_newhom
 
 
 /*------------------------------------   Dashboard Init -----------------------------------------------*/
-
+include_once get_stylesheet_directory() . '/inc/term-walker.php';
 require_once 'inc/dashboard-init.php';
