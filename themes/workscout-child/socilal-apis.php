@@ -117,15 +117,15 @@ function aj_get_youtube_subscriber_count( ){
 
     $url = esc_url_raw($_POST['link']);
 
-  //  if ( ! is_youtube($url)) wp_send_json_error( array('error'=> 'Not valid YouTube url') );
+    //  if ( ! is_youtube($url)) wp_send_json_error( array('error'=> 'Not valid YouTube url') );
 
-   // if ( !is_youtube_channel($url) && !is_youtube_user($url) && !is_confirmed_user($url))  wp_send_json_error( array('error'=> 'YouTube url should be a channel or user link') );
+    // if ( !is_youtube_channel($url) && !is_youtube_user($url) && !is_confirmed_user($url))  wp_send_json_error( array('error'=> 'YouTube url should be a channel or user link') );
 
     $count = get_youtube_subscriber_count( $url );
 
-  //  if ( !$count ) wp_send_json_error( array('error'=> 'Can\'t get number of subscribers. You must use a proper channel or user link'));
+    //  if ( !$count ) wp_send_json_error( array('error'=> 'Can\'t get number of subscribers. You must use a proper channel or user link'));
 
-   // else
+    // else
     wp_send_json_success(array('count'=>$count));
 
 }
@@ -136,8 +136,7 @@ add_action('wp_ajax_nopriv_aj_get_youtube_subscriber_count', 'aj_get_youtube_sub
 
 /*                    INSTAGRAM                             */
 
-define(INSTAGRAM_ACCESS_TOKEN, '1904189395.1c6b931.067e058dbf044b4096a461f283b1cccb'); //sandbox_mode
-//define(INSTAGRAM_ACCESS_TOKEN, '2981334071.574a052.30a3d37b066049e08523f33a58c8755d');
+
 function is_instagram( $url ){
 
     $regex = "/(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am)\/([A-Za-z0-9-_\.]+)/im";
@@ -163,24 +162,6 @@ function get_instagram_username( $url ){
 
 }
 
-function get_instagram_user_id( $url = null ){
-
-    if ( !$url ) return false;
-
-    if ( !is_instagram( $url )) return false;
-
-    if ( !$name  = get_instagram_username( $url ) ) return false;
-
-    $data = wp_remote_get( 'https://api.instagram.com/v1/users/search?q='.$name.'&count=1&access_token='.INSTAGRAM_ACCESS_TOKEN );
-
-    if ( is_array($data) && $data['response']['code'] !== 404 ) {
-
-        $api_response = json_decode($data['body'], true);
-
-        return $api_response['data'][0]['id'];
-
-    }
-}
 
 function get_instagram_followers_count( $url = null ){
 
@@ -188,15 +169,24 @@ function get_instagram_followers_count( $url = null ){
 
     if ( !is_instagram( $url )) return false;
 
-    if ( !$user_id = get_instagram_user_id( $url )) return false;
+    if ( !($user_name = get_instagram_username($url)) )  return false;
 
-    $data = wp_remote_get( 'https://api.instagram.com/v1/users/'.$user_id.'/?access_token='.INSTAGRAM_ACCESS_TOKEN );
+    $response = wp_remote_get( 'https://instagram.com/'.$user_name );
 
-    if ( is_array($data) && $data['response']['code'] !== 404 ) {
+    if ( is_array($response) && $response['response']['code'] !== 404 ) {
 
-        $api_response = json_decode($data['body'], true);
+        $api_response = $response['body'];
 
-        return $api_response['data']['counts']['follows'];
+        $arr = explode('window._sharedData = ', $api_response);
+
+        $json = explode(';</script>', $arr[1]);
+
+        $userArray = json_decode($json[0], true);
+
+        $userData = $userArray['entry_data']['ProfilePage'][0]['user'];
+
+        return $userData['followed_by']['count']; // или вот так
+
     }
 }
 
@@ -205,17 +195,15 @@ function aj_get_instagram_followers_count( ){
 
     $url = esc_url_raw($_POST['insta_link']);
 
-    if ( !is_instagram($url)) wp_send_json_error( array('error'=> 'Not valid Instagram url') );
+    if ( !is_instagram($url) ) wp_send_json_error( array('error'=> 'Not valid Instagram url') );
 
-    if ( !get_instagram_username($url) )  wp_send_json_error( array('error'=> 'Instagram url should be a user link') );
-
-    $user_id = get_instagram_user_id( $url );
+    if ( !($user_name = get_instagram_username($url)) )  wp_send_json_error( array('error'=> 'Instagram url should be a user link') );
 
     $count = get_instagram_followers_count( $url );
 
-   // if ( !$count ) wp_send_json_error( array('error'=> 'Can\'t get number of subscribers. Please check URL. You must use a proper user link.'));
+    // if ( !$count ) wp_send_json_error( array('error'=> 'Can\'t get number of subscribers. Please check URL. You must use a proper user link.'));
 
-   // else
+    // else
 
     if ( $count ) wp_send_json_success( array( 'count' => $count ) );
 
@@ -302,3 +290,102 @@ function aj_get_twitter_followers_count( ){
 
 add_action('wp_ajax_aj_get_twitter_followers_count', 'aj_get_twitter_followers_count');
 add_action('wp_ajax_nopriv_aj_get_twitter_followers_count', 'aj_get_twitter_followers_count');
+
+/*               FaceBook                   */
+
+require_once __DIR__ . '/inc/Facebook/autoload.php';
+
+add_action('wp_ajax_aj_get_fb_users_count', 'aj_get_fb_users_count');
+
+function aj_get_fb_users_count(){
+
+    $user_id = get_current_user_id();
+
+    if ( !$user_id )  wp_send_json_error( array('error'=> 'User not found') );
+
+    $url = esc_url_raw( $_POST['link'] );
+
+    $fb = new \Facebook\Facebook([
+        'app_id' => '1886251131695070',
+        'app_secret' => 'ce6870de776471f567948f762c9be157',
+        'default_graph_version' => 'v2.10',
+    ]);
+
+    $helper = $fb->getJavaScriptHelper();
+    $error = '';
+
+    try {
+        $accessToken = $helper->getAccessToken();
+    } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        $error .= 'Graph returned an error: ' ;
+    } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
+    }
+
+    if ( $accessToken) {
+        try {
+            $response_id = $fb->get('/'.$url, $accessToken);
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            $error .= 'Graph returned an error: ' . $e->getMessage();
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            $error .= 'Facebook SDK returned an error: ' . $e->getMessage() ;
+        }
+
+        if ( $response_id -> isError() ) {
+            $e = $response_id ->getThrownException();
+            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+        } else {
+            $body = $response_id -> getDecodedBody();
+            $id = $body['id'];
+
+            try {
+                $response = $fb->get('/'.$id.'?metadata=1', $accessToken);
+            } catch(Facebook\Exceptions\FacebookResponseException $e) {
+                $error .= 'Graph returned an error: ' . $e->getMessage();
+            } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
+            }
+
+            if ( $response-> isError() ) {
+                $e = $response_id ->getThrownException();
+                $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+            } else {
+                $body = $response -> getDecodedBody();
+                $type = $body['metadata']['type'];
+
+                switch ( $type ) {
+                    case 'page':
+                        $response_users = $fb->get('/'.$id.'?fields=fan_count', $accessToken);
+
+                        if ( $response_users -> isError() ) {
+                            $e = $response_id ->getThrownException();
+                            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+                        } else {
+                            $body = $response_users -> getDecodedBody();
+                            $count = $body['fan_count'];
+                        }
+                        break;
+
+                    case 'user':
+                        $response_users = $fb->get('/'.$id.'/friends', $accessToken);
+
+                        if ( $response_users -> isError() ) {
+                            $e = $response_id ->getThrownException();
+                            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
+                            exit;
+                        } else {
+                            $body = $response_users -> getDecodedBody();
+                            $count = $body['summary']['total_count'];
+                        }
+                        break;
+                }
+                if ( $error == '' && isset($count) ){
+                    update_user_meta( $user_id, 'fb_subscribers_count',$count );
+                    wp_send_json_success( array( 'count' => $count ) );
+                }else
+                    wp_send_json_error(array('error' => $error));
+            }
+        }
+    }
+    wp_die();
+}
