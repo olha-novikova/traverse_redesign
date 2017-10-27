@@ -34,7 +34,7 @@ $user_id = get_current_user_id();
 
             if ( in_array( 'candidate', (array) $user->roles ) /*|| in_array( 'administrator', (array) $user->roles ) */): ?>
                 <li class="profile__link"><a href="<?php echo  get_permalink( $canidate_dashboard_page_id); ?>" class="profile__link__a">Dashboard</a></li>
-                <li class="profile__link"><a href="#" class="profile__link__a">Find Opportunities</a></li>
+                <li class="profile__link"><a href="<?php echo  home_url('my-opportunities') ?>" class="profile__link__a">Find Opportunities</a></li>
                 <li class="profile__link"><a href="<?php echo home_url('/my-pitches'); ?>" class="profile__link__a">My Pitches</a></li>
                 <li class="profile__link profile__link_brand"><a href="#" class="profile__brandname">Brand Name / Agency </a></li>
                 <li class="profile__link"><a href="<?php echo  home_url('/my-balance'); ?>" class="profile__link__a">Balance/Cash Out</a></li>
