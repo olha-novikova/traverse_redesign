@@ -7,9 +7,7 @@
                 <p class="section__header section__header_listing">Create Listing</p>
                 <?php
                 $budget = get_post_meta($form->get_job_id(), '_targeted_budget', true);
-                $categories = get_the_terms($form->get_job_id(), 'job_listing_category');
-                $category = array_shift($categories);
-                $term = $category->slug;
+                $categories = wp_get_post_terms($form->get_job_id(), 'job_listing_category', array("fields" => "id=>slug"));
 
                 ?>
                 <p class="listing__view__header">
@@ -18,23 +16,39 @@
                 <div class="list__options">
                     <?php
                     $budget = get_post_meta( $form->get_job_id(), '_targeted_budget', true);
-                    $possible_products = array('pro_inf', 'growth_inf', 'micro_inf');
 
+                    $possible_products = array('pro_inf', 'growth_inf', 'micro_inf');
+                    $text = "";
                     foreach( $possible_products as $possible_product){
                         $product_id = wc_get_product_id_by_sku( $possible_product );
                         $product = new WC_Product( $product_id );
                         $price = $product -> get_price();
-                        ?>
-                        <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
-                    <?php
+
+                        if ( floor( $budget/$price ) > 0){
+                            if ( $possible_product == 'pro_inf' )       $can_pro = true;
+                            if ( $possible_product == 'growth_inf' )    $can_growth = true;
+                            if ( $possible_product == 'micro_inf' )     $can_micro = true;
+
+                            ?>
+                            <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                        <?php }
                     }
+                    if ( !$can_pro && $can_growth && $can_micro)
+                        $text = "For a chance to use a PRO influencer, please add more budget or check out how many GROW or MICRO influencers you can have." ;
+
+                    if ( !$can_pro && !$can_growth && $can_micro)
+                        $text = "For a chance to use a PRO or a GROW influencer, please add more budget or check out how many  MICRO influencers you can have." ;
+
+                    if ( !$can_pro && !$can_growth && !$can_micro){
+                        $text = "For a chance to use an influencer, please add more budget." ;?>
+                    <?php }
                     ?>
                 </div>
                 <p class="list__description">
-                    Lorem ipsum dolor sit amet, at eam virtute corpora assueverit.
-                    Eam ne mutat regione eruditi, nulla persecuti adolescens sed no, ferri neglegentur cum an. In vix facer accumsan interesset.
-                    Cum ea idque dolore quidam, natum clita vivendum per ad. Primis scaevola per eu, ne unum quaeque qui, vis oblique verterem an.
-                    Sit feugiat ancillae partiendo no, vis te facete recteque.
+                    <?php echo $text;
+                    if ( !$can_pro && !$can_growth && !$can_micro){ ?>
+                        <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
+                    <?php } ?>
                 </p>
 
                 <?php
@@ -42,7 +56,7 @@
                     'orderby'           => 'ASC',
                     'order'             => 'date',
                     'posts_per_page'    => -1,
-                    'search_categories' => array($term)
+                    'search_categories' => array_values($categories)
                 );
 
                 $resumes = get_resumes( apply_filters( 'resume_manager_get_resumes_args', $args ) );
@@ -89,7 +103,9 @@
                 <input type="hidden" name="job_manager_form" value="<?php echo $form->get_form_name(); ?>" />
 
                 <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
-                <input type="submit" name="continue" id="job_preview_submit_button" class="job-manager-button-submit-listing button button_green" value="<?php echo apply_filters( 'submit_job_step_preview_submit_text', __( 'Let\'s Build My Campaign', 'wp-job-manager' ) ); ?>" />
+                <?php if ( $can_pro || $can_growth || $can_micro) { ?>
+                    <input type="submit" name="continue" id="job_preview_submit_button" class="job-manager-button-submit-listing button button_green" value="<?php echo apply_filters( 'submit_job_step_preview_submit_text', __( 'Let\'s Build My Campaign', 'wp-job-manager' ) ); ?>" />
+                <?php } ?>
             </div>
         </form>
     </section>
@@ -104,10 +120,21 @@
                 var prodCount = $this.data('prod_count');
                 jQuery('.prod_id').val(prodId);
                 jQuery('.prod_count').val(prodCount);
-           });
+            });
+            jQuery('#job_preview').submit(function() {
+                if (jQuery.trim(jQuery(".prod_id").val()) === "" || $.trim($(".prod_count").val()) === "") {
+                    $.magnificPopup.open({
+                        items: {
+                            src:'<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
+                                '<div class="small-dialog-headline"><h2><?php esc_html_e("Warning!","workscout"); ?></h2></div>'+
+                                '<div class="small-dialog-content"><p>Please select one of options to Create you campaign</p></div>'+
+                                '</div>',
+                            type: 'inline'
+                        }
+                    });
+                    return false;
+                }
+            });
         })
     </script>
-</div>  <?php /*echo "<pre>";
-                print_r(get_post_meta($form->get_job_id()));
-                print_r(get_the_terms($form->get_job_id(), 'job_listing_type'));
-                echo "<pre>";*/ ?>
+</div>

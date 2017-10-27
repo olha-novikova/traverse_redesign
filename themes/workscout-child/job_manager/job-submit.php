@@ -33,7 +33,8 @@ global $job_manager;
                                 <div class="upload-btn button_search"></div>
                             </div>
                             <?php
-                        } else {?>
+                        } else {
+                            ?>
                             <div class="form input__block fieldset-<?php echo esc_attr( $key ); ?>">
                                 <?php  get_job_manager_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ); ?>
                                 <label class="form__input__label" for="<?php echo esc_attr( $key ); ?>"><?php echo $field['label'] . apply_filters( 'submit_job_form_required_label', $field['required'] ? '' : ' <small>' . esc_html__( '(optional)', 'workscout' ) . '</small>', $field ); ?></label>
@@ -63,4 +64,15 @@ global $job_manager;
         </form>
         </div>
     </section>
+    <script>
+        (function($){
+            $(document).ready(function () {
+                var inputs = $(".input-text");
+                $.each(inputs, function(i, val){
+                    var e = $(val).val();
+                    "" === e ? $(this).parent('div').removeClass("has-value") : $(this).parent('div').addClass("has-value")
+                });
+            });
+        })(jQuery)
+    </script>
 </div>

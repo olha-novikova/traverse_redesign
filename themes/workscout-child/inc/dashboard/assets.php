@@ -2,7 +2,10 @@
 
 add_action( 'wp_enqueue_scripts', 'dashboard_enqueue_styles' );
 function dashboard_enqueue_styles() {
-
+    remove_action( 'wp_head', array( $GLOBALS['woocommerce'], 'generator' ) );
+    wp_dequeue_style( 'woocommerce_frontend_styles' );
+    wp_dequeue_style( 'woocommerce-general');
+    wp_dequeue_style( 'woocommerce-layout' );
 
 	wp_enqueue_style( 'main-style', get_stylesheet_directory_uri() . '/css/dashboard/main.css', array() );
 	wp_enqueue_style( 'vendor-style', get_stylesheet_directory_uri() . '/css/dashboard/vendor.css', array() );
@@ -17,6 +20,39 @@ function dashboard_enqueue_styles() {
 		wp_enqueue_style( 'workscout-font-awesome');
 
 	}
+
+    if ( is_front_page() ){
+        wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/main.css');
+    }
+
+    if (is_page_template('browse-influencers.php') ){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
+    }
+    if ( is_page('create-lising')){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-create', get_stylesheet_directory_uri().'/css/brand-create.css');
+    }
+
+    if (is_singular('job_listing')){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/brand-single.css');
+    }
+
+    if( is_page('job-dashboard')){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/brand-dashboard.css');
+    }
+
+    if( is_page_template('my-listings.php')){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/brand-listing-page.css');
+    }
+
+    if ( is_checkout() ){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
+    }
 
 }
 

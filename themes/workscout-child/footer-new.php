@@ -2,8 +2,13 @@
 /**
  * Footer for new design
  */
-wp_footer();
 ?>
+
         </div> <!-- class wrapper-->
+        <footer>
+
+        </footer>
+        <div class="post-footer"></div>
+        <?php wp_footer(); ?>
     </body><!-- BODY -->
 </html><!-- HTML -->

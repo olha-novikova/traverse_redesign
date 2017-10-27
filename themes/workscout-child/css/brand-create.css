@@ -1,3 +1,6 @@
+.ui-datepicker.ui-widget.ui-widget-content{
+    z-index: 100!important;
+}
 .button_search, .dropdown-item {
     height: 3.125vw
 }
@@ -249,22 +252,46 @@
 .inputs_listing .input__block.fieldset-assets_header{
     width: 39%;
 }
-.inputs_listing .panel__search.fieldset-asset_upload,
-.inputs_listing .input__block.fieldset-job_category{
+.inputs_listing .panel__search.fieldset-asset_upload{
     width: 49%;
 }
 .inputs_listing .input__block.fieldset-job_category{
-    border: 2px solid #e8eaf0;
-    border-radius: 0.375rem;
-    height: 2.86vw;
-    margin-left: 0;
-    overflow: hidden;
-    position: relative;
+    width: 100%;
 }
-.inputs_listing .input__block.fieldset-job_category label,
+.inputs_listing .input__block.fieldset-job_category .chosen-container{
+    height: 2.86vw;
+    border: 1px solid #e8eaf0;
+    border-radius: 0.375rem;
+}
+.inputs_listing .input__block.fieldset-job_category .chosen-container:active {
+    border-color: #ff5e3a;
+}
+.inputs_listing .input__block.fieldset-job_category .chosen-container-multi .chosen-choices li.search-choice{
+    background-color: #ff5e3a;
+    border-radius: 3px;
+}
+.inputs_listing .input__block.fieldset-job_category{
+   border: none;
+    background: transparent;
+}
+
 .inputs_listing .input__block.fieldset-category_header label{
     position: static;
 }
+.inputs_listing .input__block.fieldset-job_category .chosen-container-multi .chosen-choices {
+    background-color: #fcfcfc;
+    border: none;
+    cursor: pointer;
+    display: block;
+    line-height: 2.86vw;
+    margin: 0;
+    overflow: hidden;
+    padding: 7px 18px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+}
+/*
 .inputs_listing .input__block.fieldset-job_category select {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border: medium none;
@@ -275,6 +302,7 @@
     font-size: 0.93vw;
     font-weight: 400;
     padding-left: 1.3vw;
+    max-width: none;
 }
 .inputs_listing .input__block.fieldset-job_category::after {
     height: 1.25vw;
@@ -301,7 +329,7 @@
     padding-bottom: 1vw;
     padding-top: 1vw;
     padding-left: 1.3vw;
-}
+}*/
 .inputs_listing .input__block.fieldset-assets_available{
     width: 10%;
 }
@@ -457,12 +485,14 @@
     width: 100%;
     z-index: 2;
 }
+
 .input-text:focus {
     border-color: #ff5e3a;
 }
-.input-text.has-value + .form__input__label, .input-text:focus + .form__input__label {
+
+.input__block.has-value .form__input__label, .input-text:focus + .form__input__label {
     font-size: 0.52vw;
-    transform: translateY(0.3125vw);
+    transform: translateY(-5px);
 }
 
 .input__block textarea.input-text {
@@ -515,7 +545,8 @@ form .panel__search__input__label {
 form .button_search {
     border: none;
     border-left: 1px solid #e8eaf0;
-    width: 3.125vw
+    width: 3.125vw;
+    margin-right: 0;
 }
 
 form .button_search:before {
@@ -601,7 +632,7 @@ form .button_search:before {
 }
 
 .form_listing .buttons .button {
-    width: 39.3vw;
+    width: 30.3vw;
     font-size: 1.04vw
 }
 .listing__view__header {
@@ -812,7 +843,9 @@ form .button_search:before {
 .listing__wrapper{
     padding-left: 2.34vw;
     padding-right: 2.34vw;
+    margin-bottom: 3vw;
 }
+.section__container
 .add_prod_to_job.active{
     background: #916bdf;
 }

@@ -280,7 +280,6 @@ button::-moz-focus-inner {
 }
 
 .main {
-    height: 2000px;
     width: 100%
 }
 
@@ -1619,4 +1618,14 @@ img.mfp-img {
     min-width: 100%;
 }
 
-
+footer{
+    padding: 7vw 0;
+    background: #ff5e3a;
+    width: 100%;
+}
+.post-footer{
+    width: 100%;
+    background: transparent;
+    padding: 1vw 0;
+    color: #808080;
+}

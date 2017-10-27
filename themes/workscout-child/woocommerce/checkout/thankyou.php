@@ -44,11 +44,11 @@ if ( $order ) : ?>
             $resume_page = get_option('resume_manager_resumes_page_id');
 
             if (!empty($employer_dashboard_page_id)) {?>
-                <a class="button" href="<?php echo get_permalink($employer_dashboard_page_id); ?>" >My Listings</a>
+                <a class="button button_grey" href="<?php echo get_permalink($employer_dashboard_page_id); ?>" >My Listings</a>
             <?php }
 
             if (!empty($resume_page)) {?>
-                <a class = "button" href="<?php echo get_permalink($resume_page); ?>" >Browse Influencers</a>
+                <a class = "button button_orange" href="<?php echo get_permalink($resume_page); ?>" >Browse Influencers</a>
             <?php
             }
 
@@ -60,32 +60,10 @@ if ( $order ) : ?>
             ?>
 
         </div>
-		<ul class="order_details">
-			<li class="order">
-				<?php esc_html_e( 'Order Number:', 'workscout' ); ?>
-				<strong><?php echo $order->get_order_number(); ?></strong>
-			</li>
-			<li class="date">
-				<?php esc_html_e( 'Date:', 'workscout' ); ?>
-				<strong><?php echo date_i18n( get_option( 'date_format' ), strtotime( $order->order_date ) ); ?></strong>
-			</li>
-			<li class="total">
-				<?php esc_html_e( 'Total:', 'workscout' ); ?>
-				<strong><?php echo $order->get_formatted_order_total(); ?></strong>
-			</li>
-			<?php if ( $order->payment_method_title ) : ?>
-			<li class="method">
-				<?php esc_html_e( 'Payment Method:', 'workscout' ); ?>
-				<strong><?php echo $order->payment_method_title; ?></strong>
-			</li>
-			<?php endif; ?>
-		</ul>
+
 		<div class="clear"></div>
 
 	<?php endif; ?>
-
-	<?php do_action( 'woocommerce_thankyou_' . $order->payment_method, $order->id ); ?>
-	<?php do_action( 'woocommerce_thankyou', $order->id ); ?>
 
 <?php else : ?>
 

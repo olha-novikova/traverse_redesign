@@ -59,25 +59,25 @@ function output_candidate_channels_count(  $resume ) {
 
 }
 
+function output_candidate_audience( $resume ){
 
-function output_candidate_campaigns_count( $user_id ){
+    $post = get_post( $resume );
 
-    if ( ! $user_id ) {
-        return false;
-    }
+    if ( !$post || $post->post_type !== 'resume' )
+        return;
 
-    return sizeof( get_posts( array(
-        'post_type'      => 'job_application',
-        'post_status'    =>  array_keys( get_job_application_statuses() ) ,
-        'posts_per_page' => -1,
-        'fields'         => 'ids',
-        'meta_query'     => array(
-            array(
-                'key' => '_candidate_user_id',
-                'value' => absint( $user_id )
-            )
-        )
-    ) ) );
+    return get_post_meta( $resume, '_audience', true);
+
+}
+
+function output_candidate_campaigns_count( $resume ){
+
+    $post = get_post( $resume );
+
+    if ( !$post || $post->post_type !== 'resume' )
+        return;
+
+    return get_post_meta( $resume, '_finished_companies', true);
 
 }
 
@@ -344,3 +344,4 @@ function get_influencer_audience( $resume_id = null){
     return $audience;
 
 }
+
