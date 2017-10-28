@@ -24,7 +24,7 @@ get_sidebar();?>
 		<?php get_template_part('template-parts/page-header')?>
 	<div class="content">
 	  <?php get_template_part('template-parts/recent-opportunities') ?>
-	  <?php get_template_part('template-parts/my-pitches') ?>
+	  <?php include( locate_template( 'template-parts/my-pitches.php') ); ?>
 		<section class="section section_cash">
 		<?php $sum = 0;
 		foreach ($applications_list as $application) {

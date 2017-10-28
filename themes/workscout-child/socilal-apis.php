@@ -484,6 +484,7 @@ function get_fb_users_count( $user_id ){
 
 }
 
+
 function update_audience(){
 
     $query_args = array(
@@ -589,5 +590,7 @@ function update_finished_companies(){
     }
 
 }
+
+
 //update_finished_companies();
 //die;

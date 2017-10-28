@@ -54,6 +54,11 @@ function dashboard_enqueue_styles() {
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
     }
 
+    if ( is_account_page() ){
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/brand-account.css');
+    }
+
 }
 
 function dashboard_child_scripts(){
@@ -64,6 +69,11 @@ function dashboard_child_scripts(){
 	if (is_singular('resume')) {
 		wp_enqueue_script( 'single-grid-js', get_stylesheet_directory_uri() . '/js/images-grid.js', array('jquery'), '', true);
 	}
+    if ( is_account_page() ){
+        wp_dequeue_script( 'dashboard-vendor' );
+        wp_enqueue_script( 'workscout-magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), '20150705', true );
+    }
+
 
 }
 

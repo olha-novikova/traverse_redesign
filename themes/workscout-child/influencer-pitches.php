@@ -23,7 +23,7 @@ get_sidebar();?>
 	<main class="main">
 <?php get_template_part('template-parts/page-header')?>
 	<div class="content">
-		<?php get_template_part('template-parts/my-pitches') ?>
+		<?php include( locate_template( 'template-parts/my-pitches') ); ?>
 	</div>
   </main>
 <?php

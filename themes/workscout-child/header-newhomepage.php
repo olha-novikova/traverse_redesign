@@ -17,7 +17,7 @@ wp_head();
 
   <header class="header">
     <div class="header__logo">
-      <img src="http://traverseinfluence.com/wp-content/uploads/2017/04/TraverseByJrrnyLogo.png">
+      <img src="http://traverseinfluence.com/wp-content/uploads/2017/10/RangeLogoWhite-e1508105643871.png">
     </div><!-- /.header__logo -->
     <div class="header__menu">
       <?php

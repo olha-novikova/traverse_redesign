@@ -165,7 +165,14 @@ function done_publish_job( $job_id ) {
         }
     }
 
-    wp_redirect( get_permalink( wc_get_page_id( 'checkout' ) ) );
+    wp_safe_redirect( get_permalink( wc_get_page_id( 'checkout' ) ) );
+    exit();
 }
 
 add_action( 'job_manager_job_submitted', 'done_publish_job' );
+
+function app_output_buffer() {
+    ob_start();
+}
+add_action('init', 'app_output_buffer');
+

@@ -235,6 +235,7 @@
     margin-left: 1.87vw;
 }
 
+.fieldset-assets_available label small{ display: none;}
 .job-manager-term-checklist li label.selectit input:checked + span::before{
     background-color: #ff5e3a;
     border-color: #ff5e3a;
@@ -480,7 +481,7 @@
     border-radius: 0.25rem;
     color: #515365;
     font-size: 0.729vw;
-    line-height: 0.078vw;
+    line-height: 1.1;
     padding: 1.35vw 1.04vw 0.57vw;
     width: 100%;
     z-index: 2;

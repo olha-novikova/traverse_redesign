@@ -11,11 +11,11 @@
 		</div>
 		<div class="profile__button profile__button_message"></div>
 	</div>
-	<div class="profile__action">
-		<ul class="profile__links">
-			<li class="profile__link"><a href="#" class="profile__link__a">About</a></li>
-			<li class="profile__link"><a href="#" class="profile__link__a">Photos</a></li>
-			<li class="profile__link"><a href="#" class="profile__link__a">Videos</a></li>
-		</ul>
-	</div>
+<!--	<div class="profile__action">-->
+<!--		<ul class="profile__links">-->
+<!--			<li class="profile__link"><a href="#" class="profile__link__a">About</a></li>-->
+<!--			<li class="profile__link"><a href="#" class="profile__link__a">Photos</a></li>-->
+<!--			<li class="profile__link"><a href="#" class="profile__link__a">Videos</a></li>-->
+<!--		</ul>-->
+<!--	</div>-->
 </section>

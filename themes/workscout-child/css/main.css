@@ -1,3 +1,7 @@
+body{
+    padding: 0;
+    margin: 0;
+}
 a:active, button:active, button:focus, input, input:active, input:focus, textarea, textarea:active, textarea:focus {
     outline: 0
 }
@@ -205,7 +209,7 @@ button::-moz-focus-inner {
 }
 
 .section_firstscreen {
-    background: url(../img/bg.jpg) center center no-repeat;
+    background: url(http://traverseinfluence.com/wp-content/uploads/2017/10/jakob-owens-225927-e1508109753738.jpg) center center no-repeat;
     background-size: cover;
     min-height: 62.5rem
 }

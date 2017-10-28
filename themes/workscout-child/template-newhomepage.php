@@ -11,7 +11,7 @@ get_header("newhomepage");
             <div class="container container_firstscreen">
                 <div class="section__text-block">
                     <h1 class="section__header">Welcome to the #1 Influencer Platform in Travel</h1>
-                    <p class="section__description">We are the best and biggest influencer platform within the travel and outdoor industry with thousands of active influencers all around the world. Locale is a platform for brands to discover and hire leading travel influencers. </p>
+                    <p class="section__description">We are the best and biggest influencer platform within the travel and outdoor industry with thousands of active influencers all around the world. Range Influence is a platform for brands to discover and hire leading travel influencers. </p>
                     <div class="section__buttons"><a href="#" class="section__button">I’M A BRAND / AGENCY</a><a href="#" class="section__button">I’M AN INFLUENCER</a></div>
                 </div>
                 <?php if ( !is_user_logged_in() ) { ?>
@@ -32,7 +32,7 @@ get_header("newhomepage");
                     </div>
                     <div class="form__main">
                         <div class="login">
-                            <p class="form__main__head">Login to Traverse</p>
+                            <p class="form__main__head">Login to Range Influence</p>
                                 <form method="post" class="login">
                                     <?php do_action( 'woocommerce_login_form_start' ); ?>
                                     <div class="form__main__body">
@@ -66,7 +66,7 @@ get_header("newhomepage");
                                 </form>
                         </div>
                         <div class="register">
-                            <p class="form__main__head">Register to Traverse</p>
+                            <p class="form__main__head">Register on Range Influence</p>
                             <?php
 
                             $registration_enabled = get_option('users_can_register');
@@ -131,12 +131,12 @@ get_header("newhomepage");
             <div class="container container_special">
                 <p class="brands__header">Brands we work with</p>
                 <ul class="brands">
-                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri();?>/img/sky.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/SkyViewLogo.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/PureCycles.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/Heeltop.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/GrowlerWerks.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/aloftLogo.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/AlaskaAirlines.png" alt="" class="brand__img"/></li>
                 </ul>
             </div>
         </section>
@@ -154,7 +154,7 @@ get_header("newhomepage");
                 </div>
                 <div class="results">
                     <div class="quote">
-                        <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                        <p class="quote__text">Range Influence made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
                         <div class="quote__author">
                             <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
                             <p class="quote__author__name">Barret Huie</p>
@@ -207,23 +207,23 @@ get_header("newhomepage");
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
                         <div class="question__text">
                             <p class="question__question">What categories do you serve?</p>
-                            <p class="question__asnswer">We serve all categories inside of travel. Lifestyle, Cannabis/Beverage, Clothing, LGBT, Adventure, Nature, etc. etc. etc. </p>
+                            <p class="question__asnswer">We serve all categories inside of travel. Some of the categories but not limited to: Adventure, Backpacker, Photographers, Videographers, Cannabis/Beverage, Food, Lifestyle and many more to find or share your expertise. </p>
                         </div>
                     </li>
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
                         <div class="question__text">
-                            <p class="question__question">Another Main Questions About Us</p>
-                            <p class="question__asnswer">Another answer about us.</p>
+                            <p class="question__question">How long does is it take to launch a campaign?</p>
+                            <p class="question__asnswer">If you have all of your assets ready, you can create a new campaign in less than 10 minutes. Go ahead, go collect your materials then give it a shot and let us know how long it took you.</p>
                         </div>
                     </li>
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
                         <div class="question__text">
-                            <p class="question__question">Another questions about us</p>
-                            <p class="question__asnswer">Another answer about us.</p>
+                            <p class="question__question">Im an influencer, how long does it take for payments to process?</p>
+                            <p class="question__asnswer">After you complete your campaign requirements, the brand will approve. They have 7 business days to confirm or request changes, once approved, you will be paid within 2-3 business days.</p>
                         </div>
                     </li>
                 </ul>
-                <p class="section__description section__description_faq">Still have questions? Write on <a href="mailto:help@localeinfluence.com" class="faq__link">help@localeinfluence.com</a> for answers.</p>
+                <p class="section__description section__description_faq">Still have questions? Write on <a href="mailto:help@localeinfluence.com" class="faq__link">help@RangeInfluence.com</a> for answers.</p>
             </div>
         </section>
 
@@ -234,7 +234,7 @@ get_header("newhomepage");
                     <div class="carousel__item">
                         <div class="carousel__item__wrap">
                             <div class="quote quote_review">
-                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <p class="quote__text">Range Influence made it easy to get the specs needed for the campaign I was assigned to </p>
                                 <div class="quote__author">
                                     <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
                                     <p class="quote__author__name">Barret Huie</p>
@@ -245,7 +245,7 @@ get_header("newhomepage");
                     <div class="carousel__item">
                         <div class="carousel__item__wrap">
                             <div class="quote quote_review">
-                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <p class="quote__text">Range Influence made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
                                 <div class="quote__author">
                                     <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
                                     <p class="quote__author__name">Barret Huie</p>
@@ -256,7 +256,7 @@ get_header("newhomepage");
                     <div class="carousel__item">
                         <div class="carousel__item__wrap">
                             <div class="quote quote_review">
-                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <p class="quote__text">Range Influence made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
                                 <div class="quote__author">
                                     <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
                                     <p class="quote__author__name">Barret Huie</p>
@@ -267,7 +267,7 @@ get_header("newhomepage");
                     <div class="carousel__item">
                         <div class="carousel__item__wrap">
                             <div class="quote quote_review">
-                                <p class="quote__text">Locale made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
+                                <p class="quote__text">Range Influence made it easy to get the specs needed, plan around my travels with Aloft and to accomplish the project at hand </p>
                                 <div class="quote__author">
                                     <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
                                     <p class="quote__author__name">Barret Huie</p>
@@ -307,13 +307,13 @@ get_header("newhomepage");
         <section class="section section_contact">
             <div class="container container_contact">
                 <p class="section__header section__header_contact">Contact us</p>
-                <p class="section__description section__description_contact">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.<br> It is a long established fact that a reader will be distracted. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. It is a long established fact that a reader will be distracted. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                <p class="section__description section__description_contact">The Range Influence team is here to provide you with more information, answer any questions you may have and create an effective solution for influencer campaign needs.</p>
                 <div class="contacts">
                     <div class="contacts__block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/marker.png" alt="" class="contacts__icon"/>
                         <p class="contacts__text">Seattle, Washington</p>
                     </div>
                     <div class="contacts__block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/mobile.png" alt="" class="contacts__icon"/>
-                        <p class="contacts__text">+354 123 45 67 help@localeinfluence.com</p>
+                        <p class="contacts__text">(323)539-7301 help@RangeInfluence.com</p>
                     </div>
                 </div>
             </div>

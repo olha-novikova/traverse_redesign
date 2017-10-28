@@ -3,7 +3,6 @@
  * Footer for new design
  */
 ?>
-
         </div> <!-- class wrapper-->
         <footer>
 

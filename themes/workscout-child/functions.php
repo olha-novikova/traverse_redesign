@@ -179,8 +179,10 @@ function my_woocommerce_edit_account_form_child() {
 
         $number =  get_user_meta($user_id,'phone_number',true);
         $logo = get_user_meta( $user_id, 'photo', true );
+
         $website = get_user_meta( $user_id, 'website', true );
         $monthlyvisit = get_user_meta( $user_id, 'monthlyvisit', true );
+
         $insta = get_user_meta( $user_id, 'insta', true );
         $fb = get_user_meta( $user_id, 'fb', true );
         $twitter = get_user_meta( $user_id, 'twitter', true );
@@ -198,124 +200,95 @@ function my_woocommerce_edit_account_form_child() {
         $jrrny_link_own = get_user_meta($user_id,'jrrny_link', true);
         ?>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="number">YOUR PHONE NUMBER</label>
-                <input type="text" name="phone_number" value="<?php echo esc_attr( $number ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+        <div class="input__block">
+            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
+            <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="shortbio">SHORT BIO</label>
-                <textarea type="textfield" placeholder="Tell us about yourself, your audience, and any other information that might be valuable to the brands looking at your profile!" name="shortbio" class="input-text" /><?php echo esc_attr( $shortbio ); ?></textarea>
-            </p>
-        </fieldset>
+        </div>
 
-        <fieldset class="influ-photo">
-            <p class="form-row form-row-thirds">
-                <?php if($logo) {
-                    $dir = wp_get_upload_dir();?>
-                    <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
-                <?php } ?>
-                <label for="logo">YOUR PROFILE PHOTO</label>
-                <input type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <textarea type="textfield"  name="shortbio"   /><?php echo esc_attr( $shortbio ); ?></textarea>
+             <label class="form__input__label" for="shortbio">SHORT BIO</label>
+         </div>
+
+         <div class="input__block">
+            <?php if($logo) {
+                $dir = wp_get_upload_dir();?>
+                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
+            <?php } ?>
+            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+             <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
+         </div>
 
         <?php
         global $wpdb;
         $sql = $wpdb->get_results("SELECT * FROM travler_type");
         ?>
         <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="traveler_type">SELECT YOUR AREAS OF EXPERTISE</label>
-                <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
-                    <?php
-                    foreach ($sql as $result){ ?>
-                        <option value="<?php echo $result->travler_type; ?>" <?php if ( in_array( $result->travler_type, $traveler_type) ) echo "selected" ; ?>><?php echo $result->travler_type; ?></option>
-                    <?php }
-                    ?>
-                </select>
-            </p>
-        </fieldset>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="location">LOCATIONS YOU KNOW BEST</label>
-                <input type="text" placeholder="Example: Seattle, Mongolia, etc." name="location" value="<?php echo esc_attr( $location ); ?>" class="input-text" />
-            </p>
-        </fieldset>
-        <h2> SOCIAL MEDIA INFORMATION </h2>
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="insta">YOUR INSTAGRAM URL
-                <input type="text" placeholder="http://www.instagram.com/yourprofile" name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
-
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="fb">YOUR FACEBOOK URL</label>
-                <input type="text" placeholder="http://www.facebook.com/yourprofile" name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>" class="input-text" />
-            </p>
-        </fieldset>
-
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">YOUR TWITTER URL
-                <input type="text" placeholder="http://www.twitter.com/yourprofile" name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+            <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
+                <?php
+                foreach ($sql as $result){ ?>
+                    <option value="<?php echo $result->travler_type; ?>" <?php if ( in_array( $result->travler_type, $traveler_type) ) echo "selected" ; ?>><?php echo $result->travler_type; ?></option>
+                <?php }
+                ?>
+            </select>
+             <label class="form__input__label" for="traveler_type">SELECT YOUR AREAS OF EXPERTISE</label>
+         </div>
 
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="youtube">YOUR YOUTUBE URL
-                    <input type="text" placeholder="http://www.youtube.com/yourchannel" name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
+             <label class="form__input__label" for="location">LOCATIONS YOU KNOW BEST</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="youtube">YOUR JRRNY.COM PROFILE <?php if (!$jrrny_link_own && $jrrny_link_auto) echo "(A new JRRNY account was created automatically, but you can use your own if you have one.)";?>
-                    <input type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <input class="form__input <?php if (!empty($insta)) echo 'has-value';?>"    type="text"  name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
+             <label class="form__input__label" for="insta">YOUR INSTAGRAM URL</label>
+         </div>
 
-        <h2> WEBSITE INFORMATION </h2> <h5>(WEBSITE IS OPTIONAL)</h5>
+         <div class="input__block">
+             <input class="form__input <?php if (!empty($fb)) echo 'has-value';?>"    type="text"  name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
+             <label class="form__input__label" for="fb">YOUR FACEBOOK URL</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="website">YOUR WEBSITE URL</label>
-                <input type="text" placeholder="http://www.example.com" name="website" value="<?php echo esc_attr( $website ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <input class="form__input <?php if (!empty($twitter)) echo 'has-value';?>"    type="text"  name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>"   />
+             <label class="form__input__label" for="birthdate">YOUR TWITTER URL</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="monthlyvisit">YOUR WEBSITE'S ESTIMATED NUMBER OF MONTHLY VISITS</label>
-                <input type="text" placeholder="Example: 25,000 Monthly Vists"name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <input class="form__input <?php if (!empty($youtube)) echo 'has-value';?>"    type="text"  name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>"   />
+             <label class="form__input__label" for="youtube">YOUR YOUTUBE URL</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="newsletter">DOES YOUR WEBSITE HAVE A NEWSLETTER?</label>
-                <input type="radio" name="newsletter" value="yes" <?php if ($newsletter == 'yes') echo 'checked = "checked"';?>> YES
-                <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
-            </p>
-            <p class="form-row form-row-thirds newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-                <label for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
-                <input type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+            <input class="form__input <?php if (!empty($jrrny_link_own)||!empty($jrrny_link_auto)) echo 'has-value';?>"    type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>"   />
+                <label class="form__input__label" for="youtube">YOUR JRRNY.COM PROFILE <?php if (!$jrrny_link_own && $jrrny_link_auto) echo "(A new JRRNY account was created automatically, but you can use your own if you have one.)";?></label>
+         </div>
+
+         <div class="input__block">
+            <input class="form__input <?php if (!empty($website)) echo 'has-value';?>"    type="text"  name="website" value="<?php echo esc_attr( $website ); ?>"   />
+             <label class="form__input__label" for="website">YOUR WEBSITE URL</label>
+         </div>
+
+         <div class="input__block">
+             <input class="form__input <?php if (!empty($monthlyvisit)) echo 'has-value';?>"    type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>"   />
+             <label class="form__input__label" for="monthlyvisit">YOUR WEBSITE'S ESTIMATED NUMBER OF MONTHLY VISITS</label>
+         </div>
+
+         <div class="input__block">
+            <label for="newsletter">DOES YOUR WEBSITE HAVE A NEWSLETTER?</label>
+            <input type="radio" name="newsletter" value="yes" <?php if ( $newsletter == 'yes') echo 'checked = "checked"';?>> YES
+            <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
+         </div>
+
+         <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
+            <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
+            <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+         </div>
 
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
@@ -328,7 +301,6 @@ function my_woocommerce_edit_account_form_child() {
                         $('input[name="newsletter_subscriber"]').val('');
                     }
                 });
-
             });
         </script>
 
@@ -348,106 +320,41 @@ function my_woocommerce_edit_account_form_child() {
         $shortbio = get_user_meta( $user_id, 'shortbio', true );
         $traveler_type = get_user_meta( $user_id, 'traveler_type', true );
         ?>
+         
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="company_name">COMPANY</label>
-                <input type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
-            </p>
-        </fieldset>
+            <input class="form__input <?php if (!empty($company_name)) echo 'has-value';?>"    type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
+             <label class="form__input__label" for="company_name">COMPANY</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="number">PHONE NUMBER</label>
-                <input type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
-            </p>
-        </fieldset>
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">SHORT BIO</label>
-                <textarea name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
-            </p>
-        </fieldset>
+            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
+             <label class="form__input__label" for="number">PHONE NUMBER</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <?php if( $logo ) {
-                    $dir = wp_get_upload_dir();?>
-                    <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
-                <?php } ?>
-                <label for="logo">LOGO</label>
-                <input type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <textarea name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
+             <label class="form__input__label" for="birthdate">SHORT BIO</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="website">WEBSITE</label>
-                <input type="text" name="website" value="<?php echo esc_attr( $website ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+            <?php if( $logo ) {
+                $dir = wp_get_upload_dir();?>
+                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
+            <?php } ?>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">INSTAGRAM
-                <input type="text" name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+             <label class="form__input__label" for="logo">LOGO</label>
+         </div>
 
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">FACEBOOK</label>
-                <input type="text" name="fb" value="<?php echo esc_attr( $fb ); ?>" class="input-text" />
-            </p>
-        </fieldset>
-
-
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">TWITTER
-                <input type="text" name="twitter" id ="twitter_link" value="<?php echo esc_attr($twitter); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
-
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">PINTEREST</label>
-                <input type="text" name="pinterest" value="<?php echo esc_attr($pinterest); ?>" class="input-text" />
-            </p>
-        </fieldset>
-
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="youtube">YOUTUBE
-                    <input type="text" name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
-
-        <?php
-        global $wpdb;
-        $sql = $wpdb->get_results("SELECT * FROM travler_type");
-        ?>
-        <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">TARGET AUDIENCE</label>
-                <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
-                    <?php
-                    foreach ($sql as $result){ ?>
-                        <option value="<?php echo $result->travler_type; ?>" <?php if ( in_array( $result->travler_type, $traveler_type) ) echo "selected" ; ?>><?php echo $result->travler_type; ?></option>
-                    <?php }
-                    ?>
-                </select>
-            </p>
-        </fieldset>
+            <input class="form__input <?php if (!empty($website)) echo 'has-value';?>"    type="text" name="website" value="<?php echo esc_attr( $website ); ?>"   />
+             <label class="form__input__label" for="website">WEBSITE</label>
+         </div>
 
     <?php
-
     }
 
     if($str->roles[0] == "administrator") {
@@ -455,22 +362,20 @@ function my_woocommerce_edit_account_form_child() {
         $company_name= get_user_meta( $user_id, 'company_name', true );
         $number = get_user_meta( $user_id, 'number', true );
         ?>
-        <h2>My Brand Fields</h2>
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="company_name">COMPANY</label>
-                <input type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
-            </p>
-        </fieldset>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="number">PHONE NUMBER</label>
-                <input type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
-            </p>
-        </fieldset>
+         
+         <div class="input__block">
 
-        <h2>My Candidate Fields</h2>
+             <input class="form__input <?php if (!empty($company_name)) echo 'has-value';?>"    type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
+             <label class="form__input__label" for="company_name">COMPANY</label>
+         </div>
+
+         <div class="input__block">
+
+            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
+             <label class="form__input__label" for="number">PHONE NUMBER</label>
+         </div>
+
         <?php
         //Candidate
         $number =  get_user_meta($user_id,'phone_number',true);
@@ -484,64 +389,52 @@ function my_woocommerce_edit_account_form_child() {
 
         ?>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="number">PHONE NUMBER</label>
-                <input type="text" name="phone_number" value="<?php echo esc_attr( $number ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="monthlyvisit">ESTIMATED MONTHLY VISIT</label>
-                <input type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+            <input class="form__input <?php if (!empty($monthlyvisit)) echo 'has-value';?>"    type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>"   />
+             <label class="form__input__label" for="monthlyvisit">ESTIMATED MONTHLY VISIT</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="youtube">JRRNY.COM <?php if (!$jrrny_link_own && $jrrny_link_auto) echo "(account was created automatically, you can use your own if you have)";?>
-                    <input type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="newsletter">DO YOU HAVE A NEWSLETTER?</label>
-                <input type="radio" name="newsletter" value="yes" <?php if ($newsletter == 'yes') echo 'checked = "checked"';?>> YES
-                <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
-            </p>
-            <p class="form-row form-row-thirds newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-                <label for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
-                <input type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+                <input class="form__input <?php if (!empty($jrrny_link_own) || !empty($jrrny_link_auto)) echo 'has-value';?>"    type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>"   />
+             <label class="form__input__label" for="youtube">JRRNY.COM <?php if (!$jrrny_link_own && $jrrny_link_auto) echo "(account was created automatically, you can use your own if you have)";?></label>
+         </div>
 
+         <div class="input__block">
+            <label class="form__input__label" for="newsletter">DO YOU HAVE A NEWSLETTER?</label>
+            <input type="radio" name="newsletter" value="yes" <?php if ($newsletter == 'yes') echo 'checked = "checked"';?>> YES
+            <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
+         </div>
+
+        <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
+            <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
+            <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+         </div>
         <?php
         global $wpdb;
         $sql = $wpdb->get_results("SELECT * FROM travler_type");
         ?>
         <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="traveler_type">TARGET AUDIENCE</label>
-                <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
-                    <?php
-                    foreach ($sql as $result){ ?>
-                        <option value="<?php echo $result->travler_type; ?>" <?php if ( in_array( $result->travler_type, $traveler_type) ) echo "selected" ; ?>><?php echo $result->travler_type; ?></option>
-                    <?php }
-                    ?>
-                </select>
-            </p>
-        </fieldset>
+         
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="location">LOCATIONS YOU HAVE ACCESS TO</label>
-                <input type="text" name="location" value="<?php echo esc_attr( $location ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+            <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
+                <?php
+                foreach ($sql as $result){ ?>
+                    <option value="<?php echo $result->travler_type; ?>" <?php if ( in_array( $result->travler_type, $traveler_type) ) echo "selected" ; ?>><?php echo $result->travler_type; ?></option>
+                <?php }
+                ?>
+            </select>
+             <label class="form__input__label" for="traveler_type">TARGET AUDIENCE</label>
+         </div>
+
+         
+         <div class="input__block">
+
+            <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text" name="location" value="<?php echo esc_attr( $location ); ?>"   />
+             <label class="form__input__label" for="location">LOCATIONS YOU HAVE ACCESS TO</label>
+         </div>
 
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
@@ -554,7 +447,6 @@ function my_woocommerce_edit_account_form_child() {
                         $('input[name="newsletter_subscriber"]').val('');
                     }
                 });
-
             });
         </script>
         <?php
@@ -569,65 +461,51 @@ function my_woocommerce_edit_account_form_child() {
 
         ?>
 
-        <h2>Both Type Fields</h2>
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">SHORT BIO</label>
-                <textarea name="shortbio" /><?php echo esc_attr( $shortbio ); ?></textarea>
-            </p>
-        </fieldset>
+         <div class="input__block">
+             <textarea name="shortbio" /><?php echo esc_attr( $shortbio ); ?></textarea>
+             <label class="form__input__label" for="birthdate">SHORT BIO</label>
+         </div>
 
-        <fieldset>
 
-            <p class="form-row form-row-thirds">
-                <?php if( $logo ) {
-                    $dir = wp_get_upload_dir();?>
-                    <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
-                <?php } ?>
-                <label for="logo">PHOTO/LOGO</label>
-                <input type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>" class="input-text" />
-            </p>
+         <div class="input__block">
 
-        </fieldset>
+            <input class="form__input <?php if (!empty($website)) echo 'has-value';?>"    type="text" name="website" value="<?php echo esc_attr( $website ); ?>"   />
+             <label class="form__input__label" for="website">WEBSITE</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="website">WEBSITE</label>
-                <input type="text" name="website" value="<?php echo esc_attr( $website ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+         <div class="input__block">
+                <input class="form__input <?php if (!empty($insta)) echo 'has-value';?>"    type="text" name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
+             <label class="form__input__label" for="insta">INSTAGRAM</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="insta">INSTAGRAM
-                    <input type="text" name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+         <div class="input__block">
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="fb">FACEBOOK</label>
-                <input type="text" name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>" class="input-text" />
-            </p>
-        </fieldset>
+            <input class="form__input <?php if (!empty($fb)) echo 'has-value';?>"    type="text" name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
+             <label class="form__input__label" for="fb">FACEBOOK</label>
+         </div>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="birthdate">TWITTER
-                    <input type="text" name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
 
-        <fieldset>
-            <p class="form-row form-row-thirds">
-                <label for="youtube">YOUTUBE
-                    <input type="text" name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>" class="input-text" />
-                </label>
-            </p>
-        </fieldset>
+         <div class="input__block">
 
+             <input class="form__input <?php if (!empty($twitter)) echo 'has-value';?>"    type="text" name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>"   />
+             <label class="form__input__label" for="birthdate">TWITTER</label>
+         </div>
+
+         <div class="input__block">
+
+                <input class="form__input <?php if (!empty($youtube)) echo 'has-value';?>"    type="text" name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>"   />
+             <label class="form__input__label" for="youtube">YOUTUBE</label>
+         </div>
+
+        <div class="input__block">
+            <?php if( $logo ) {
+                $dir = wp_get_upload_dir();?>
+                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
+            <?php } ?>
+
+            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="form__input__label" for="logo">PHOTO/LOGO</label>
+        </div>
 
     <?php
     }
@@ -669,7 +547,7 @@ function my_woocommerce_save_account_details_child( $user_id ) {
     $str = get_userdata($user_id);
     $errors = false;
 
-    if($str->roles[0] == "candidate")
+    if($str->roles[0] == "candidate" || ($str->roles[0] =="administrator" ))
     {
         if(isset($_FILES['logo']['name']) && !empty($_FILES['logo']['name'])){
             $errors= array();
@@ -715,6 +593,47 @@ function my_woocommerce_save_account_details_child( $user_id ) {
         update_user_meta( $user_id, 'location', htmlentities( $_POST['location'] ) );
         update_user_meta( $user_id, 'phone_number', htmlentities( $_POST[ 'phone_number' ] ) );
 
+        $user_resumes = $resumes = get_posts( array(
+            'post_type'           => 'resume',
+            'post_status'         => 'all',
+            'ignore_sticky_posts' => 1,
+            'posts_per_page'      => -1,
+            'author'              => $user_id
+
+        ) );
+
+        if ( $user_resumes ){
+            foreach ( $user_resumes as $user_resumes ){
+                update_post_meta( $user_resumes->ID, '_candidate_photo', get_user_meta($user_id, 'photo', true) );
+
+                update_post_meta( $user_resumes->ID, '_influencer_website',get_user_meta($user_id, 'website', true) );
+                update_post_meta( $user_resumes->ID, '_jrrny_link', get_user_meta($user_id, 'jrrny_link', true) );
+                update_post_meta( $user_resumes->ID, '_estimated_monthly_visitors', get_user_meta($user_id, 'monthlyvisit', true) );
+                update_post_meta( $user_resumes->ID, '_instagram_link', get_user_meta($user_id, 'insta', true) );
+                update_post_meta( $user_resumes->ID, '_facebook_link', get_user_meta($user_id, 'fb', true) );
+                update_post_meta( $user_resumes->ID, '_twitter_link',get_user_meta($user_id, 'twitter', true) );
+                update_post_meta( $user_resumes->ID, '_youtube_link',get_user_meta($user_id, 'youtube', true) );
+                update_post_meta( $user_resumes->ID, '_newsletter', get_user_meta($user_id, 'newsletter', true) );
+                update_post_meta( $user_resumes->ID, '_newsletter_total', get_user_meta($user_id, 'newsletter_subscriber_count', true) );
+                update_post_meta( $user_resumes->ID, '_portfolio_description', get_user_meta($user_id, 'shortbio', true));
+                update_post_meta( $user_resumes->ID, '_short_influencer_bio', get_user_meta($user_id, 'shortbio', true));
+                //TODO add resume_category save here
+                update_post_meta( $user_resumes->ID, '_resume_locations', get_user_meta($user_id, 'location', true) );
+                update_post_meta( $user_resumes->ID, '_influencer_number', get_user_meta($user_id, 'phone_number', true) );
+
+                update_post_meta( $user_resumes->ID, '_video_sample_embed', get_user_meta($user_id, 'video', true) );
+
+                if ( $user_resumes -> post_status == 'preview'){
+                    wp_update_post( array(
+                        'ID'            => $user_resumes->ID,
+                        'post_status'   => 'publish',
+                        'post_title'    => $str-> first_name.' '.$str-> last_name
+
+                    ) );
+                }
+
+            }
+        }
 
     }
 
@@ -753,19 +672,11 @@ function my_woocommerce_save_account_details_child( $user_id ) {
         update_user_meta( $user_id, 'number', htmlentities( $_POST[ 'number' ] ) );
         update_user_meta( $user_id, 'company_name', htmlentities( $_POST[ 'company_name' ] ) );
         update_user_meta( $user_id, 'website', htmlentities( $_POST[ 'website' ] ) );
-        update_user_meta( $user_id, 'contactname', htmlentities( $_POST[ 'contactname' ] ) );
-        update_user_meta( $user_id, 'insta', htmlentities( $_POST[ 'insta' ] ) );
-        update_user_meta( $user_id, 'fb', htmlentities( $_POST[ 'fb' ] ) );
-        update_user_meta( $user_id, 'twitter', htmlentities( $_POST[ 'twitter' ] ) );
-        update_user_meta( $user_id, 'pinterest', htmlentities( $_POST[ 'pinterest' ] ) );
-        update_user_meta( $user_id, 'youtube', htmlentities( $_POST[ 'youtube' ] ) );
-        update_user_meta( $user_id, 'newsletter', htmlentities( $_POST[ 'newsletter' ] ) );
         update_user_meta( $user_id, 'shortbio', htmlentities( $_POST[ 'shortbio'] ) );
-        update_user_meta( $user_id, 'traveler_type',  $_POST['traveler_type' ] );
 
     }
 
-    if($str->roles[0] == "administrator") {
+  /*  if($str->roles[0] == "administrator") {
 
         if(isset($_FILES['logo']['name']) && !empty($_FILES['logo']['name'])){
             $errors= array();
@@ -815,7 +726,7 @@ function my_woocommerce_save_account_details_child( $user_id ) {
         update_user_meta( $user_id, 'traveler_type',  $_POST['traveler_type' ] );
         update_user_meta( $user_id, 'location', htmlentities( $_POST['location'] ) );
 
-    }
+    }*/
 }// end func
 
 remove_action( 'template_redirect', array( 'WC_Form_Handler', 'save_account_details' ) );
@@ -1164,58 +1075,6 @@ function update_employer_woocommerce_fields( $job_id, $values ){
 
     if( $job_company_name ) update_post_meta( $job_id, '_company_name', $job_company_name );
 
-}
-
-
-add_action( 'woocommerce_before_calculate_totals', 'create_multiply_job_products' );
-
-function create_multiply_job_products( $cart_object ) {
-    global $woocommerce;
-
-    $deposit_product_id     = DEPOSIT_ID;
-    $additional_price       = 0;
-    $found                  = false;
-    $num_multiply_jobs      = 0;
-    $current_name           = '';
-
-    if ( sizeof( WC()->cart->get_cart() ) > 0 ) {
-
-        foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-            $_product = $cart_item['data'];
-
-            if ( $_product->id != $deposit_product_id ){
-                $job_id = $cart_item['job_id'];                                             //get job we want to buy
-
-                $num_multiply_jobs = get_post_meta( $job_id,'_multiply_job_post', true );   //if we set few influencers for this job
-
-                $current_price = $cart_item['data']->price;
-                $additional_price = $current_price*$num_multiply_jobs;
-                $current_name = $cart_item['data']->name;
-
-            }
-
-            if ( $_product->id == $deposit_product_id )
-                $found = true;
-        }
-
-        // if we have additional influencer(s) we need to add price for it
-        if ( ! $found && $num_multiply_jobs > 0 ){
-
-            WC()->cart->add_to_cart( $deposit_product_id );
-
-        }
-
-        //set proper name for additional influencers and price for it
-        foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-            if($cart_item['data']->get_id() == $deposit_product_id){
-
-                $cart_item['data']->set_price( $additional_price ); // price is a price for parent job package * number of additional influencers
-
-                $cart_item['data']->set_name( $current_name.' (for '.$num_multiply_jobs.' additional influencer(s) )' );
-
-            }
-        }
-    }
 }
 
 
@@ -2067,7 +1926,7 @@ function re_expiries_listing(){
 
 function remove_all_styles() {
     global $wp_styles;
-	if ($GLOBALS["header_type"]=="newhomepage" )
+	if (isset($GLOBALS["header_type"]) && $GLOBALS["header_type"]=="newhomepage" )
 	{
         global $wp_styles;
         if ( is_front_page() )
@@ -2256,6 +2115,24 @@ function custom_redirect_newhomepage(){
                         $redirect= $myaccount.'/edit-account?success=1';
 
                     } elseif ( $role == 'candidate' ) {
+
+
+                        $post_title = $firstname." ".$lastname;
+
+                        $post_content = '';
+
+                        $data = array(
+                            'post_title'     => $post_title,
+                            'post_content'   => $post_content,
+                            'post_type'      => 'resume',
+                            'comment_status' => 'closed',
+                            'post_password'  => '',
+                            'author'         => $new_customer
+                        );
+
+                        $data['post_status'] = 'preview';
+
+                        $resume_id = wp_insert_post( $data );
 
                         $redirect= $myaccount.'/edit-account?success=1';
 

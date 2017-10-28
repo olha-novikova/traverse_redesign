@@ -131,9 +131,7 @@ while ( have_posts() ) : the_post();
 							</div>
 							<div class="section__block section__block_photo">
 								<p class="section__block__header">Photo Samples</p>
-								<div id="photos" class="photos">
-
-									</div>
+								<div id="photos" class="photos"></div>
 								</div>
 							</div>
 						</div>
@@ -151,7 +149,6 @@ get_footer('new');
 
     jQuery( document ).ready(function() {
         var photos =<?php echo json_encode($photo_samples );?>;
-        console.log(photos);
         jQuery('#photos').imagesGrid({
             images: photos
         });
