@@ -28,25 +28,25 @@
                             if ( $possible_product == 'pro_inf' )       $can_pro = true;
                             if ( $possible_product == 'growth_inf' )    $can_growth = true;
                             if ( $possible_product == 'micro_inf' )     $can_micro = true;
+                        }
+                        ?>
+                        <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
 
-                            ?>
-                            <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
-                        <?php }
-                    }
-                    if ( !$can_pro && $can_growth && $can_micro)
+                    <?php }
+                    if ( !isset($can_pro) && $can_growth && $can_micro)
                         $text = "For a chance to use a PRO influencer, please add more budget or check out how many GROW or MICRO influencers you can have." ;
 
-                    if ( !$can_pro && !$can_growth && $can_micro)
+                    if ( !isset($can_pro) && !isset($can_growth) && $can_micro)
                         $text = "For a chance to use a PRO or a GROW influencer, please add more budget or check out how many  MICRO influencers you can have." ;
 
-                    if ( !$can_pro && !$can_growth && !$can_micro){
+                    if ( !isset($can_pro) && !isset($can_growth) && !$can_micro){
                         $text = "For a chance to use an influencer, please add more budget." ;?>
                     <?php }
                     ?>
                 </div>
-                <p class="list__description">
+                <p class="listing__wrapper">
                     <?php echo $text;
-                    if ( !$can_pro && !$can_growth && !$can_micro){ ?>
+                    if ( !isset($can_pro) && !$can_growth && !isset($can_micro) ){ ?>
                         <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
                     <?php } ?>
                 </p>
@@ -62,10 +62,12 @@
                 $resumes = get_resumes( apply_filters( 'resume_manager_get_resumes_args', $args ) );
                 $count =  $resumes -> post_count;
                 ?>
-                <p class="list__number"><span>Number of influencers: </span> <span> <?php echo $count?></span></p>
-                <p>
-                    Example of influencers
-                </p>
+                <div class="listing__wrapper">
+                    <p class="list__number"><span>Number of influencers: </span> <span> <?php echo $count?></span></p>
+                    <p>
+                        Example of influencers
+                    </p>
+                </div>
             </div>
             <section class="section section_browse">
                 <div class="section__container">
@@ -91,6 +93,8 @@
             <div class="listing__wrapper">
                 <p class="list__number"><span>Possible Reach: </span><span><?php echo $possible_reach; ?></span></p>
                 <p>Average   audience   size   of   all   influencers   in   the   category selected   by   the   brand.</p>
+            </div>
+            <div class="listing__wrapper">
                 <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
                 <p>Average   possible   reach</p>
             </div>
@@ -103,7 +107,7 @@
                 <input type="hidden" name="job_manager_form" value="<?php echo $form->get_form_name(); ?>" />
 
                 <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
-                <?php if ( $can_pro || $can_growth || $can_micro) { ?>
+                <?php if ( isset($can_pro) || isset( $can_growth) ||  isset($can_micro) ) { ?>
                     <input type="submit" name="continue" id="job_preview_submit_button" class="job-manager-button-submit-listing button button_green" value="<?php echo apply_filters( 'submit_job_step_preview_submit_text', __( 'Let\'s Build My Campaign', 'wp-job-manager' ) ); ?>" />
                 <?php } ?>
             </div>
