@@ -2139,6 +2139,9 @@ function custom_redirect_newhomepage(){
 
                         $resume_id = wp_insert_post( $data );
 
+                        update_post_meta( $resume_id, '_candidate_name',get_the_title( $resume_id) );
+                        update_post_meta( $resume_id, '_candidate_email', $email );
+
                         $redirect= $myaccount.'/edit-account?success=1';
 
                     } elseif ( $role == 'customer' || $role == 'subscriber' ) {

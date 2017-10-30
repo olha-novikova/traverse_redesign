@@ -641,7 +641,8 @@ function create_resume_for_all_candidates(){
                 $resume_id = wp_insert_post( $data );
 
                 echo "Resume for user  ". $user->ID." was created ( $resume_id )<br>";
-
+                update_post_meta( $resume_id, '_candidate_name',get_the_title( $resume_id) );
+                update_post_meta( $resume_id, '_candidate_email',( $user ->user_email ) );
             }
 
         }
@@ -703,6 +704,10 @@ function update_resume_for_all_candidates(){
                        'ID'          => $resume->ID,
                        'post_status' => 'publish'
                    ) );
+
+                   update_post_meta( $resume->ID, '_candidate_name',get_the_title( $resume->ID) );
+                   update_post_meta( $resume->ID, '_candidate_email',( $user ->user_email ) );
+
                }
             }
 
@@ -711,3 +716,4 @@ function update_resume_for_all_candidates(){
     }
 }
 //update_resume_for_all_candidates();
+//die;
