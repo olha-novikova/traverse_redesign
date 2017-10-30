@@ -1,0 +1,26 @@
+.mfp-wrap .small-dialog{
+    font-family: roboto,Helvetica,sans-serif;
+}
+.mfp-wrap .small-dialog form.inline{
+    display: inline-block;
+    vertical-align: top;
+}
+.mfp-wrap .small-dialog strong{
+    color: #9a9fbf;
+}
+.mfp-wrap .small-dialog form.inline .button{
+    margin-top:25px;
+    margin-bottom: 9px;
+    font-family: roboto,Helvetica,sans-serif;
+    height: 45px;
+    border-radius: 0.1875rem;
+}
+.mfp-wrap .small-dialog .button.mfp-close{
+    position: static;
+    width: 13.54vw;
+    margin-top:25px;
+    margin-bottom: 9px;
+    font-family: roboto,Helvetica,sans-serif;
+    height: 45px;
+    border-radius: 0.1875rem;
+}

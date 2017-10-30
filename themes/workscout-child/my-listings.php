@@ -8,23 +8,110 @@ if (is_user_logged_in() ){
 }else wp_redirect(home_url());
 get_header('new');
 global $wpdb;
-get_sidebar();?>
+get_sidebar();
+
+?>
     <main class="main">
         <?php get_template_part('template-parts/page-header')?>
-        <div class="content">
-        <section class="section section_listing">
-            <div class="section_wrap_titles">
-                <div class="section__titles">
-                    <a class="button button__title" href="#">My Listings</a>
-                    <a class="button button__title active" href="#">New Pitches<span class="button__badge"><?php echo get_total_count_applications();?></span></a>
+        <div class="content tabs-content">
+            <section class="section section_listing app-content">
+                <div class="section_wrap_titles">
+                    <div class="section__titles">
+                        <a class="button button__title app-link active" href="#listings">My Listings</a>
+                        <a class="button button__title app-link" href="#pitches">New Pitches<span class="button__badge"><?php echo get_total_count_applications();?></span></a>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <?php
-        $jobs_with_applications = get_applications();
-        ?>
-            <section class="section section_campaigns">
-                <div class="section__container">
+            </section>
+            <section class="section section_campaigns app-tabs">
+
+                <div class="section__container app-tab-content opened" id="listings">
+                    <?php $jobs = get_job_listings_list(); ?>
+                    <?php if ( ! $jobs ) : ?>
+                        <?php esc_html_e( 'You do not have any active listings.', 'workscout' ); ?>
+                    <?php else : ?>
+                        <div class="table">
+                            <div class="table__head">
+                                <div class="table__row table__row_header">
+                                    <div class="table__header">
+                                        <p class="table__text">Campaign</p>
+                                    </div>
+                                    <div class="table__header">
+                                        <p class="table__text">Location</p>
+                                    </div>
+                                    <div class="table__header">
+                                        <p class="table__text">Campaign Start Date</p>
+                                    </div>
+                                    <div class="table__header">
+                                        <p class="table__text">Campaign Description</p>
+                                    </div>
+                                    <div class="table__header">
+                                        <p class="table__text">Influencers</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table__body">
+                                <?php foreach ( $jobs as $job ) :?>
+                                    <div class="table__row table__row_body job_<?php echo $job->ID;  ?>">
+                                        <div class="table__data">
+                                            <p class="table__text"><?php echo esc_html($job->post_title); ?><br>(<?php the_job_status( $job ); ?>)</p>
+                                        </div>
+                                        <div class="table__data">
+                                            <p class="table__text"><?php
+                                                $location = get_post_meta($job->ID, '_job_location', TRUE);
+                                                if ( $location )echo wp_kses_post( $location );?>
+                                            </p>
+                                        </div>
+                                        <div class="table__data">
+                                            <p class="table__text"> <?php echo date_i18n( 'M d, Y  h:i A', strtotime( $job->post_date ) ); ?></p>
+                                        </div>
+                                        <div class="table__data">
+                                            <p class="table__text">
+                                                <?php
+                                                $excerpt = wp_trim_words ( strip_shortcodes( $job->post_content), 15  );
+                                                echo $excerpt;
+                                                ?>
+                                            </p>
+                                        </div>
+                                        <div class="table__data">
+                                            <div class="table__influencers">
+                                                <?php
+                                                $count = get_job_application_count( $job->ID );
+                                                for ( $i=1; $i<$count; $i++){
+                                                    echo '<div class="table__influencer"></div>';
+                                                }
+                                                ?>
+                                                <div class="table__influencer">
+                                                    <?php
+                                                    echo '<a href="'.home_url('/my-listings').'">';?>
+                                                    <div class="table__influencer__number">
+                                                        <?php echo ( $count > 0 ? "+".$count: "0" ); ?>
+                                                    </div>
+                                                    <?php echo "</a>"; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="table__data">
+                                            <div class="table__buttons">
+                                                <?php if ( $job->post_status == 'publish' ) : ?>
+                                                    <a class="button button_green" href="<?php echo get_permalink( $job->ID ); ?>">View Campaign</a>
+                                                <?php endif; ?>
+                                                <?php if ( $job->post_status == 'publish' ):
+                                                    $action_url = add_query_arg( array( 'action' => 'edit', 'job_id' => $job->ID ) );
+                                                    echo '<a class="button button_white job-dashboard-action-edit" href="' . esc_url( $action_url ) . '">Edit Campaign</a>';
+                                                endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div><!--table__body-->
+                        </div><!--table-->
+                    <?php endif; ?>
+                </div>
+                <div class="section__container app-tab-content" id="pitches">
+                    <?php
+                    $jobs_with_applications = get_applications();
+                    ?>
                     <div class="table">
                         <div class="table__head">
                             <div class="table__row table__row_header">
@@ -48,9 +135,9 @@ get_sidebar();?>
                         <div class="table__body"> <?php
                         foreach ( $jobs_with_applications as $job_data ):
                             $job = $job_data['job'];?>
-                            <div class="table__row table__row_body job_<?php echo $job->ID;  ?>"">
+                            <div class="table__row table__row_body job_<?php echo $job->ID;  ?>">
                                 <div class="table__data">
-                                    <p class="table__text"><?php echo esc_html($job->post_title); ?>, for Brand Name</p>
+                                    <p class="table__text"><?php echo esc_html($job->post_title); ?>, for <?php echo get_post_meta($job->ID,'_company_name', true);?> (<?php the_job_status( $job ); ?>)</p>
                                     <span class="button__badge"><?php if ( $count = get_job_application_count( $job->ID )) echo  $count;?></span>
                                 </div>
                                 <div class="table__data">
@@ -71,13 +158,14 @@ get_sidebar();?>
                                 </div>
                                 <div class="table__data">
                                     <div class="table__influencers">
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
+                                        <?php
+                                        $count = get_job_application_count( $job->ID );
+                                        for ( $i=1; $i<$count; $i++){
+                                            echo '<div class="table__influencer"></div>';
+                                        }
+                                        ?>
                                         <div class="table__influencer">
                                             <?php
-                                            $count = get_job_application_count( $job->ID );
                                             echo '<a href="'.home_url('/my-listings').'">';?>
                                             <div class="table__influencer__number">
                                                 <?php echo ( $count > 0 ? "+".$count: "0" ); ?>
@@ -92,7 +180,7 @@ get_sidebar();?>
                                             <a class="button button_green" href="<?php echo get_permalink( $job->ID ); ?>">View Campaign</a>
                                         <?php endif; ?>
                                         <?php  if ( get_job_application_count( $job->ID ) ) :?>
-                                            <a href="#" class="button button_white">View Pitches</a>
+                                            <a href="#job-<?php echo $job->ID; ?>" class="button button_white pitches_toggle">View Pitches</a>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -102,23 +190,27 @@ get_sidebar();?>
                                 $applications = $job_data['applications'];
                                 if ( $applications ):
                                     $total_count = count ( $applications );
+
                                     $last_application = get_last_application( $job->ID );
                                     ?>
                                 <div class="section__pitches_line">
                                     <div class="table__influencers">
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
+                                        <?php
+                                        for ( $i=1; $i<=$total_count; $i++){
+                                            echo '<div class="table__influencer"></div>';
+                                        }
+                                        ?>
+
                                     </div>
                                     <div class="section__persons_items">
                                         <a class="person__single" href="#"><?php echo $last_application->post_title;?></a>
                                         <span><?php echo ( ($total_count -1) > 0 ? ('and '.($total_count -1).' more pitched this'):'' ); ?> </span>
                                     </div>
                                 </div>
-                                <div class="section__persons" id="application-<?php echo esc_attr( $application->ID ); ?>">
-                                    <?php foreach ( $applications as $application ): ?>
+                                <div class="section__persons" id="job-<?php echo esc_attr( $job->ID ); ?>">
+                                    <?php
+                                    global $wp_post_statuses;
+                                    foreach ( $applications as $application ): ?>
                                     <div class="section__list_person">
                                         <div class="section__list_header">
                                             <div class="section_left">
@@ -133,8 +225,13 @@ get_sidebar();?>
                                                         <?php }else{ ?>
                                                             <a class="person_name" href="#"><?php echo  $application->post_title; ?></a>
                                                         <?php }; ?>
+
                                                         <span class="person_time_ago">
                                                             <?php printf( esc_html__( '%s ago', 'workscout' ), human_time_diff( get_post_time( 'U', true, $application->ID ), current_time( 'timestamp' ) ) ); ?>
+                                                        </span>
+
+                                                        <span class="person_status status_<?php echo $application->post_status;?>">
+                                                            <?php echo $wp_post_statuses[ $application->post_status ]->label; ?>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -147,9 +244,39 @@ get_sidebar();?>
                                             <p><?php job_application_content( $application ); ?></p>
                                         </div>
                                         <div class="section__list_footer">
-                                            <a class="button button_link" href="#">Reply</a>
-                                            <a class="button button_link" href="#">Attached Photos (2)</a>
-                                            <a class="button button_link" href="#">Attached Videos (3)</a>
+                                            <?php $user_id = get_post_meta( $application->ID , "_candidate_user_id", true); ?>
+                                            <?php if($application->post_status=="new"){ ?>
+                                                <a href="#hire-dialod-<?php echo $job->ID;?>" class="button button_green open-popup-hire">Hire</a>
+                                            <?php } ?>
+
+                                            <div class="openchat button button_orange" data-reciever-id="<?php echo $user_id;?>" data-job-id="<?php echo esc_attr( $job->ID )?>" data-job-name="<?php echo esc_html($job->post_title);?>">Message</div>
+
+                                            <?php if( $application->post_status=="new"){ ?>
+                                                <div id = "hire-dialod-<?php echo $job->ID;?>" class="small-dialog zoom-anim-dialog mfp-hide apply-popup ">
+                                                    <div class="small-dialog-headline">
+                                                        <h2>Pitch Status Change</h2>
+                                                    </div>
+                                                    <div class="small-dialog-content">
+                                                        <p>You are about to hire <strong><?php echo  $application->post_title; ?></strong> for  <strong><?php echo  $job->post_title; ?></strong></p>
+                                                        <p>Would you like to proceed?</p>
+
+                                                        <form class="inline job-manager-application-edit-form job-manager-form" method="post">
+                                                            <input type="hidden" name="application_status" value="hired" />
+                                                            <input type="hidden" name="application_id" value="<?php echo absint( $application->ID ); ?>" />
+                                                            <?php wp_nonce_field( 'edit_job_application' ); ?>
+                                                            <input class="button button_blue" type="submit" name="wp_job_manager_edit_application" value="<?php esc_html_e( 'Yes, accept', 'workscout' ); ?>" />
+                                                        </form>
+                                                        <div class="button button_orange mfp-close">Cancel</div>
+
+                                                    </div>
+                                                </div>
+                                            <?php }elseif( $application->post_status=="in_review" ){
+                                                ?>
+                                                <a href="#review-<?php echo esc_attr($application->ID );?>" title="<?php esc_html_e( 'Review and Approve', 'workscout' ); ?>" class="button gray app-link job-application-toggle-content"><i class="fa fa-plus-circle"></i> <?php esc_html_e( 'Review and Approve', 'workscout' ); ?></a>
+                                            <?php }elseif($application->post_status=="in_progress" ){
+                                                esc_html_e( 'In Progress', 'workscout' );
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                     <?php endforeach; ?>
@@ -163,6 +290,14 @@ get_sidebar();?>
                 </div>
             </section>
         </div> <!-- content -->
+        <script>
+            jQuery(document).ready(function ($) {
+                jQuery('.open-popup-hire').magnificPopup({
+                    type:'inline',
+                    midClick: true
+                });
+            });
+        </script>
     </main>
 <?php
 get_footer('new');

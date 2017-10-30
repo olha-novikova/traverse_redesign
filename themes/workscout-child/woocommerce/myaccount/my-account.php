@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
 
-                $.magnificPopup.open({
+                jQuery.magnificPopup.open({
                     items: {
                         src:'<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
                             '<div class="small-dialog-headline"><h2><?php esc_html_e("Success!","workscout"); ?></h2></div>'+
@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
 
-                $.magnificPopup.open({
+                jQuery.magnificPopup.open({
                     items: {
                         src: '<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
                             '<div class="small-dialog-headline"><h2><?php esc_html_e("Success!","workscout"); ?></h2></div>'+
@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
 
-                $.magnificPopup.open({
+                jQuery.magnificPopup.open({
                     items: {
                         src: '<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
                             '<div class="small-dialog-headline"><h2><?php esc_html_e("Success!","workscout"); ?></h2></div>'+

@@ -221,8 +221,12 @@ function my_woocommerce_edit_account_form_child() {
          </div>
 
         <?php
-        global $wpdb;
-        $sql = $wpdb->get_results("SELECT * FROM travler_type");
+        $args = array(
+            'taxonomy' => 'resume_category',
+            'hide_empty' => false,
+        );
+        $portfolio_types = get_terms( $args );
+
         ?>
         <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
 
@@ -230,12 +234,13 @@ function my_woocommerce_edit_account_form_child() {
 
             <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
                 <?php
-                foreach ($sql as $result){ ?>
-                    <option value="<?php echo $result->travler_type; ?>" <?php if ( in_array( $result->travler_type, $traveler_type) ) echo "selected" ; ?>><?php echo $result->travler_type; ?></option>
-                <?php }
+                if( $portfolio_types && ! is_wp_error($portfolio_types) ){
+                    foreach ($portfolio_types as $portfolio_type){ ?>
+                        <option value="<?php echo $portfolio_type->term_id; ?>" <?php if ( in_array( $portfolio_type->term_id, $traveler_type) ) echo "selected" ; ?>><?php echo $portfolio_type->name; ?></option>
+                    <?php }
+                }
                 ?>
             </select>
-             <label class="form__input__label" for="traveler_type">SELECT YOUR AREAS OF EXPERTISE</label>
          </div>
 
 
@@ -2016,13 +2021,13 @@ function process_login_custom() {
 
                 if( $role == 'employer' ) {
                     if(get_option( 'job_manager_job_dashboard_page_id')) {
-                        $redirect = home_url().'/brandhome';
+                        $redirect = get_permalink(get_option( 'job_manager_job_dashboard_page_id'));
                     } else {
                         $redirect= home_url();
                     };
                 } elseif ( $role == 'candidate' ) {
                     if(get_option( 'resume_manager_candidate_dashboard_page_id')) {
-                        $redirect = home_url().'/influencer-php';
+                        $redirect = get_permalink(get_option( 'resume_manager_candidate_dashboard_page_id'));
                     } else {
                         $redirect= home_url();
                     };
@@ -2127,7 +2132,7 @@ function custom_redirect_newhomepage(){
                             'post_type'      => 'resume',
                             'comment_status' => 'closed',
                             'post_password'  => '',
-                            'author'         => $new_customer
+                            'post_author'    => $new_customer
                         );
 
                         $data['post_status'] = 'preview';

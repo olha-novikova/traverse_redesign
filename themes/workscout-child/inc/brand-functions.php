@@ -219,6 +219,8 @@ function get_total_count_applications( ) {
         }
     }
 
+    if ( count($jobs) < 1 ) return 0;
+
     $args = apply_filters( 'job_manager_job_applications_args', array(
         'post_type'           => 'job_application',
         'post_status'         => array_diff( array_merge( array_keys( get_job_application_statuses() ), array( 'publish' ) ), array( 'archived' ) ),
@@ -342,6 +344,27 @@ function get_influencer_audience( $resume_id = null){
     }
 
     return $audience;
+
+}
+
+function get_job_listings_list(){
+
+    $args     =  array(
+        'post_type'           => 'job_listing',
+        'post_status'         => array( 'publish', 'expired', 'pending' ),
+        'ignore_sticky_posts' => 1,
+        'posts_per_page'      => -1,
+        'orderby'             => 'date',
+        'order'               => 'desc',
+        'author'              => get_current_user_id()
+     );
+
+    $jobs = new WP_Query;
+
+    $jobs = $jobs->query( $args );
+
+    return  $jobs;
+
 
 }
 

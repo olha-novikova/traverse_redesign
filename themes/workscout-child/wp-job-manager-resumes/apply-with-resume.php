@@ -6,28 +6,8 @@ if ( ! get_option( 'resume_manager_force_application' ) ) {
 
 if ( is_user_logged_in() && sizeof( $resumes ) ) : ?>
 	<form class="apply_with_resume" method="post">
-
-		<p><?php _e( 'Apply using your online portfolio; just enter a short message and choose one of your resumes to send your proposal.', 'workscout' ); ?></p>
-		<p>
-			<label for="resume_id"><?php _e( 'Online Portfolio', 'workscout' ); ?>:</label>
-			<select name="resume_id" class="chosen-select" id="resume_id" required>
-				<option value=""><?php _e( 'Select Portfolio...', 'workscout' ); ?></option>
-				<?php
-				$count =1;
-					foreach ( $resumes as $resume ) {
-                      //  $user_data = get_user_meta($resume->post_author) ;
-                        $portfolio_name = get_post_meta($resume->ID , '_portfolio_name', true);
-                        $candidate_name = $resume->post_title;
-						echo '<option value="' . absint( $resume->ID ) . ' "'; 
-							if($count==1)
-							{
-								echo 'selected';
-							}
-						echo '>' . $candidate_name.' - ' .$portfolio_name . '</option>';
-				$count++;	}
-				?>
-			</select>
-		</p>
+        <?php $resume = array_shift($resumes);?>
+        <input type="hidden" name="resume_id" value="<?php echo $resume->ID; ?>"/>
 		<p>
 			<label><?php _e( 'Message', 'workscout' ); ?>:</label>
 			<textarea name="application_message" cols="20" rows="4" required><?php

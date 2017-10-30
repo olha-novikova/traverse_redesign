@@ -47,6 +47,7 @@ function dashboard_enqueue_styles() {
     if( is_page_template('my-listings.php')){
         wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/brand-listing-page.css');
+        wp_enqueue_style('dialog-style', get_stylesheet_directory_uri().'/css/dashboard/dialog-style.css');
     }
 
     if ( is_checkout() ){
@@ -69,11 +70,17 @@ function dashboard_child_scripts(){
 	if (is_singular('resume')) {
 		wp_enqueue_script( 'single-grid-js', get_stylesheet_directory_uri() . '/js/images-grid.js', array('jquery'), '', true);
 	}
-    if ( is_account_page() ){
-        wp_dequeue_script( 'dashboard-vendor' );
-        wp_enqueue_script( 'workscout-magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), '20150705', true );
+
+    if( is_page_template('my-listings.php')){
+        wp_enqueue_script( 'tabs', get_stylesheet_directory_uri() . '/js/tabs.js', array('jquery'), '20150705', true );
+      //  wp_enqueue_script( 'workscout-magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), '20150705', true );
     }
 
+    if (is_singular('job_listing')){
+       // wp_enqueue_script( 'workscout-magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), '20150705', true );
+        wp_enqueue_script( 'single-listing', get_stylesheet_directory_uri() . '/js/single-listing.js', array('jquery'), '20150705', true );
+
+    }
 
 }
 

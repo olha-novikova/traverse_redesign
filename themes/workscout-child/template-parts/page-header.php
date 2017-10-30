@@ -19,9 +19,9 @@ $user_id = get_current_user_id();
             <?php
             if ( in_array( 'employer', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ) ) :
                 $employer_dashboard_page_id = get_option( 'job_manager_job_dashboard_page_id' );
-                $canidate_dashboard_page_id = get_option( 'resume_manager_candidate_dashboard_page_id' );
                 $submit_job_page = get_option('job_manager_submit_job_form_page_id');
                 $influencers = get_option('resume_manager_resumes_page_id');
+                $brand_name = get_user_meta( $user_id, 'company_name', true );
                 $brand_name = get_user_meta( $user_id, 'company_name', true );
                 ?>
                 <li class="profile__link"><a href="<?php echo  get_permalink( $employer_dashboard_page_id); ?>" class="profile__link__a">Dashboard</a></li>
@@ -32,11 +32,14 @@ $user_id = get_current_user_id();
                 <li class="profile__link"><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>" class="profile__link__a">Account</a></li>
             <?php endif;
 
-            if ( in_array( 'candidate', (array) $user->roles ) /*|| in_array( 'administrator', (array) $user->roles ) */): ?>
+            if ( in_array( 'candidate', (array) $user->roles ) ):
+                $canidate_dashboard_page_id = get_option( 'resume_manager_candidate_dashboard_page_id' );
+                $candidate_name = get_user_meta( $user_id, 'first_name', true )." ". get_user_meta( $user_id, 'last_name', true );
+                ?>
                 <li class="profile__link"><a href="<?php echo  get_permalink( $canidate_dashboard_page_id); ?>" class="profile__link__a">Dashboard</a></li>
                 <li class="profile__link"><a href="<?php echo  home_url('my-opportunities') ?>" class="profile__link__a">Find Opportunities</a></li>
                 <li class="profile__link"><a href="<?php echo home_url('/my-pitches'); ?>" class="profile__link__a">My Pitches</a></li>
-                <li class="profile__link profile__link_brand"><a href="#" class="profile__brandname">Brand Name / Agency </a></li>
+                <li class="profile__link profile__link_brand"><a href="#" class="profile__brandname"><?php echo $candidate_name;?></a></li>
                 <li class="profile__link"><a href="<?php echo  home_url('/my-balance'); ?>" class="profile__link__a">Balance/Cash Out</a></li>
                 <li class="profile__link"><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>" class="profile__link__a">Account</a></li>
 

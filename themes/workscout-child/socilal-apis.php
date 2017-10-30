@@ -594,3 +594,120 @@ function update_finished_companies(){
 
 //update_finished_companies();
 //die;
+
+function create_resume_for_all_candidates(){
+
+    $users = get_users( array('role'=>'candidate') );
+
+    echo "<pre>";
+
+    if ($users){
+
+        foreach( $users as $user ){
+            echo  $user->ID." ";
+            $resumes = get_posts( array(
+                'post_type'           => 'resume',
+                'post_status'         => 'any',
+                'ignore_sticky_posts' => 1,
+                'posts_per_page'      => 1,
+                'author'              => $user->ID
+
+            ) );
+
+            if ( $resumes ) {
+                echo "User ". $user->ID." already have resume <br>";
+            }else{
+                echo  $user->ID." ";
+
+                if ( get_user_meta( $user->ID, 'first_name', true ) &&  get_user_meta( $user->ID, 'last_name', true )){
+                    $post_title = get_user_meta( $user->ID, 'first_name', true )." ".get_user_meta( $user->ID, 'last_name', true );
+                }else {
+                    $post_title = $user->user_nicename;
+                }
+
+                $post_content = '';
+
+                $data = array(
+                    'post_title'     => $post_title,
+                    'post_content'   => $post_content,
+                    'post_type'      => 'resume',
+                    'comment_status' => 'closed',
+                    'post_password'  => '',
+                    'post_author'         => $user->ID
+                );
+
+                $data['post_status'] = 'preview';
+
+                $resume_id = wp_insert_post( $data );
+
+                echo "Resume for user  ". $user->ID." was created ( $resume_id )<br>";
+
+            }
+
+        }
+
+    }
+}
+//create_resume_for_all_candidates();
+
+function update_resume_for_all_candidates(){
+
+    $users = get_users( array('role'=>'candidate') );
+
+    echo "<pre>";
+
+    if ($users){
+
+        foreach( $users as $user ){
+            echo  $user->ID." ";
+            $resumes = get_posts( array(
+                'post_type'           => 'resume',
+                'post_status'         => 'preview',
+                'ignore_sticky_posts' => 1,
+                'posts_per_page'      => -1,
+                'author'              => $user->ID
+
+            ) );
+
+            if ( $resumes ) {
+               foreach ( $resumes as $resume){
+                   echo  $resume->ID." ";
+                   if (get_user_meta( $user->ID, 'website', true ))
+                       update_post_meta( $resume->ID, '_influencer_website',get_user_meta( $user->ID, 'website', true) );
+                   if (get_user_meta( $user->ID, 'jrrny_link', true ))
+                       update_post_meta( $resume->ID, '_jrrny_link',get_user_meta( $user->ID, 'jrrny_link', true) );
+                   if (get_user_meta( $user->ID, 'monthlyvisit', true ))
+                       update_post_meta( $resume->ID, '_estimated_monthly_visitors',get_user_meta( $user->ID, 'monthlyvisit', true) );
+                   if (get_user_meta( $user->ID, 'insta', true ))
+                       update_post_meta( $resume->ID, '_instagram_link',get_user_meta( $user->ID, 'insta', true) );
+                   if (get_user_meta( $user->ID, 'fb', true ))
+                       update_post_meta( $resume->ID, '_facebook_link',get_user_meta( $user->ID, 'fb', true) );
+                   if (get_user_meta( $user->ID, 'twitter', true ))
+                       update_post_meta( $resume->ID, '_twitter_link',get_user_meta( $user->ID, 'twitter', true) );
+                   if (get_user_meta( $user->ID, 'youtube', true ))
+                       update_post_meta( $resume->ID, '_youtube_link',get_user_meta( $user->ID, 'youtube', true) );
+                   if (get_user_meta( $user->ID, 'newsletter', true ))
+                       update_post_meta( $resume->ID, '_newsletter',get_user_meta( $user->ID, 'newsletter', true) );
+                   if (get_user_meta( $user->ID, 'newsletter_subscriber_count', true ))
+                       update_post_meta( $resume->ID, '_newsletter_total',get_user_meta( $user->ID, 'newsletter_subscriber_count', true) );
+                   if (get_user_meta( $user->ID, 'shortbio', true ))
+                       update_post_meta( $resume->ID, '_portfolio_description',get_user_meta( $user->ID, 'website', true) );
+                   if (get_user_meta( $user->ID, 'shortbio', true ))
+                       update_post_meta( $resume->ID, '_short_influencer_bio',get_user_meta( $user->ID, 'shortbio', true) );
+                   if (get_user_meta( $user->ID, 'location', true ))
+                       update_post_meta( $resume->ID, '_resume_locations',get_user_meta( $user->ID, 'location', true) );
+                   if (get_user_meta( $user->ID, 'website', true ))
+                       update_post_meta( $resume->ID, '_influencer_number',get_user_meta( $user->ID, 'website', true) );
+
+                   wp_update_post( array(
+                       'ID'          => $resume->ID,
+                       'post_status' => 'publish'
+                   ) );
+               }
+            }
+
+        }
+
+    }
+}
+//update_resume_for_all_candidates();

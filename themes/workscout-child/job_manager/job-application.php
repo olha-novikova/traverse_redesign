@@ -5,7 +5,7 @@
 		<?php do_action( 'job_application_start', $apply ); ?>
 		
 		
-		<a href="#apply-dialog" class="small-dialog popup-with-zoom-anim button"><?php esc_html_e( 'Pitch Listing', 'workscout' ); ?></a>
+		<a href="#apply-dialog" class="small-dialog button open-dialog"><?php esc_html_e( 'Pitch Listing', 'workscout' ); ?></a>
 
 		<div id="apply-dialog" class="small-dialog zoom-anim-dialog mfp-hide apply-popup">
 			<div class="small-dialog-headline">
