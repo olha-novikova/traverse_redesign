@@ -83,7 +83,6 @@ function preview_handler_pending() {
 add_action( 'woocommerce_add_order_item_meta','order_item_meta' , 10, 2 );
 
 function order_item_meta( $item_id, $values ) {
-    // Add the fields
     if ( isset( $values['job_id'] ) ) {
         $job = get_post( absint( $values['job_id'] ) );
 
@@ -117,7 +116,33 @@ function get_cart_item_from_session( $cart_item, $values ) {
     return $cart_item;
 }
 
-add_action( 'woocommerce_order_status_completed', 'so_payment_complete' );
+add_filter('woocommerce_add_cart_item_data','wdm_add_item_data',1,2);
+
+
+function wdm_add_item_data($cart_item_data,$product_id)
+{
+    global $woocommerce;
+    session_start();
+    if (isset($_SESSION['job_id'])) {
+        $option = $_SESSION['job_id'];
+        $new_value = array('job_id' => $option);
+    }
+    if(empty($option))
+        return $cart_item_data;
+    else
+    {
+        if(empty($cart_item_data))
+            return $new_value;
+        else
+            return array_merge($cart_item_data,$new_value);
+    }
+    unset($_SESSION['job_id']);
+}
+
+
+
+add_action( 'woocommerce_order_status_completed', 'so_payment_complete', 10, 1 );
+add_action( 'woocommerce_order_status_processing', 'so_payment_complete', 10, 1 );
 
 function so_payment_complete( $order_id ){
 
@@ -174,5 +199,5 @@ add_action( 'job_manager_job_submitted', 'done_publish_job' );
 function app_output_buffer() {
     ob_start();
 }
-add_action('init', 'app_output_buffer');
+//add_action('init', 'app_output_buffer');
 

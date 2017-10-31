@@ -98,7 +98,7 @@ get_sidebar();
                                                 <?php endif; ?>
                                                 <?php if ( $job->post_status == 'publish' ):
                                                     $action_url = add_query_arg( array( 'action' => 'edit', 'job_id' => $job->ID ) );
-                                                    echo '<a class="button button_white job-dashboard-action-edit" href="' . esc_url( $action_url ) . '">Edit Campaign</a>';
+                                                 //   echo '<a class="button button_white job-dashboard-action-edit" href="' . esc_url( $action_url ) . '">Edit Campaign</a>';
                                                 endif; ?>
                                             </div>
                                         </div>

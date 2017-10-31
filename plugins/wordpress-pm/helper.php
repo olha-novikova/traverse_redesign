@@ -21,9 +21,8 @@ function get_inbox_messages( $data )
 					$message['owner'] = 'false';
 				}
 
-				if( get_user_meta( $message['sender_id'] , 'user_mini_photo' , true ) )
-				{
-					$message['pic'] =  get_user_meta( $message['sender_id'] , 'user_mini_photo' , true );
+				if( get_avatar_url( $message['sender_id']) ){
+					$message['pic'] =  get_avatar_url( $message['sender_id'] );
 				} else {
 					$message['pic'] =  up_user_placeholder_image();
 				}
@@ -37,6 +36,7 @@ function get_inbox_messages( $data )
 				$message['reciever_name'] = get_user_name_by_id($message['reciever_id']) ?  get_user_name_by_id($message['reciever_id']) : 'Untitled' ;
 				$message['sender_name'] = get_user_name_by_id($message['sender_id']) ?  get_user_name_by_id($message['sender_id']) : 'Untitled' ;
 				$message['time'] = $message['created_at'];
+				$message['time_iso'] = date('Y-m-d\TH:i:sO', strtotime($message['created_at']));
 			}
 		}
 	}
@@ -124,6 +124,7 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 				$conversation['message'] = encrypt_decrypt($last_message[0]['message'], $last_message[0]['sender_id'], 'decrypt');
 				$conversation['message_id'] = $last_message[0]['id'];
 				$conversation['time'] = $last_message[0]['created_at'];
+				$conversation['time_iso'] = date('Y-m-d\TH:i:sO', strtotime($last_message[0]['created_at']));
 				$conversation['last_sender'] = $last_message[0]['sender_id'];
 				$conversation['message_exists'] = 'true';
 				// print_R($last_message[0]['seen']);
@@ -191,6 +192,7 @@ function get_few_messages_by_conversation($conv_id)
 			$message['reciever_name'] = get_user_name_by_id($message['reciever_id']) ?  get_user_name_by_id($message['reciever_id']) : 'Untitled' ;
 			$message['sender_name'] = get_user_name_by_id($message['sender_id']) ?  get_user_name_by_id($message['sender_id']) : 'Untitled' ;
 			$message['time'] = $message['created_at'];
+			$message['time_iso'] = date('Y-m-d\TH:i:sO', strtotime($message['created_at']));
 			if(isset($message['attachment_id']) && $message['attachment_id'] != null){
 				// $message['attachments'] = YoBro\App\Attachment::where('id', '=', $message['attachment_id'])->first();
 				$message['attachments'] = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_attachments WHERE id = %d ",  $message['attachment_id'] ), ARRAY_A );
@@ -219,16 +221,21 @@ function do_store_message( $message )
 		'message' => encrypt_decrypt($message['message'], $message['sender_id']),
 		'created_at' => date("Y-m-d H:i:s")
 	)); */
+	// die(get_avatar_url( $message['sender_id']));
+	// $pic = get_avatar_url( $message['sender_id']);
 	
 	$new_message = array(
 		'conv_id' => $message['conv_id'],
 		'attachment_id' => $attachment_id,
 		'sender_id' => $message['sender_id'],
 		'reciever_id' => $message['reciever_id'],
+		'pic' => get_avatar_url( $message['sender_id']) ,
 		'sender_name' => get_user_name_by_id($message['sender_id']),
 		'reciever_name' => get_user_name_by_id($message['reciever_id']),
 		'message' => encrypt_decrypt($message['message'], $message['sender_id']),
-		'created_at' => date("Y-m-d H:i:s")
+		'created_at' => date("Y-m-d H:i:s"),
+		'time' => date("Y-m-d H:i:s"),
+		'time_iso' => date('Y-m-d\TH:i:sO', strtotime(date("Y-m-d H:i:s")))
 	);
 	
 	$sql = $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_messages (`conv_id`, `sender_id`, `reciever_id`, `attachment_id`, `message`, `created_at`) VALUES (%d, %d, %d, %d, %s, %s)", $message['conv_id'], $message['sender_id'], $message['reciever_id'], $attachment_id, encrypt_decrypt($message['message'], $message['sender_id']), date("Y-m-d H:i:s")) );

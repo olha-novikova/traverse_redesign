@@ -1,0 +1,430 @@
+@font-face {
+  font-family: 'Traverse';
+  src: url("../fonts/Traverse.eot");
+  src: url("../fonts/Traverse.eot?#iefix") format("embedded-opentype"), url("../fonts/Traverse.woff") format("woff"), url("../fonts/Traverse.ttf") format("truetype"), url("../fonts/Traverse.svg#Traverse") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+/* line 27, /Applications/MAMP/htdocs/aplicatie/sass/_common/fonts.sass */
+[class*='icon_']:before {
+  display: inline-block;
+  font-family: 'Traverse';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+/* line 2, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.section_campaign .section__container {
+  padding-left: 7.67vw;
+  padding-right: 8.65vw;
+  display: flex; }
+
+/* line 6, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.image__block {
+  width: 18%;
+  margin-top: 1.87vw; }
+
+/* line 9, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.image {
+  width: 100%; }
+
+/* line 11, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.section__text {
+  width: 79%;
+  margin-left: 3%; }
+
+/* line 14, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.section__header {
+  font-size: 0.73vw;
+  color: #515365;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  margin-bottom: 0.99vw; }
+
+/* line 19, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.inputs {
+  display: flex; }
+  /* line 21, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+  .inputs .input__block {
+    margin-left: 1.14vw;
+    width: 18.64vw; }
+    /* line 24, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+    .inputs .input__block:first-child {
+      margin-left: 0; }
+
+/* line 26, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.section__header_main {
+  padding-left: 1.25vw;
+  padding-bottom: 1.04vw;
+  width: 100%;
+  border-bottom: 1px solid #e6ecf5;
+  margin-bottom: 0.88vw; }
+
+/* line 32, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.section__text__main {
+  margin-left: 1.25vw; }
+
+/* line 34, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.button_green {
+  background-color: #08ddc1; }
+
+/* line 36, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.last-block {
+  display: flex; }
+
+/* line 38, /Applications/MAMP/htdocs/aplicatie/sass/_sections/campaign.sass */
+.last-block__right {
+  margin-left: 3.64vw; }
+
+/* line 2, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section_campaigns .section__container {
+  padding-top: 1.19vw;
+  padding-bottom: 1.35vw; }
+
+/* line 5, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__header {
+  padding-bottom: 1.04vw; }
+
+/* line 7, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__head {
+  border-bottom: 2px solid #ebf0f7;
+  text-align: left; }
+
+/* line 10, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__row {
+  display: flex; }
+
+/* line 12, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 0.7vw;
+  color: #9a9fbf;
+  font-weight: normal; }
+
+/* line 19, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__header:first-child {
+  width: 10.6vw;
+  margin-left: 1.8vw; }
+
+/* line 22, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__header:nth-child(2) {
+  width: 8.33vw;
+  margin-left: 7.5vw; }
+
+/* line 25, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__header:nth-child(3) {
+  width: 12.23vw;
+  margin-left: 6.5vw; }
+
+/* line 28, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__header:nth-child(4) {
+  width: 11.71vw;
+  margin-left: 3.1vw; }
+
+/* line 31, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__header:last-child {
+  width: 9.37vw;
+  margin-left: 3.1vw; }
+
+/* line 34, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__data {
+  box-sizing: content-box;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.83vw;
+  color: #9a9fbf;
+  display: flex;
+  align-items: center; }
+  /* line 41, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:before {
+    display: inline-block;
+    font-family: 'Traverse';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #c3c6d9; }
+  /* line 50, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:first-child {
+    margin-left: 1.8vw;
+    width: 10.6vw; }
+    /* line 53, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .table__data:first-child .table__text {
+      color: #515365; }
+  /* line 55, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:nth-child(2) {
+    width: 8.33vw;
+    margin-left: 7.5vw; }
+    /* line 58, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .table__data:nth-child(2):before {
+      content: '\0057';
+      font-size: 1.4vw; }
+    /* line 61, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .table__data:nth-child(2) .table__text {
+      margin-left: 0.52vw; }
+  /* line 63, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:nth-child(3) {
+    width: 12.23vw;
+    margin-left: 6.5vw; }
+    /* line 66, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .table__data:nth-child(3):before {
+      content: '\0061';
+      font-size: 1.4vw; }
+    /* line 69, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .table__data:nth-child(3) .table__text {
+      margin-left: 0.52vw; }
+  /* line 71, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:nth-child(4) {
+    width: 11.71vw;
+    margin-left: 3.1vw; }
+  /* line 74, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:nth-child(5) {
+    width: 9.37vw;
+    margin-left: 3.1vw; }
+  /* line 77, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data:last-child {
+    margin-left: 3.6vw; }
+
+/* line 79, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__row_body {
+  padding-top: 1.82vw;
+  padding-bottom: 1.82vw;
+  align-items: center;
+  border-bottom: 1px solid #e6ecf5; }
+  /* line 84, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__row_body:last-child {
+    margin-bottom: 1.56vw; }
+
+/* line 86, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__buttons {
+  display: flex;
+  flex-direction: column; }
+  /* line 89, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__buttons .button {
+    width: 10vw;
+    border-radius: 0.3125rem;
+    margin-bottom: 0.52vw;
+    font-size: 0.83vw;
+    line-height: 0.83vw;
+    padding-top: 0.89vw;
+    padding-bottom: 0.89vw; }
+    /* line 97, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .table__buttons .button:last-child {
+      margin-bottom: 0; }
+
+/* line 99, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__influencers {
+  display: flex; }
+
+/* line 101, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__influencer {
+  width: 2.34vw;
+  height: 2.34vw;
+  background-color: #888da8;
+  border: 0.1vw solid #fff;
+  border-radius: 50%;
+  margin-left: -1.04vw;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  /* line 111, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__influencer:first-child {
+    margin-left: 0; }
+  /* line 113, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__influencer:last-child {
+    background-color: #22cdbc; }
+
+/* line 115, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__influencer__number {
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 0.83vw; }
+
+/* line 119, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.after-table {
+  width: 100%;
+  display: flex;
+  justify-content: center; }
+
+/* line 123, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__pitches_line {
+  margin: 2vw 5vw;
+  padding-bottom: 2vw;
+  border-bottom: 1px solid #e6ecf5;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2vw;
+  color: #888da8;
+  align-items: center; }
+  /* line 132, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .section__pitches_line a {
+    font-size: 1.2vw;
+    color: #515365; }
+  /* line 135, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .section__pitches_line span {
+    display: flex; }
+  /* line 137, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .section__pitches_line .table__influencers {
+    padding-right: 1vw; }
+    /* line 140, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+    .section__pitches_line .table__influencers .table__influencer:last-child {
+      background-color: #888da8; }
+
+/* line 142, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__persons {
+  margin: 2vw 5vw;
+  height: 25vw;
+  overflow: auto; }
+
+/* line 146, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.person_photo {
+  width: 2.34vw;
+  height: 2.34vw;
+  background-color: #888da8;
+  border: 0.1vw solid #fff;
+  border-radius: 50%;
+  margin-left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+/* line 156, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section_wrap_titles {
+  margin-top: 0;
+  background: #fff;
+  width: 100%;
+  border: 1px solid #e6ecf5;
+  border-radius: .125rem;
+  color: #9a9fbf;
+  display: flex;
+  flex-direction: column; }
+
+/* line 165, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section_wrap_titles a {
+  color: #9a9fbf;
+  font-size: 1vw;
+  width: auto;
+  padding-left: 2vw; }
+
+/* line 170, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.button__title.active {
+  color: #515365;
+  font-weight: bold; }
+
+/* line 173, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.button__badge {
+  background-color: #22cdbc;
+  width: 2vw;
+  color: #FFF;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 0.83vw;
+  padding: 0.25vw 0.6vw;
+  line-height: 1;
+  margin-left: 0.5vw;
+  border-radius: 3vw;
+  width: 2.34vw;
+  height: 2.34vw;
+  border: 0.1vw solid #fff;
+  border-radius: 50%;
+  margin-left: 0.4vw; }
+
+/* line 190, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__titles {
+  display: flex;
+  flex-direction: row; }
+
+/* line 193, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.table__data {
+  position: relative; }
+  /* line 195, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .table__data .button__badge {
+    position: absolute;
+    font-size: 0.80vw;
+    padding: 0.3vw 0.2vw;
+    line-height: 1.1;
+    margin-left: 0.5vw;
+    border-radius: 3vw;
+    width: 1.7vw;
+    height: 1.7vw;
+    text-align: center;
+    border: 0.1vw solid #fff;
+    border-radius: 50%;
+    margin-left: 0.4vw;
+    right: -2vw;
+    top: -1vw; }
+
+/* line 211, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__persons_items span {
+  font-weight: 300;
+  line-height: 1; }
+
+/* line 214, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__persons_items .person__single {
+  font-weight: 300; }
+
+/* line 216, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__list_footer {
+  display: flex;
+  color: #888da8; }
+  /* line 219, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+  .section__list_footer a {
+    color: #888da8;
+    font-size: 1.1vw;
+    margin: 0;
+    width: auto;
+    padding: 0;
+    padding: 1vw 0 2vw;
+    margin-right: 2vw; }
+
+/* line 227, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__list_content {
+  padding: 1vw 0;
+  font-size: 1.4vw; }
+
+/* line 230, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section_right {
+  font-size: 2vw;
+  color: #888da8;
+  line-height: 2vw; }
+
+/* line 234, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.section__list_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; }
+
+/* line 239, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.person_name {
+  font-size: 1.2vw;
+  color: #515365; }
+
+/* line 242, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.person_time_ago {
+  color: #888da8;
+  font-size: 0.8vw;
+  text-align: left; }
+
+/* line 246, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.person_and_time {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 1vw; }
+
+/* line 252, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
+.person_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
+
+/*# sourceMappingURL=../../dist/css/pages/brand-listing-page.map */

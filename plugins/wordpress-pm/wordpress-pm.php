@@ -48,11 +48,11 @@
         wp_enqueue_script('sweetalert2-min', 'https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.min.js');
         wp_enqueue_script('dropzonejs', PM_JS . 'dropzone.js', array(), PM_VERSION, true );
 		
-		// wp_register_script( 'momentjs', PM_JS . 'moment.js', array('jquery'), '2.19.1', true );
-		// wp_enqueue_script( 'momentjs' );
+		wp_register_script( 'momentjs', PM_JS . 'moment.js', array('jquery'), '2.19.1', true );
+		wp_enqueue_script( 'momentjs' );
 		
-		// wp_register_script( 'livestampjs', PM_JS . 'livestamp.min.js', array('jquery', 'momentjs'), '1.1.2', true );
-		// wp_enqueue_script( 'livestampjs' );
+		wp_register_script( 'livestampjs', PM_JS . 'livestamp.min.js', array('jquery', 'momentjs'), '1.1.2', true );
+		wp_enqueue_script( 'livestampjs' );
 		
 		
 	}

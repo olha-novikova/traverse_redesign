@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="Ru">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="css/vendor.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/brand-account.css">
+		<title>Traverse</title>
+	</head>
+	<body>
+		<header class="header">
+			<div class="logo">
+				<p class="logo__text">T</p>
+			</div>
+			<p class="page__name">Profile Page</p>
+			<div class="search__block">
+				<input type="search" placeholder="Search here people or pages..." class="search"/><i class="icon icon_search"></i>
+			</div><a href="#" class="header__link">Find Influencers</a>
+			<div class="icons">
+				<div class="icon__block"><i class="icon icon_chat"></i><i class="icon__number icon__number_purple">2</i></div>
+				<div class="icon__block"><i class="icon icon_notifications"></i><i class="icon__number icon__number_orange">8</i></div>
+			</div>
+			<div class="profile">
+				<div class="profile__logo"><img src="#" alt="" class="profile__image"/>
+					<div class="profile__backup__logo"></div>
+				</div>
+				<p class="profile__name">Brand Name</p>
+			</div>
+		</header>
+		<div class="wrapper">
+			<sidebar class="sidebar">
+				<ul class="icon-list">
+					<li class="icon-list__element"><i class="icon icon_menu"></i></li>
+					<li class="icon-list__element"><i class="icon icon_newsfeed"></i></li>
+					<li class="icon-list__element"><i class="icon icon_calendar"></i></li>
+					<li class="icon-list__element"><i class="icon icon_friends"></i></li>
+					<li class="icon-list__element"><i class="icon icon_widgets"></i></li>
+				</ul>
+			</sidebar>
+			<main class="main">
+				<section class="section_profile">
+					<div class="profile__background"><img src="#" alt="" class="profile__background__image"/>
+						<div class="profile__background__gradient"></div>
+						<div class="profile__button profile__button_add"></div>
+						<div class="profile__button profile__button_message"></div>
+						<div class="profile__button profile__button_settings"></div>
+					</div>
+					<div class="profile__action">
+						<ul class="profile__links">
+							<li class="profile__link"><a href="#" class="profile__link__a">Dashboard</a></li>
+							<li class="profile__link"><a href="#" class="profile__link__a">Create Listing</a></li>
+							<li class="profile__link"><a href="#" class="profile__link__a">Influencers</a></li>
+							<li class="profile__link profile__link_brand"><a href="#" class="profile__brandname">Brand Name / Agency </a></li>
+							<li class="profile__link"><a href="#" class="profile__link__a">My Listings</a></li>
+							<li class="profile__link"><a href="#" class="profile__link__a">Account</a></li>
+						</ul>
+					</div>
+				</section>
+				<div class="content">
+					<section class="section section_settings">
+						<div class="section__container settings__menu">
+							<p class="settings__menu__header">Your PROFILE</p>
+							<p class="settings__menu__list__header">Profile Settings</p>
+							<ul class="settings__menu__list">
+								<li class="settings__menu__list-item"><a href="" class="settings__menu__list__link">Personal Information</a></li>
+								<li class="settings__menu__list-item"><a href="" class="settings__menu__list__link">Account Settings</a></li>
+								<li class="settings__menu__list-item"><a href="" class="settings__menu__list__link">Change Password</a></li>
+								<li class="settings__menu__list-item"><a href="" class="settings__menu__list__link">Hobbies and Interests</a></li>
+								<li class="settings__menu__list-item"><a href="" class="settings__menu__list__link">Education and Employement</a></li>
+							</ul>
+						</div>
+						<div class="section__container settings__workarea">
+							<form class="form">
+								<p class="form__header">Change Password</p>
+								<div class="form__inputs inputs">
+									<div class="input__block">
+										<input id="first" type="password" class="form__input"/>
+										<label for="first" class="form__input__label">Confirm Current Password</label>
+									</div>
+									<div class="input__block">
+										<input id="second" type="text" class="form__input"/>
+										<label for="second" class="form__input__label">Your New Password</label>
+									</div>
+									<div class="input__block">
+										<input id="third" type="text" class="form__input"/>
+										<label for="third" class="form__input__label">Confirm New Password</label>
+									</div>
+								</div>
+								<div class="password__settings">
+									<div class="checkbox">
+										<input id="first-check" type="checkbox" class="form__checkbox"/>
+										<label for="first-check" class="checkbox__label">Remember New Password</label>
+									</div><a href="#" class="checkbox__forget">Forgot my Password</a>
+								</div>
+								<div class="settings__button">
+									<button type="submit" class="button button_orange">Change Password Now!</button>
+								</div>
+							</form>
+						</div>
+					</section>
+				</div>
+			</main>
+		<script src="js/vendor.min.js"></script>
+		<script src="js/main.min.js"></script>
+	</body>
+</html>

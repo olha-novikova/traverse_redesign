@@ -1,4 +1,7 @@
-<?php //session_start(); $_SESSION['job_id'] = $form->get_job_id();?>
+<?php session_start(); $_SESSION['job_id'] = $form->get_job_id();?>
+<script>
+    //alert(<?php  echo $_SESSION['job_id'];?>);
+</script>
 <div class="content create-page">
     <section class="section section_listing">
         <form method="post" id="job_preview" action="<?php echo esc_url( $form->get_action() ); ?>" class="section__container form form_listing">

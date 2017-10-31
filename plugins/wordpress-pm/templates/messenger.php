@@ -4,7 +4,7 @@
 	$messages = get_few_messages_by_conversation($conversationID);
 	$convData = get_conversation_data( $conversationID );
 	// print("<pre>");
-	// print_r($conversations);
+	
  ?>
 <script>
 	var conversationID = <?php echo $conversationID; ?>,
@@ -15,7 +15,6 @@
         <div class="section chat__header_part">
             <a class="title_name" href="#">Inbox</a>
             <a class="title_name" href="#">Messaging</a>
-            <a class="send_test_msg" href="#">Send Test message to Dan</a>
         </div>
         <div class="section chat__content_part">
             <div class="chat__content__left_wrapper">
@@ -23,9 +22,10 @@
 					<?php
 					foreach ($conversations['conversation'] as $conversation)
 					{
-						// print_R($conversation);
 						$active_class = $conversation['id'] == $conversationID ? " active" : "";
-						// die($conversation['seen']);
+						$conv_name = $conversation['sender'] == get_current_user_id() ? $conversation['reciever_name'] : $conversation['sender_name'];
+						// yes, yes, i know it's bullshit.
+						$conversation['seen'] = ($conversation['seen'] != 1) ? "false" : "true";
 						?>
 						<div class="chat_content_single<?php echo $active_class; ?>" data-msg-id="<?php echo $conversation['message_id']; ?>" data-reciever-id="<?php echo $conversation['reciever']; ?>" data-sender-id="<?php echo $conversation['sender']; ?>" data-reciever-name="<?php echo $conversation['reciever_name']; ?>" data-sender-name="<?php echo $conversation['sender_name']; ?>" data-conversation-id="<?php echo $conversation['id']; ?>" data-seen="<?php echo $conversation['seen']; ?>" data-created_at="<?php echo $conversation['created_at']; ?>" data-owner="<?php echo $conversation['owner']; ?>" data-time="<?php echo $conversation['time']; ?>">
 							<div class="chat__left_image">
@@ -33,21 +33,21 @@
 									<span class="person_image" style="background-image:url('<?php echo $conversation['pic']; ?>');"></span>
 								</div>
 								<div class="chat__content_wrapper">
-									<?php if ($conversation['seen']!=1) { 
+									<?php if ($conversation['seen']=="false") { 
 										do_message_seen( $conversation['id'] , $conversation['sender'] , $conversation['message_id'] );
 									?>
-										<h3 class="chat__content_title"><strong><?php echo $conversation['reciever_name']; ?></strong></h3>
+										<h3 class="chat__content_title"><strong><?php echo $conv_name; ?></strong></h3>
 									<?php } else { ?>
-										<h3 class="chat__content_title"><?php echo $conversation['reciever_name']; ?></h3>
+										<h3 class="chat__content_title"><?php echo $conv_name; ?></h3>
 									<?php } ?>
 									<div class="chat_content_text">
 										<p><?php echo $conversation['message']; ?></p>
 									</div>
-									<small class="chat_content_time"><?php echo $conversation['time']; ?></small>
+									<small class="chat_content_time" data-livestamp="<?php echo $conversation['time_iso']; ?>" title="<?php echo $conversation['time_iso']; ?>"></small>
 								</div>
 							</div>
 							<div class="chat_right_logo">
-								<span class="icon-list__element"><i class="icon icon_widgets"></i></span>
+								<span class="icon-list__element"><i class="icon icon_chat_msg"></i></span>
 							</div>
 						</div>
 					<?php } ?>
@@ -80,6 +80,7 @@
 					<?php foreach ($messages as $message) { 
 					if ($message['owner']) $pname = $message['sender_name'];
 					else $pname = $message['reciever_name'];
+					$message['time'] = date('Y-m-d\TH:i:sO', strtotime($message['time']));
 					?>
                     <div class="chat_listing_single">
                         <div class="chat__left_image">
@@ -89,7 +90,7 @@
                             <div class="chat__content_wrapper">
                                 <div class="chat__content_header">
                                     <h3 class="chat__content_title"><?php echo $pname; ?></h3>
-                                    <span class="chat_content_time"><?php echo $message['time']; ?></span>
+                                    <span class="chat_content_time" data-livestamp="<?php echo $message['time']; ?>" title="<?php echo $message['time']; ?>"></span>
                                 </div>
                                 <div class="chat_content_text">
 									
@@ -116,10 +117,11 @@
                     <textarea name="message" id="reply" cols="30" rows="10" placeholder="Write your reply here..."></textarea>
                     <div class="submit_part">
                         <div class="attach-part">
-                            <span class="icon-list__element"><i class="icon icon_widgets"></i></span>
-                            <span class="icon-list__element"><i class="icon icon_widgets"></i></span>
+                            <!--<span class="icon-list__element"><i class="icon icon_camera"></i></span>-->
+                            <span class="icon-list__element"><i class="icon icon_computer"></i></span>
+                           <!-- <span class="icon-list__element"><i class="icon icon_snippet"></i></span>-->
                         </div>
-                        <input type="submit">
+                        <input type="submit" value="Post Reply">
                     </div>
                 </form>
             </div>

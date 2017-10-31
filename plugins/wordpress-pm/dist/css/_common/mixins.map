@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../sass/_common/mixins.css",
+	"sources": [
+		"../../../sass/_common/mixins.sass"
+	],
+	"sourcesContent": [
+		"$medium: 768px;\n$large: 1060px;\n$xlarge: 1180px;\n\n@mixin mymed($media) {\n  @if $media == mscr {\n    @media only screen and (min-width: $medium) {\n    \t@content; } }\n\n  @else if $media == lscr {\n    @media only screen and (min-width: $large) {\n    \t@content; } }\n\n  @else if $media == xscr {\n    @media only screen and (min-width: $xlarge) {\n    \t@content; } } }\n\n\n@mixin MainFontB() {\n\tfont-family: MainFont, Helvetica, sans-serif;\n\tfont-weight: bold; }\n@mixin SecondFontL() {\n\tfont-family: SecondFont, Helvetica, sans-serif;\n\tfont-weight: 300; }\n@mixin MainFont() {\n\tfont-family: MainFont, Helvetica, sans-serif; }\n@mixin ptsans() {\n\tfont-family: pt_sans, Helvetica, sans-serif; }\n@mixin font_404() {\n  font-family: anodyne, Helvetica, sans-serif; }\n"
+	],
+	"mappings": "",
+	"names": []
+}

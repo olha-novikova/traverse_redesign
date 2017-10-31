@@ -1,0 +1,658 @@
+@font-face {
+  font-family: 'Traverse';
+  src: url("../fonts/Traverse.eot");
+  src: url("../fonts/Traverse.eot?#iefix") format("embedded-opentype"), url("../fonts/Traverse.woff") format("woff"), url("../fonts/Traverse.ttf") format("truetype"), url("../fonts/Traverse.svg#Traverse") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+/* line 27, /Applications/MAMP/htdocs/aplicatie/sass/_common/fonts.sass */
+[class*='icon_']:before {
+  display: inline-block;
+  font-family: 'Traverse';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+/* line 1, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+* {
+  box-sizing: border-box; }
+
+/* line 3, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+body {
+  background-color: #edf2f6; }
+
+/* line 6, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+/* line 13, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.wrapper {
+  display: flex; }
+
+/* line 15, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+h1, h2, h3, h4, h5, h6, a, p {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  color: #9a9fbf; }
+
+/* line 22, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+a {
+  text-decoration: none;
+  font-size: 1rem; }
+  /* line 25, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  a:active {
+    outline: none; }
+  /* line 27, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  a:hover {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none; }
+
+/* line 31, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+ul {
+  padding-left: 0;
+  margin: 0;
+  list-style-type: none; }
+
+/* line 36, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+input, textarea {
+  -webkit-font-smoothing: antialiased;
+  outline: none; }
+  /* line 39, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  input:active, textarea:active {
+    outline: none; }
+  /* line 41, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  input:focus, textarea:focus {
+    outline: none; }
+
+/* line 43, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+textarea {
+  resize: none; }
+
+/* line 46, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+button {
+  -webkit-font-smoothing: antialiased; }
+  /* line 48, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  button:active, button:focus {
+    outline: none; }
+  /* line 50, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  button::-moz-focus-inner {
+    border: 0; }
+  /* line 52, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  button:hover {
+    cursor: pointer; }
+
+/* line 54, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.content {
+  padding-top: 1.56vw;
+  padding-left: 1.82vw;
+  padding-right: 1.82vw; }
+
+/* line 58, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.input__block {
+  position: relative;
+  margin-bottom: 1.25rem; }
+
+/* line 61, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__input__label {
+  position: absolute;
+  z-index: 2;
+  left: 1.04vw;
+  top: 0;
+  color: #888da8;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.72vw;
+  line-height: 1.25vw;
+  transform: translateY(0.78125vw);
+  transition: 0.4s; }
+
+/* line 72, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__input:focus {
+  border-color: #ff5e3a; }
+
+/* line 74, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__input:focus + .form__input__label, .form__input.has-value + .form__input__label {
+  transform: translateY(0.3125vw);
+  font-size: 0.52vw; }
+
+/* line 77, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__input {
+  padding: 1.35vw 1.04vw 0.57vw;
+  color: #515365;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.729vw;
+  line-height: 0.078vw;
+  position: relative;
+  z-index: 2;
+  border: 1px solid #d8dbe6;
+  border-radius: 0.25rem; }
+
+/* line 88, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.checkbox__block {
+  display: flex; }
+
+/* line 90, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.checkbox__label {
+  font-size: 0.68vw;
+  color: #9a9fbf;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 0.41vw;
+  padding-left: 1.28vw;
+  margin-left: 1.87vw;
+  height: 1vw; }
+  /* line 101, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  .checkbox__label:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: url("../img/check.png");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 0.9375vw;
+    height: 0.9375vw;
+    border: 1px solid #d8dbe6;
+    border-radius: 3px;
+    transition: 0.4s;
+    box-sizing: border-box; }
+
+/* line 116, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.checkbox:hover {
+  cursor: pointer; }
+
+/* line 119, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.checkbox:first-child .checkbox__label {
+  margin-left: 0; }
+
+/* line 121, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__checkbox {
+  display: none; }
+
+/* line 124, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__checkbox:checked + label.checkbox__label:before {
+  background-color: #ff5e3a;
+  border-color: #ff5e3a; }
+
+/* line 127, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.form__checkbox:disabled + label.checkbox__label:before {
+  content: '';
+  background-color: #d7d9e5;
+  border-color: #d7d9e5; }
+
+/* line 131, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.section__container {
+  background: #fff;
+  width: 100%;
+  border: 1px solid #e6ecf5;
+  border-radius: 0.125rem;
+  padding-top: 3.86vw;
+  padding-bottom: 4.96vw; }
+
+/* line 138, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.section {
+  margin-bottom: 2.08vw; }
+
+/* line 140, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.button {
+  display: block;
+  text-align: center;
+  width: 13.54vw;
+  padding-top: 1.09vw;
+  padding-bottom: 1.09vw;
+  font-size: 0.72vw;
+  color: #fff;
+  border-radius: 0.1875rem;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400; }
+  /* line 151, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+  .button:hover {
+    cursor: pointer; }
+
+/* line 153, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.button_white {
+  color: #888da8;
+  border: 1px solid #e8e9f0; }
+
+/* line 156, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.button_orange {
+  color: #fff;
+  background-color: #ff5e3a; }
+
+/* line 161, /Applications/MAMP/htdocs/aplicatie/sass/_common/general.sass */
+.main {
+  height: 2000px;
+  width: 100%; }
+
+@media only screen and (min-width: 768px) {
+  /* line 2, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+  .container {
+    width: 768px; } }
+
+@media only screen and (min-width: 1060px) {
+  /* line 2, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+  .container {
+    width: 1040px; } }
+
+@media only screen and (min-width: 1180px) {
+  /* line 2, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+  .container {
+    width: 1140px; } }
+
+@media only screen and (min-width: 768px) {
+  /* line 10, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+  .header-container,
+  .footer-container {
+    margin: 0 auto;
+    width: 38.75rem; } }
+
+@media only screen and (min-width: 1060px) {
+  /* line 10, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+  .header-container,
+  .footer-container {
+    width: 996px; } }
+
+@media only screen and (min-width: 1180px) {
+  /* line 10, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+  .header-container,
+  .footer-container {
+    width: 1180px; } }
+
+/* line 19, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+.header-container {
+  position: absolute;
+  width: 100%;
+  z-index: 2; }
+
+/* line 23, /Applications/MAMP/htdocs/aplicatie/sass/_common/containers.sass */
+.container,
+.header-container,
+.footer-container {
+  margin: 0 auto; }
+
+/* line 1, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.header {
+  width: 100%;
+  padding-right: 4.5%;
+  background-color: #05a4e6;
+  color: #fff;
+  display: flex;
+  height: 6.25rem;
+  align-items: center; }
+
+/* line 9, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.logo {
+  background-color: #000;
+  width: 6.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+/* line 15, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.logo__text {
+  color: #05a4e6;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 5.75rem;
+  line-height: 6.25rem; }
+
+/* line 20, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.page__name {
+  font-size: 1.25rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  margin-left: 2%; }
+
+/* line 26, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.search__block {
+  margin-left: 7.5%;
+  width: 36%; }
+
+/* line 29, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.search {
+  font-size: 1.0625rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  background-color: #037cae;
+  color: #fff;
+  height: 6.25rem;
+  width: 100%;
+  border: none;
+  padding-left: 5%; }
+  /* line 38, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .search::-webkit-input-placeholder {
+    color: #fff; }
+  /* line 40, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .search::-moz-placeholder {
+    color: #fff; }
+  /* line 42, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .search:-moz-placeholder {
+    color: #fff; }
+  /* line 44, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .search:-ms-input-placeholder {
+    color: #fff; }
+
+/* line 46, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.header__link {
+  font-size: 1.0625rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  margin-left: 3.6%;
+  color: #fff; }
+
+/* line 51, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icons {
+  margin-left: 5.5%;
+  display: flex;
+  align-items: center; }
+
+/* line 55, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icon__block {
+  position: relative;
+  margin-left: 2.8125rem; }
+  /* line 58, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .icon__block:first-child {
+    margin-left: 0; }
+
+/* line 60, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icon__number {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-style: normal; }
+
+/* line 74, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icon__number_purple {
+  background-color: #916bdf; }
+
+/* line 76, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icon__number_orange {
+  background-color: #ff5e3a; }
+
+/* line 78, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icon_chat {
+  width: 1.9375rem;
+  height: 1.8125rem; }
+  /* line 81, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .icon_chat:before {
+    content: '\0063';
+    font-size: 2.3125rem; }
+
+/* line 84, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.icon_notifications {
+  width: 1.3125rem;
+  height: 1.75rem; }
+  /* line 87, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .icon_notifications:before {
+    content: '\0038';
+    font-size: 1.75rem; }
+
+/* line 90, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.profile {
+  margin-left: 5.2%;
+  display: flex;
+  align-items: center; }
+
+/* line 94, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.profile__logo {
+  border-radius: 50%;
+  width: 3.125rem;
+  height: 3.125rem;
+  position: relative; }
+
+/* line 99, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.profile__image {
+  position: relative;
+  z-index: 2;
+  width: 100%; }
+
+/* line 103, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.profile__backup__logo {
+  background-color: #FFF;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1; }
+
+/* line 112, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+.profile__name {
+  font-size: 1.0625rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-left: 0.8125rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #fff; }
+  /* line 121, /Applications/MAMP/htdocs/aplicatie/sass/_sections/header.sass */
+  .profile__name:after {
+    content: url("../img/down.png");
+    width: 0.5625rem;
+    height: 0.4375rem;
+    position: absolute;
+    top: -0.25rem;
+    right: -2.1875rem; }
+
+/* line 1, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.sidebar {
+  width: 6.25rem;
+  display: flex;
+  background-color: #FFF;
+  align-items: stretch; }
+
+/* line 6, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon-list {
+  width: 6.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3.4375rem; }
+
+/* line 12, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon-list li {
+  list-style-type: none;
+  margin-bottom: 3.125rem; }
+
+/* line 15, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon-list__element .icon {
+  color: #9a9fbf;
+  font-size: 1.625rem; }
+  /* line 18, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+  .icon-list__element .icon:hover, .icon-list__element .icon :active {
+    color: #ff5e3a;
+    cursor: pointer; }
+
+/* line 22, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon_menu:before {
+  content: '\0073'; }
+
+/* line 24, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon_newsfeed {
+  font-size: 1.75rem; }
+  /* line 26, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+  .icon_newsfeed:before {
+    content: '\0076'; }
+
+/* line 28, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon_calendar {
+  font-size: 1.9375rem; }
+  /* line 30, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+  .icon_calendar:before {
+    content: '\0061'; }
+
+/* line 32, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon_friends {
+  font-size: 2.1875rem; }
+  /* line 34, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+  .icon_friends:before {
+    content: '\006c'; }
+
+/* line 36, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+.icon_widgets {
+  font-size: 2rem; }
+  /* line 38, /Applications/MAMP/htdocs/aplicatie/sass/_sections/sidebar.sass */
+  .icon_widgets:before {
+    content: '\0072'; }
+
+/* line 1, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.section_profile {
+  margin-left: 0.0625rem; }
+
+/* line 4, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__background {
+  width: 100%;
+  height: 13.54vw;
+  display: flex;
+  align-items: flex-end;
+  position: relative; }
+
+/* line 10, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__background__gradient {
+  width: 100%;
+  height: 13.54vw;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background: #e9e9e9;
+  background: -moz-linear-gradient(top, #e9e9e9 20%, #929292 100%);
+  background: -webkit-linear-gradient(top, #e9e9e9 20%, #929292 100%);
+  background: linear-gradient(to bottom, #e9e9e9 20%, #929292 100%); }
+
+/* line 21, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__action {
+  padding-top: 2.68vw;
+  padding-bottom: 2.94vw; }
+
+/* line 24, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__action {
+  display: flex;
+  background: #fff;
+  align-items: baseline;
+  padding-left: 7.69%; }
+
+/* line 29, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__links {
+  display: flex;
+  list-style-type: none;
+  align-items: baseline;
+  width: 100%; }
+
+/* line 34, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__link {
+  margin-left: 5.2%; }
+  /* line 36, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+  .profile__link:first-child {
+    margin-left: 0; }
+
+/* line 38, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__link__a {
+  color: #9a9fbf;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1.14vw; }
+  /* line 42, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+  .profile__link__a:hover, .profile__link__a :active {
+    color: #515365; }
+
+/* line 44, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__link_brand {
+  margin-left: 6%;
+  margin-right: 0.5%; }
+
+/* line 47, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__brandname {
+  color: #515365;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1.77vw; }
+
+/* line 51, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__button {
+  border-radius: 50%;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  /* line 58, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+  .profile__button:before {
+    display: inline-block;
+    font-family: 'Traverse';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #fff; }
+
+/* line 67, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__button_add {
+  width: 10.4vw;
+  height: 10.4vw;
+  border: 5px solid #fff;
+  background-color: #3f4257;
+  margin-left: 45.5%;
+  margin-bottom: -1.82vw; }
+  /* line 74, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+  .profile__button_add:before {
+    content: '\0079';
+    font-size: 2.55vw; }
+
+/* line 77, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__button_message {
+  width: 4.16vw;
+  height: 4.16vw;
+  background-color: #916bdf;
+  margin-left: 9%;
+  margin-bottom: -1.3vw; }
+  /* line 83, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+  .profile__button_message:before {
+    content: '\0063';
+    font-size: 1.97vw; }
+
+/* line 86, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+.profile__button_settings {
+  width: 4.16vw;
+  height: 4.16vw;
+  background-color: #ff5e3a;
+  margin-left: 1.9%;
+  margin-bottom: -1.3vw; }
+  /* line 92, /Applications/MAMP/htdocs/aplicatie/sass/_sections/profile.sass */
+  .profile__button_settings:before {
+    content: '\0031';
+    font-size: 1.46vw; }
+
+/*# sourceMappingURL=../../dist/css/pages/main.map */

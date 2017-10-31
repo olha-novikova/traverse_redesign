@@ -44,12 +44,12 @@ class PrivateMessagesAjax {
 			$store_message = do_store_message($_POST);
 			if( isset( $store_message['id']) ){
 				$store_message['owner'] = 'true';
-				if( get_user_meta( $store_message['sender_id'] , 'user_mini_photo' , true ) ){
-					$store_message['pic'] =  get_user_meta( $store_message['sender_id'] , 'user_mini_photo' , true );
-				}else{
-					$store_message['pic'] =  up_user_placeholder_image();
-				}
-				$store_message['time'] = $store_message['created_at'];
+				// if( get_user_meta( $store_message['sender_id'] , 'user_mini_photo' , true ) ){
+					// $store_message['pic'] =  get_user_meta( $store_message['sender_id'] , 'user_mini_photo' , true );
+				// }else{
+					// $store_message['pic'] =  up_user_placeholder_image();
+				// }
+				// $store_message['time'] = $store_message['created_at'];
 			}
 			echo json_encode( array( 'pushed'=>true ,'message' => $store_message ) );
 		}

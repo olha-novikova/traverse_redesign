@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../../../sass/_common/colors.css",
+	"sources": [
+		"../../../sass/_common/colors.sass"
+	],
+	"sourcesContent": [
+		"$blue: #05a4e6;\n$bluedark: #037cae;\n$purple: #916bdf;\n$orange: #ff5e3a;\n$green: #08ddc1;\n$fontdark: #515365;\n$fontlight: #9a9fbf;\n\n$savelink: #b56053;\n"
+	],
+	"mappings": "",
+	"names": []
+}

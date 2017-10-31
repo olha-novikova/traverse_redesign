@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Traverse';
+  src: url("../fonts/Traverse.eot");
+  src: url("../fonts/Traverse.eot?#iefix") format("embedded-opentype"), url("../fonts/Traverse.woff") format("woff"), url("../fonts/Traverse.ttf") format("truetype"), url("../fonts/Traverse.svg#Traverse") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+/* line 27, /Applications/MAMP/htdocs/aplicatie/sass/_common/fonts.sass */
+[class*='icon_']:before {
+  display: inline-block;
+  font-family: 'Traverse';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+/*# sourceMappingURL=../../dist/css/_common/fonts.map */
