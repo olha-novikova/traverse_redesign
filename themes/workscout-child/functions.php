@@ -118,11 +118,6 @@ function application_edit_handler() {
         }
 
         $application_status = sanitize_text_field( $_POST['application_status'] );
-        $application_rating = floatval( $_POST['application_rating'] );
-        $application_rating = $application_rating < 0 ? 0 : $application_rating;
-        $application_rating = $application_rating > 5 ? 5 : $application_rating;
-
-        update_post_meta( $application_id, '_rating', $application_rating );
 
         if ( array_key_exists( $application_status, $wp_post_statuses ) ) {
             wp_update_post( array(
@@ -2019,9 +2014,10 @@ function process_login_custom() {
 
                 $myaccount = get_permalink( wc_get_page_id( 'myaccount' ) );
 
-                if( $role == 'employer' ) {
+                if( $role == 'employer' || $role == 'administrator' ) {
                     if(get_option( 'job_manager_job_dashboard_page_id')) {
-                        $redirect = get_permalink(get_option( 'job_manager_job_dashboard_page_id'));
+                        $redirect = home_url().'/job-dashboard';
+
                     } else {
                         $redirect= home_url();
                     };

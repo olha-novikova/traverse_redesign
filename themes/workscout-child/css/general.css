@@ -500,9 +500,22 @@ button::-moz-focus-inner {
     border-radius: 50%;
     width: 3.125rem;
     height: 3.125rem;
-    position: relative
+    position: relative;
+    overflow: hidden;
 }
-
+.profile__name .logout {
+    display: none;
+    position: absolute;
+    right: -2.1875rem;
+    top: 100%;
+    background: #000;
+}
+.profile__name .logout a{
+    color: #fff;
+}
+.profile__name:hover .logout {
+    display: block;
+}
 .profile__image {
     position: relative;
     z-index: 2;
