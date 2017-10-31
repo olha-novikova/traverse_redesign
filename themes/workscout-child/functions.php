@@ -158,6 +158,13 @@ function application_edit_handler() {
     }
 }
 
+add_action( 'after_setup_theme', 'theme_register_nav_menu' );
+
+function theme_register_nav_menu() {
+
+    register_nav_menu( 'footer', 'Main Footer Menu' );
+}
+
 add_action( 'woocommerce_edit_account_form', 'my_woocommerce_edit_account_form_child' );
 
 function my_woocommerce_edit_account_form_child() {
@@ -844,18 +851,12 @@ function custom_save_account_details() {
             ) );
 
             $resumes = new WP_Query( $args );
-
-            if ( $resumes->have_posts() ){
-                wp_safe_redirect($myaccount.'/edit-account');
-                exit;
-            }else{
-                wp_safe_redirect($myaccount.'/edit-account/?success=2');
-                exit;
-            }
-
+            wc_get_page_permalink( 'myaccount' );
+            exit;
         }
+
         if( $current_user->roles[0] == 'employer' ) {
-            wp_safe_redirect($myaccount.'/edit-account?success=2');
+            wp_safe_redirect(home_url().'/job-dashboard');
             exit;
         } else {
             wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
