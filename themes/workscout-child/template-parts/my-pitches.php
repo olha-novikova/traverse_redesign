@@ -15,6 +15,7 @@
 				<?php foreach ($pitches as $pitch) : ?>
 					<?php $pitches_data = get_post_meta($pitch[0]->ID, '', true);
 					$date = $pitch['date'];
+
 					?>
 					<div class="table__row table__row_body">
 						<div class="table__data"><i class="icon icon_calendar"></i>
