@@ -30,24 +30,20 @@ function dashboard_enqueue_styles() {
         wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
     }
     if ( is_page('create-lising')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-create', get_stylesheet_directory_uri().'/css/dashboard/brand-create.css');
     }
 
     if (is_singular('job_listing')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
-        wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/dashboard/brand-single.css');
+        wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/dashboard/completed-listing.css');
     }
 
     if( is_page('job-dashboard')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
+        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/dashboard/general.css');
         wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/dashboard/brand-dashboard.css');
     }
 
     if( is_page_template('my-listings.php')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/dashboard/brand-listing-page.css');
-
         wp_enqueue_style('dialog-style', get_stylesheet_directory_uri().'/css/dashboard/dialog-style.css');
     }
 
