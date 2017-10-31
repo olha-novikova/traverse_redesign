@@ -24,7 +24,7 @@ get_sidebar();
             </section>
             <section class="section section_campaigns app-tabs">
 
-                <div class="section__container app-tab-content opened" id="listings">
+                <section class="section__container app-tab-content opened" id="listings">
                     <?php $jobs = get_job_listings_list(); ?>
                     <?php if ( ! $jobs ) : ?>
                         <?php esc_html_e( 'You do not have any active listings.', 'workscout' ); ?>
@@ -107,8 +107,8 @@ get_sidebar();
                             </div><!--table__body-->
                         </div><!--table-->
                     <?php endif; ?>
-                </div>
-                <div class="section__container app-tab-content" id="pitches">
+                </section>
+                <section class="section__container app-tab-content" id="pitches">
                     <?php
                     $jobs_with_applications = get_applications();
                     ?>
@@ -287,7 +287,7 @@ get_sidebar();
                         endforeach;?>
                         </div>
                     </div>
-                </div>
+                </section>
             </section>
         </div> <!-- content -->
         <script>

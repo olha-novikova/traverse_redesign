@@ -61,7 +61,7 @@ include_once get_stylesheet_directory() . '/inc/brand-functions.php';
 function remove_parent_theme_features() {
     remove_filter( 'woocommerce_login_redirect', 'wc_custom_user_redirect', 10, 2 );
     remove_action( 'wp_loaded', array( 'WP_Job_Manager_Applications_Dashboard', 'edit_handler' ) );
-
+    remove_action( 'transition_post_status', array( 'WP_Job_Manager_Applications_Post_Types', 'transition_post_status' ), 10);
 }
 
 add_action( 'after_setup_theme', 'remove_parent_theme_features', 10 );
@@ -1074,180 +1074,56 @@ function update_employer_woocommerce_fields( $job_id, $values ){
 }
 
 
-add_action('wp_ajax_application_form_handler_direct', 'application_form_handler_direct');
-add_action('wp_ajax_nopriv_application_form_handler_direct', 'application_form_handler_direct');
+add_action( 'transition_post_status',  'transition_post_status_for_multiply_job' , 10, 3 );
 
-function application_form_handler_direct() {
-    parse_str( $_POST['form_data'], $formData);
-    if ( ! empty( $formData['wp_job_manager_send_application_directly'] ) ) {
-        try {
-            $values = array();
-            $job_id = absint( $formData['job_id'] );
-            $job    = get_post( $job_id );
-            $meta   = array();
-
-            $meta['_secret_dir']      = '';
-            $meta['_attachment']      = array();
-            $meta['_attachment_file'] = array();
-
-            if ( empty( $job_id ) || ! $job || 'job_listing' !== $job->post_type ) {
-                wp_send_json_error(array('error' => __( 'Invalid job', 'wp-job-manager-applications' )));
-            }
-
-            if ( 'publish' !== $job->post_status ) {
-                wp_send_json_error(array('error' => __( 'That job is not available', 'wp-job-manager-applications' )));
-            }
-
-            if ( get_option( 'job_application_prevent_multiple_applications' ) && user_has_applied_for_job( get_current_user_id(), $job_id ) ) {
-                wp_send_json_error(array('error' => __( 'You have already applied for this job', 'wp-job-manager-applications' )));
-            }
-
-            $resume_id = absint( $formData['resume_id'] );
-
-            $application_message = $formData['application_message'];
-
-
-            $meta['_resume_id'] = absint( $resume_id );
-
-            $application_message = implode( "\n\n", $application_message );
-
-            $current_user = is_user_logged_in() ? wp_get_current_user() : false;
-
-            $author_resume = get_post_field('post_author', $resume_id, 'db');
-
-            if ( $current_user != $author_resume ) {
-                $from_name = $current_user->first_name . ' ' . $current_user->last_name;
-            }else{
-                $from_name = get_the_title( $resume_id );
-            }
-
-            if ( $current_user ) {
-                $from_email = $current_user->user_email;
-            }
-
-            $meta     = apply_filters( 'job_application_form_posted_meta', $meta, $values );
-
-
-            if ( ! $application_id = create_job_application( $job_id, $from_name, $from_email, $application_message, $meta ) ) {
-                wp_send_json_error(array('error' => __( 'Could not create job application', 'wp-job-manager-applications' )));
-            }
-
-            $args = array(
-                'post_type'        => 'application_message',
-                'post_status'      => 'any',
-                'posts_per_page'   => -1,
-                'meta_query' => array(
-                    'relation' => 'AND',
-                    array(
-                        'key' => '_target_resume',
-                        'value' => $resume_id
-                    ),
-                    array(
-                        'key' => '_target_job',
-                        'compare' => $job_id,
-                    )
-
-                )
-            );
-
-            $messages = new WP_Query( $args );
-
-            if ($messages ->have_posts()){
-                while ($messages ->have_posts()){
-                    $messages -> the_post();
-                    update_post_meta( $messages->post->ID, '_target_application', $application_id );
-                }
-            }
-
-            // Candidate email
-            $candidate_email_content = get_job_application_candidate_email_content();
-            if ( $candidate_email_content ) {
-                $existing_shortcode_tags = $GLOBALS['shortcode_tags'];
-                remove_all_shortcodes();
-                job_application_email_add_shortcodes( array(
-                    'application_id'      => $application_id,
-                    'job_id'              => $job_id,
-                    'user_id'             => get_current_user_id(),
-                    'candidate_name'      => $from_name,
-                    'candidate_email'     => $from_email,
-                    'application_message' => $application_message,
-                    'meta'                => $meta
-                ) );
-                $subject = do_shortcode( get_job_application_candidate_email_subject() );
-                $message = do_shortcode( $candidate_email_content );
-                $message = str_replace( "\n\n\n\n", "\n\n", implode( "\n", array_map( 'trim', explode( "\n", $message ) ) ) );
-                $is_html = ( $message != strip_tags( $message ) );
-
-                // Does this message contain formatting already?
-                if ( $is_html && ! strstr( $message, '<p' ) && ! strstr( $message, '<br' ) ) {
-                    $message = nl2br( $message );
-                }
-
-                $GLOBALS['shortcode_tags'] = $existing_shortcode_tags;
-                $headers   = array();
-                $headers[] = 'From: ' . get_bloginfo( 'name' ) . ' <noreply@' . str_replace( array( 'http://', 'https://', 'www.' ), '', site_url( '' ) ) . '>';
-                $headers[] = $is_html ? 'Content-Type: text/html' : 'Content-Type: text/plain';
-                $headers[] = 'charset=utf-8';
-
-                wp_mail(
-                    apply_filters( 'create_job_application_candidate_notification_recipient', $from_email, $job_id, $application_id ),
-                    apply_filters( 'create_job_application_candidate_notification_subject', $subject, $job_id, $application_id ),
-                    apply_filters( 'create_job_application_candidate_notification_message', $message ),
-                    apply_filters( 'create_job_application_candidate_notification_headers', $headers, $job_id, $application_id ),
-                    apply_filters( 'create_job_application_candidate_notification_attachments', array(), $job_id, $application_id )
-                );
-            }
-
-            // Message to display
-            add_action( 'job_content_start', array( $this, 'application_form_success' ) );
-
-            // Trigger action
-            do_action( 'new_job_application', $application_id, $job_id );
-
-        } catch ( Exception $e ) {
-            $this->error = $e->getMessage();
-            add_action( 'job_content_start', array( $this, 'application_form_errors' ) );
-        }
-        wp_send_json_success();
+function transition_post_status_for_multiply_job( $new_status, $old_status, $post ) {
+    if ( 'job_application' !== $post->post_type ) {
+        return;
     }
-    wp_send_json_error();
-	}
 
+    $statuses = get_job_application_statuses();
 
-function get_paid_listings_employer_packages( $user_id ) {
-    global $wpdb;
+    // Add a note
+    if ( $old_status !== $new_status && array_key_exists( $old_status, $statuses ) && array_key_exists( $new_status, $statuses ) ) {
+        $user                 = get_user_by( 'id', get_current_user_id() );
+        $comment_author       = $user->display_name;
+        $comment_author_email = $user->user_email;
+        $comment_post_ID      = $post->ID;
+        $comment_author_url   = '';
+        $comment_content      = sprintf( __( 'Application status changed from "%s" to "%s"', 'wp-job-manager-applications' ), $statuses[ $old_status ], $statuses[ $new_status ] );
+        $comment_agent        = 'WP Job Manager';
+        $comment_type         = 'job_application_note';
+        $comment_parent       = 0;
+        $comment_approved     = 1;
+        $commentdata          = apply_filters( 'job_application_note_data', compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ), $application_id );
+        $comment_id           = wp_insert_comment( $commentdata );
+    }
 
-    $listings_data = array();
-    $packages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcpl_user_packages WHERE user_id = %d AND package_type IN ( 'job_listing' ) ;", $user_id ), OBJECT_K );
+    $job_id = wp_get_post_parent_id( $post->ID );
 
-    foreach ($packages as $package){
-        $_product = wc_get_product( $package->product_id );
+    $nubmer_influencer_possible = get_post_meta($job_id, '_applications_number', true );
 
-        $listing_data = array();
-        $listing_data['product_id'] = $package->product_id;
-        $listing_data['name'] = $_product->get_name();
-        $listing_data['currency'] = get_woocommerce_currency_symbol();
-        $listing_data['price'] = $_product->get_price();
+    if ('hired' === $new_status ){
 
         $args = array(
-            'post_type'     => 'job_listing',
-            'post_status'   => 'any',
-            'posts_per_page'=> 1,
-            'author'        => $user_id,
-            'meta_key'      => '_wcpl_jmfe_product_id',
-            'meta_value'    => $package->product_id
+            'post_type'      => 'job_application',
+            'post_status'    => 'hired',
+            'posts_per_page' => -1,
+            'post_parent'    => $job_id
         );
 
-        $jobs_query = new WP_Query( $args );
+        $existing_applications = get_posts($args);
 
-        if ( $jobs_query -> have_posts())
-            $listing_data['listing'] = $jobs_query->posts;
+        if ( count ($existing_applications) == $nubmer_influencer_possible ){
+            update_post_meta( $job_id, '_filled', 1 );
+        }
 
-        $listings_data[] = $listing_data;
+
     }
 
-    return $listings_data;
+
 }
+
 
 function get_employer_account_balance_info($user_id){
 

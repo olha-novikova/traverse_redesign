@@ -187,6 +187,10 @@ function done_publish_job( $job_id ) {
             $price = $product -> get_price();
            // if ($price*$prod_count <=  $budget)
             WC()->cart->add_to_cart( $product_id,  $prod_count );
+
+            update_post_meta($job->ID,'_applications_number', $prod_count );
+            update_post_meta($job->ID,'_targeted_budget', ($price*0.7) );
+
         }
     }
 
