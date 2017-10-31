@@ -6,7 +6,7 @@ $submit_job_page = get_permalink(get_option('job_manager_submit_job_form_page_id
 ?>
 <sidebar class="sidebar">
   <div class="logo">
-    <p class="logo__text">T</p>
+    <p class="logo__text">r</p>
   </div>
     <ul class="icon-list">
       <?php if ( in_array( 'candidate', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ) ) : ?>
