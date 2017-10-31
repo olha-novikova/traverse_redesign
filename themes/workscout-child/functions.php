@@ -196,7 +196,7 @@ function my_woocommerce_edit_account_form_child() {
         ?>
 
         <div class="input__block">
-            <textarea type="textfield"  name="shortbio"   /><?php echo esc_attr( $shortbio ); ?></textarea>
+            <textarea type="textfield"  name="shortbio"  class="<?php if (!empty($shortbio)) echo 'has-value';?>" /><?php echo esc_attr( $shortbio ); ?></textarea>
             <label class="form__input__label" for="shortbio">SHORT BIO</label>
         </div>
 
@@ -223,16 +223,16 @@ function my_woocommerce_edit_account_form_child() {
             </select>
         </div>
 
+        <div class="input__block full_width">
+            <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
+            <label class="form__input__label" for="location">LOCATIONS YOU KNOW BEST</label>
+        </div>
+
         <div class="input__block">
             <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
             <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
 
         </div>
-
-         <div class="input__block">
-             <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
-             <label class="form__input__label" for="location">LOCATIONS YOU KNOW BEST</label>
-         </div>
 
          <div class="input__block">
              <input class="form__input <?php if (!empty($insta)) echo 'has-value';?>"    type="text"  name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
@@ -276,11 +276,12 @@ function my_woocommerce_edit_account_form_child() {
          </div>
 
          <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-            <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
+
             <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+             <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
          </div>
 
-        <div class="input__block">
+        <div class="input__block full_width">
             <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
             <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
         </div>
