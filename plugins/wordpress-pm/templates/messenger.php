@@ -115,10 +115,17 @@
 					?>
 					<input type="hidden" value="<?php echo $reciever_id; ?>" name="reciever_id">
                     <textarea name="message" id="reply" cols="30" rows="10" placeholder="Write your reply here..."></textarea>
+					<div class="chat__files" id="chat__files">
+						<div class="chat__file" id="chat__file">
+							<span data-dz-name> </span>
+							<span class="chat__delete_file" data-dz-remove>X</span>
+							<span data-dz-errormessage></span>
+						</div>
+					</div>
                     <div class="submit_part">
                         <div class="attach-part">
                             <!--<span class="icon-list__element"><i class="icon icon_camera"></i></span>-->
-                            <span class="icon-list__element"><i class="icon icon_computer"></i></span>
+                            <span class="icon-list__element uploadmedia"><i class="icon icon_computer"></i></span>
                            <!-- <span class="icon-list__element"><i class="icon icon_snippet"></i></span>-->
                         </div>
                         <input type="submit" value="Post Reply">

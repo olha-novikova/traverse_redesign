@@ -196,6 +196,24 @@
     max-height: 10vw;
     color: #888da8;
     overflow: auto; }
+	#usrform .chat__files {
+	
+	}
+  #usrform .chat__file {
+    border-top: 1px solid #e6ecf5;
+    width: 100%;
+    padding: 0.1vw 2vw;
+    font-size: 0.9vw;
+    color: #888da8;
+    overflow: auto; }
+#usrform .chat__file .chat__delete_file{
+	display:none;
+	cursor:pointer;
+	color:#FF5E3A;
+}
+#usrform .chat__file:hover .chat__delete_file{
+	display:inline-block;
+}
 
 /* line 142, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .submit_part input {

@@ -6,9 +6,6 @@
 	* Version: 1.0.0
 	* Author: Dan Lapteacru
 	* Author URI: https://www.blueweb.md
-	* Requires at least: 3.6
-	* Tested up to: 4.5
-	*
 	* Copyright: © 2017 bluwebteam.
 	* License: GNU General Public License v3.0
 	* License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,8 +23,73 @@
 		add_action( 'admin_notices', 'check_php_version_admin_notice' );
 		return;
 	}
+	
+	register_activation_hook( __file__, "wordpress_pm_install" );
+	
+	function wordpress_pm_install()
+	{
+		global $wpdb;
+		$collate = '';
 
-	// define( 'PM_URL', untrailingslashit( get_stylesheet_directory_uri()."/pm" ) );
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			if ( ! empty( $wpdb->charset ) ) {
+				$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
+			}
+			if ( ! empty( $wpdb->collate ) ) {
+				$collate .= " COLLATE $wpdb->collate";
+			}
+		}
+		$schema = "CREATE TABLE {$wpdb->prefix}pm_conversation (
+			id bigint(200) NOT NULL auto_increment,
+			sender bigint(200) NOT NULL,
+			reciever  bigint(200) NOT NULL,
+			job bigint(200) NOT NULL,
+			job_name varchar(255) NOT NULL,
+			seen tinytext NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		) $collate;
+		CREATE TABLE {$wpdb->prefix}pm_messages (
+			id bigint(200) NOT NULL auto_increment,
+			conv_id bigint(200) NOT NULL,
+			attachment_id bigint(200) NULL,
+			sender_id bigint(200) NOT NULL,
+			reciever_id bigint(200) NOT NULL,
+			message longtext NULL,
+			status tinytext NULL,
+			seen tinytext NULL,
+			delete_status boolean DEFAULT 0 NOT NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		) $collate;
+		CREATE TABLE {$wpdb->prefix}pm_deleted_conversation (
+			id bigint(200) NOT NULL auto_increment,
+			user bigint(200) NOT NULL,
+			conv_id bigint(200) NOT NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		) $collate;
+		CREATE TABLE {$wpdb->prefix}pm_blocked_conversation (
+			id bigint(200) NOT NULL auto_increment,
+			blocked_by bigint(200) NOT NULL,
+			blocked_user bigint(200) NOT NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		) $collate;
+		CREATE TABLE {$wpdb->prefix}pm_attachments (
+			id bigint(200) NOT NULL auto_increment,
+			conv_id bigint(200) NULL,
+			type tinytext NULL,
+			size bigint(200) NULL,
+			url longtext NULL,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY  (id)
+		) $collate;";
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+		dbDelta($schema);
+	}
+
 	define( 'PM_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 	define( 'PM_IMG', PM_URL.'/assets/img/' );
 	define( 'PM_CSS', PM_URL.'/assets/css/' );

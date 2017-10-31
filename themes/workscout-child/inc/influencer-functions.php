@@ -71,7 +71,7 @@ function get_jobs(){
 			$id = get_the_ID();
 			$location =  get_post_meta($id, '_job_location', true);
 			$date =  get_post_meta($id, '_publish_date', true);
-			$desc =  substr(get_post_meta($id, '_job_description', true), 250);
+			$desc =  wp_trim_words ( strip_shortcodes(get_post_meta($id, '_job_description', true)), 15);
 			$count = get_job_application_count( $id );
 
 			$applications = get_posts( array(

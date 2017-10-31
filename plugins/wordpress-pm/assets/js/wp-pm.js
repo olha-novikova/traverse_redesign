@@ -153,7 +153,7 @@ jQuery(document).ready(function( $ )
 			});
 		}, 2000);
 	}
-	grab_latest_conversation();
+	// grab_latest_conversation();
 	
 	function auto_pull_messages() {
 		setTimeout(function () {
@@ -204,7 +204,7 @@ jQuery(document).ready(function( $ )
 			});
 		}, 2000);
 	}
-	auto_pull_messages();
+	// auto_pull_messages();
 	
 	function delete_message(id) {
 		$.ajax({
@@ -488,5 +488,31 @@ jQuery(document).ready(function( $ )
     });
 	
 	$('.chat__content__right .chat_listing').scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
+	
+	var previewNode = document.querySelector("#chat__file");
+	previewNode.id = "";
+	var previewTemplate = previewNode.parentNode.innerHTML;
+	previewNode.parentNode.removeChild(previewNode); 
+	var myDropzone = new Dropzone(document.body, { 
+		url: wp_pm_ajax.ajax_url+"?action=asset_upload",
+		autoProcessQueue: false,
+		uploadMultiple: true,
+		acceptedFiles: ".jpg",
+		parallelUploads: 100,
+		maxFiles: 100,
+		previewTemplate: previewTemplate,
+		previewsContainer: "#chat__files", 
+		clickable: ".uploadmedia",
+		accept: function(file, done) {
+            console.log(file);
+        }
+	});
+
+	myDropzone.on("addedfile", function(file) {
+		myDropzone.processQueue();
+	});
+	myDropzone.on("removedfile", function(file) {
+		// alert(file);
+	});
 	
 });

@@ -10,7 +10,7 @@ function dashboard_enqueue_styles() {
 	wp_enqueue_style( 'main-style', get_stylesheet_directory_uri() . '/css/dashboard/main.css', array() );
 	wp_enqueue_style( 'vendor-style', get_stylesheet_directory_uri() . '/css/dashboard/vendor.css', array() );
 
-	if (is_page_template(['influencer-dashboard.php', 'recent-opportunities.php', 'influencer-pitches.php'])) {
+	if (is_page_template(['influencer-dashboard.php', 'recent-opportunities.php', 'influencer-pitches.php', 'template-new-balance.php'])) {
 		wp_enqueue_style( 'influencer-dashboard-style', get_stylesheet_directory_uri() . '/css/dashboard/influencer-dashboard.css', array() );
 	}
 
