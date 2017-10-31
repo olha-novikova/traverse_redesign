@@ -199,5 +199,5 @@ add_action( 'job_manager_job_submitted', 'done_publish_job' );
 function app_output_buffer() {
     ob_start();
 }
-//add_action('init', 'app_output_buffer');
+add_action('init', 'app_output_buffer');
 

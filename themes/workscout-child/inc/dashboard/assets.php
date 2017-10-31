@@ -47,16 +47,15 @@ function dashboard_enqueue_styles() {
     if( is_page_template('my-listings.php')){
         wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/dashboard/brand-listing-page.css');
+
         wp_enqueue_style('dialog-style', get_stylesheet_directory_uri().'/css/dashboard/dialog-style.css');
     }
 
     if ( is_checkout() ){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
     }
 
     if ( is_account_page() ){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/brand-account.css');
     }
 
