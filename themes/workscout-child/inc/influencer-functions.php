@@ -26,7 +26,7 @@ function get_pitched_campaigns ($user_id, $status) {
 				'post_status'            => 'publish',
 			) );
 			$job['message'] = $app_message;
-			$job['id'] = $app_message;
+			$job['id'] = $application->ID;
 			$job['date'] = $app_date;
 			$pitched[] = $job;
 		}
@@ -71,7 +71,7 @@ function get_jobs(){
 			$id = get_the_ID();
 			$location =  get_post_meta($id, '_job_location', true);
 			$date =  get_post_meta($id, '_publish_date', true);
-			$desc =  get_post_meta($id, '_job_description', true);
+			$desc =  substr(get_post_meta($id, '_job_description', true), 250);
 			$count = get_job_application_count( $id );
 
 			$applications = get_posts( array(

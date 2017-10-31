@@ -40,11 +40,11 @@
 				if ( $jobs->have_posts() ) : while ( $jobs->have_posts() ) : $jobs->the_post(); ?>
 
 					<?php
-					$id = get_the_ID();
+					$id       = get_the_ID();
 					$location =  get_post_meta($id, '_job_location', true);
-					$date =  get_post_meta($id, '_publish_date', true);
-					$desc =  get_post_meta($id, '_job_description', true);
-					$count = get_job_application_count( $id );
+					$date     =  get_post_meta($id, '_publish_date', true);
+			    $desc     =  substr(get_post_meta($id, '_job_description', true), 250);
+					$count    =  get_job_application_count( $id );
 
 
 					$applications = get_posts( array(
