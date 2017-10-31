@@ -196,24 +196,9 @@ function my_woocommerce_edit_account_form_child() {
         ?>
 
         <div class="input__block">
-            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
-            <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
-
+            <textarea type="textfield"  name="shortbio"   /><?php echo esc_attr( $shortbio ); ?></textarea>
+            <label class="form__input__label" for="shortbio">SHORT BIO</label>
         </div>
-
-         <div class="input__block">
-             <textarea type="textfield"  name="shortbio"   /><?php echo esc_attr( $shortbio ); ?></textarea>
-             <label class="form__input__label" for="shortbio">SHORT BIO</label>
-         </div>
-
-         <div class="input__block">
-            <?php if($logo) {
-                $dir = wp_get_upload_dir();?>
-                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
-            <?php } ?>
-            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
-             <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
-         </div>
 
         <?php
         $args = array(
@@ -225,8 +210,8 @@ function my_woocommerce_edit_account_form_child() {
         ?>
         <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
 
-         <div class="input__block">
-
+        <div class="input__block">
+            <p style="margin-bottom: 8px;">Select Category</p>
             <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
                 <?php
                 if( $portfolio_types && ! is_wp_error($portfolio_types) ){
@@ -236,8 +221,13 @@ function my_woocommerce_edit_account_form_child() {
                 }
                 ?>
             </select>
-         </div>
+        </div>
 
+        <div class="input__block">
+            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
+            <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
+
+        </div>
 
          <div class="input__block">
              <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
@@ -290,6 +280,10 @@ function my_woocommerce_edit_account_form_child() {
             <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
          </div>
 
+        <div class="input__block">
+            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
+        </div>
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $('input[name="newsletter"]').on('change', function(){
