@@ -53,7 +53,6 @@ global $job_manager;
                     <?php $user_id = get_current_user_id(); $company_name = get_user_meta( $user_id, 'company_name', true );?>
                     <input type="hidden"  id = "job_company_name" name="job_company_name" value="<?php echo $company_name; ?>" />
                     <div class="buttons">
-                        <a class="button button_grey" href="#">Save for Later</a>
                         <input type="submit" name="submit_job" class="button button_orange" value="Submit Listing" />
                     </div>
             <?php else : ?>

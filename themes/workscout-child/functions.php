@@ -158,6 +158,13 @@ function application_edit_handler() {
     }
 }
 
+add_action( 'after_setup_theme', 'theme_register_nav_menu' );
+
+function theme_register_nav_menu() {
+
+    register_nav_menu( 'footer', 'Main Footer Menu' );
+}
+
 add_action( 'woocommerce_edit_account_form', 'my_woocommerce_edit_account_form_child' );
 
 function my_woocommerce_edit_account_form_child() {
@@ -196,24 +203,9 @@ function my_woocommerce_edit_account_form_child() {
         ?>
 
         <div class="input__block">
-            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
-            <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
-
+            <textarea type="textfield"  name="shortbio"  class="<?php if (!empty($shortbio)) echo 'has-value';?>" /><?php echo esc_attr( $shortbio ); ?></textarea>
+            <label class="form__input__label" for="shortbio">SHORT BIO</label>
         </div>
-
-         <div class="input__block">
-             <textarea type="textfield"  name="shortbio"   /><?php echo esc_attr( $shortbio ); ?></textarea>
-             <label class="form__input__label" for="shortbio">SHORT BIO</label>
-         </div>
-
-         <div class="input__block">
-            <?php if($logo) {
-                $dir = wp_get_upload_dir();?>
-                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
-            <?php } ?>
-            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
-             <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
-         </div>
 
         <?php
         $args = array(
@@ -225,8 +217,8 @@ function my_woocommerce_edit_account_form_child() {
         ?>
         <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
 
-         <div class="input__block">
-
+        <div class="input__block">
+            <p style="margin-bottom: 8px;">Select Category</p>
             <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
                 <?php
                 if( $portfolio_types && ! is_wp_error($portfolio_types) ){
@@ -236,13 +228,18 @@ function my_woocommerce_edit_account_form_child() {
                 }
                 ?>
             </select>
-         </div>
+        </div>
 
+        <div class="input__block full_width">
+            <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
+            <label class="form__input__label" for="location">LOCATIONS YOU KNOW BEST</label>
+        </div>
 
-         <div class="input__block">
-             <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
-             <label class="form__input__label" for="location">LOCATIONS YOU KNOW BEST</label>
-         </div>
+        <div class="input__block">
+            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
+            <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
+
+        </div>
 
          <div class="input__block">
              <input class="form__input <?php if (!empty($insta)) echo 'has-value';?>"    type="text"  name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
@@ -286,10 +283,15 @@ function my_woocommerce_edit_account_form_child() {
          </div>
 
          <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-            <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
+
             <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+             <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
          </div>
 
+        <div class="input__block full_width">
+            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
+        </div>
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
                 $('input[name="newsletter"]').on('change', function(){
@@ -849,18 +851,12 @@ function custom_save_account_details() {
             ) );
 
             $resumes = new WP_Query( $args );
-
-            if ( $resumes->have_posts() ){
-                wp_safe_redirect($myaccount.'/edit-account');
-                exit;
-            }else{
-                wp_safe_redirect($myaccount.'/edit-account/?success=2');
-                exit;
-            }
-
+            wc_get_page_permalink( 'myaccount' );
+            exit;
         }
+
         if( $current_user->roles[0] == 'employer' ) {
-            wp_safe_redirect($myaccount.'/edit-account?success=2');
+            wp_safe_redirect(home_url().'/job-dashboard');
             exit;
         } else {
             wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );

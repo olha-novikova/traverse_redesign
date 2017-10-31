@@ -26,28 +26,22 @@ function dashboard_enqueue_styles() {
     }
 
     if (is_page_template('browse-influencers.php') ){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/dashboard/general.css');
         wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
     }
     if ( is_page('create-lising')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-create', get_stylesheet_directory_uri().'/css/dashboard/brand-create.css');
     }
 
     if (is_singular('job_listing')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
-        wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/dashboard/brand-single.css');
+        wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/dashboard/completed-listing.css');
     }
 
     if( is_page('job-dashboard')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-single', get_stylesheet_directory_uri().'/css/dashboard/brand-dashboard.css');
     }
 
     if( is_page_template('my-listings.php')){
-        wp_enqueue_style('general', get_stylesheet_directory_uri().'/css/general.css');
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/dashboard/brand-listing-page.css');
-
         wp_enqueue_style('dialog-style', get_stylesheet_directory_uri().'/css/dashboard/dialog-style.css');
     }
 
@@ -56,7 +50,7 @@ function dashboard_enqueue_styles() {
     }
 
     if ( is_account_page() ){
-        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/brand-account.css');
+        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/dashboard/brand-account.css');
     }
 
 }
@@ -72,13 +66,14 @@ function dashboard_child_scripts(){
 
     if( is_page_template('my-listings.php')){
         wp_enqueue_script( 'tabs', get_stylesheet_directory_uri() . '/js/tabs.js', array('jquery'), '20150705', true );
-      //  wp_enqueue_script( 'workscout-magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), '20150705', true );
     }
 
     if (is_singular('job_listing')){
-       // wp_enqueue_script( 'workscout-magnific', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array('jquery'), '20150705', true );
         wp_enqueue_script( 'single-listing', get_stylesheet_directory_uri() . '/js/single-listing.js', array('jquery'), '20150705', true );
+    }
 
+    if ( is_account_page() ){
+        wp_enqueue_script('sinc-social', get_stylesheet_directory_uri().'/js/sinc-social.js', array('jquery'), '', true);
     }
 
 }

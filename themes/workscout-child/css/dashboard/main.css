@@ -771,3 +771,26 @@ button::-moz-focus-inner {
     content: '\0031';
     font-size: 1.46vw
 }
+footer{
+    padding: 7vw 0;
+    background: #ff5e3a;
+    width: 100%;
+}
+.post-footer{
+    width: 100%;
+    background: transparent;
+    padding: 1vw 0;
+    color: #808080;
+}
+#menu-main_footer li.menu-item{
+    display: inline-block;
+    padding: 2px 5px;
+    margin-left: 20px;
+}
+#menu-main_footer li.menu-item:first-child{
+    margin-left: 0;
+}
+#menu-main_footer li.menu-item a{
+    color: #fff;
+    font-weight: bold;
+}

@@ -292,45 +292,9 @@
     text-decoration: none;
     white-space: nowrap;
 }
-/*
-.inputs_listing .input__block.fieldset-job_category select {
-    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    border: medium none;
-    height: 54px;
-    width: 110%;
-    color: #515365;
-    font-family: Roboto,sans-serif;
-    font-size: 0.93vw;
-    font-weight: 400;
-    padding-left: 1.3vw;
-    max-width: none;
+.inputs_listing .input__block {
+    width: 49%
 }
-.inputs_listing .input__block.fieldset-job_category::after {
-    height: 1.25vw;
-    margin-top: -0.625vw;
-    position: absolute;
-    right: 1.875vw;
-    top: 50%;
-    width: 0.52vw;
-}
-.inputs_listing .input__block.fieldset-job_category::after {
-    border: 0 none;
-    content: url("../img/arrow-down.png");
-    display: flex;
-    margin-left: auto;
-    margin-right: 1.92vw;
-    vertical-align: initial;
-}
-.inputs_listing .input__block.fieldset-job_category select option{
-    color: #515365;
-    font-family: Roboto,sans-serif;
-    font-size: 0.93vw;
-    font-weight: 400;
-    height: 2.86vw;
-    padding-bottom: 1vw;
-    padding-top: 1vw;
-    padding-left: 1.3vw;
-}*/
 .inputs_listing .input__block.fieldset-assets_available{
     width: 10%;
 }
