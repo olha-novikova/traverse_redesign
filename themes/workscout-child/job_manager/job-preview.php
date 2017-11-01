@@ -132,9 +132,8 @@
                 }
 
             });
-            jQuery('#job_preview_submit_button').click(function(e) {
+          /* jQuery('#job_preview_submit_button').click(function(e) {
                 e.preventDefault();
-
                 if (jQuery.trim(jQuery(".prod_id").val()) === "" || jQuery.trim(jQuery(".prod_count").val()) === "") {
                     jQuery.magnificPopup.open({
                         items: {
@@ -145,12 +144,11 @@
                             type: 'inline'
                         }
                     });
-                    return false;
                 }else{
-                    jQuery('form#job_preview').submit();
+                    jQuery('#job_preview').submit();
                 }
 
-            });
+            });*/
         })
     </script>
 </div>
