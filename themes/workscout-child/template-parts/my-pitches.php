@@ -39,8 +39,8 @@
 						<div class="table__data">
 							<div class="table__buttons">
 								<div class="table__buttons">
-									<div class="button button_green"><a href="<?= get_post_permalink($pitch[0]->ID) ?>">View Campaign Details</a></div>
-									<div class="button button_green"><a href="<?= get_post_permalink($pitch['id']) ?>">View Full Pitch</a></div>
+									<a href="<?= get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
+									<a href="<?= get_post_permalink($pitch['id']) ?>" class="button button_green">View Full Pitch</a>
 								</div>
 							</div>
 						</div>
@@ -92,8 +92,8 @@
 						</div>
 						<div class="table__data">
 							<div class="table__buttons">
-								<div class="button button_green"><a href="<?= get_post_permalink($pitch[0]->ID) ?>">View Campaign Details</a></div>
-								<div class="button button_green"><a href="<?= get_post_permalink($pitch['id']) ?>">View Full Pitch</a></div>
+								<a href="<?= get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
+								<a href="<?= get_post_permalink($pitch['id']) ?>" class="button button_green">View Full Pitch</a>
 							</div>
 						</div>
 					</div>
@@ -144,8 +144,8 @@
 						</div>
 						<div class="table__data">
 							<div class="table__buttons">
-								<div class="button button_green"><a href="<?= get_post_permalink($pitch[0]->ID) ?>">View Campaign Details</a></div>
-								<div class="button button_green"><a href="<?= get_post_permalink($pitch['id']) ?>">View Full Pitch</a></div>
+								<a href="<?= get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
+								<a href="<?= get_post_permalink($pitch['id']) ?>" class="button button_green">View Full Pitch</a>
 							</div>
 						</div>
 					</div>

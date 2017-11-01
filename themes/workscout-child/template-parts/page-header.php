@@ -8,7 +8,6 @@ $user_id = get_current_user_id();
 ?>
 <section class="section_profile">
     <div class="profile__background">
-        <div class="profile__background__gradient"></div>
         <div class="profile__button profile__button_add" style="background-image: url('<?php echo get_main_image( $user_id ); ?>'); background-size: cover">
         </div>
         <a href="<?php echo  home_url('/messages'); ?>"class="profile__button profile__button_message"></a>
