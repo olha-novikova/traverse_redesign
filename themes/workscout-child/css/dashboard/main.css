@@ -233,48 +233,48 @@ button::-moz-focus-inner {
 }
 
 .button_white, a.button_white {
-    color: #888da8;
-    border: 1px solid #e8e9f0
+    color: #888da8 !important;
+    border: 1px solid #e8e9f0 !important;
 }
 
 .button_white:hover, a.button_white:hover {
-    color: #888da8
+    color: #888da8 !important;
 }
 
 .button_orange, a.button_orange {
-    color: #fff;
-    background-color: #ff5e3a
+    color: #fff; !important;
+    background-color: #ff5e3a !important;
 }
 
 .button_orange:hover, a.button_orange:hover {
-    color: #fff
+    color: #fff !important;
 }
 
 .button_green, a.button_green {
-    background-color: #08ddc1;
-    color: #fff
+    background-color: #08ddc1 !important;
+    color: #fff !important;
 }
 
 .button_green:hover, a.button_green:hover {
-    color: #fff
+    color: #fff !important;
 }
 
-.button_grey, a.button_grey {
-    background-color: #9a9fbf;
-    color: #fff
+.button_grey, .button_grey a {
+    background-color: #9a9fbf !important;
+    color: #fff !important;
 }
 
-.button_grey:hover, a.button_grey:hover {
-    color: #fff
+.button_grey:hover, .button_grey:hover a {
+    color: #fff !important;
 }
 
-.button_blue, a.button_blue {
-    color: #fff;
-    background-color: #38a9ff
+.button_blue, .button_blue a {
+    color: #fff !important;
+    background-color: #38a9ff !important;
 }
 
-.button_blue:hover, a.button_blue:hover {
-    color: #fff
+.button_blue:hover, .button_blue:hover a {
+    color: #fff !important;
 }
 
 .main {
@@ -644,7 +644,10 @@ button::-moz-focus-inner {
     display: flex;
     -ms-flex-align: end;
     align-items: flex-end;
-    position: relative
+    position: relative;
+    background-image: url('../../img/RangeBackground.png');
+    background-repeat: repeat;
+    background-size: cover;
 }
 
 .profile__background__gradient {
