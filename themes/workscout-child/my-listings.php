@@ -261,6 +261,7 @@ get_sidebar();
                                                         <p>Would you like to proceed?</p>
 
                                                         <form class="inline job-manager-application-edit-form job-manager-form" method="post">
+                                                            <input type="hidden" name="application_rating"/>
                                                             <input type="hidden" name="application_status" value="hired" />
                                                             <input type="hidden" name="application_id" value="<?php echo absint( $application->ID ); ?>" />
                                                             <?php wp_nonce_field( 'edit_job_application' ); ?>
