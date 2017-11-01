@@ -22,7 +22,9 @@ function dashboard_enqueue_styles() {
 	}
 
     if ( is_front_page() ){
-        wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/main.css');
+        wp_dequeue_style('main-style');
+        wp_enqueue_style('newhomepage-vendor', get_stylesheet_directory_uri().'/css/home/home-vendor.css');
+        wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/home/home-main.css', array('newhomepage-vendor') );
     }
 
     if (is_page_template('browse-influencers.php') ){
@@ -74,6 +76,12 @@ function dashboard_child_scripts(){
 
     if ( is_account_page() ){
         wp_enqueue_script('sinc-social', get_stylesheet_directory_uri().'/js/sinc-social.js', array('jquery'), '', true);
+    }
+
+    if ( is_front_page() ){
+        wp_dequeue_script('dashboard-main');
+        wp_enqueue_script( 'home-carousel', get_stylesheet_directory_uri() . '/js/home/carousel.js', array('jquery'), '20150705', true );
+        wp_enqueue_script( 'home-main', get_stylesheet_directory_uri() . '/js/home/main.js', array('jquery'), '20150705', true );
     }
 
 }

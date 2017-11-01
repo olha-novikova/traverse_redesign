@@ -205,7 +205,7 @@ button::-moz-focus-inner {
 }
 
 .header__logo {
-    margin-left: 1rem
+    margin-left: 10.9375rem
 }
 
 .section_firstscreen {
@@ -890,7 +890,7 @@ html {
 }
 
 .section_ready {
-    background: url(http://jrrny.com/wp-content/uploads/2017/10/bg2.png);
+    background-color: #818181;
     padding-top: 7.1875rem;
     padding-bottom: 7.1875rem
 }

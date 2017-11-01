@@ -19,7 +19,7 @@
 <body <?php body_class($layout); ?>>
 <header class="header">
 
-    <p class="page__name">Profile Page</p>
+    <p class="page__name">Range Dashboard</p>
     <div class="search__block">
         <input type="search" placeholder="Search here people or pages..." class="search"/>
     </div>
@@ -37,7 +37,7 @@
     ?>
 
     <div class="icons">
-        <a href="<?php echo  home_url('/messages'); ?>" class="icon__block"><i class="icon icon_chat"></i><i class="icon__number icon__number_purple"></i></a>
+        <a href="<?php echo  home_url('/messages'); ?>" class="icon__block"><i class="icon icon_chat"></i><!--<i class="icon__number icon__number_purple"></i>--></a>
 <!--        <div class="icon__block"><i class="icon icon_notifications"></i><i class="icon__number icon__number_orange"></i></div>-->
     </div>
     <?php
