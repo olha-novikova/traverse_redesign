@@ -809,5 +809,5 @@ form .button_search:before {
 }
 .section__container
 .add_prod_to_job.active{
-    background: #916bdf;
+    background-color: #916bdf!important;
 }

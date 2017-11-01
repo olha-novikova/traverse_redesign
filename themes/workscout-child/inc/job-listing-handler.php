@@ -152,8 +152,14 @@ function so_payment_complete( $order_id ){
 
     $order_item = $order->get_items();
 
+    $appl_number = 0;
     foreach( $order_item as $item_id => $product ) {
+
         $job_id = wc_get_order_item_meta ($item_id, '_job_id');
+        $product_ob = new WC_Product( $product['product_id'] );
+        $price = $product_ob -> get_price();
+
+        $appl_number += $product['quantity'];
 
         $job = get_post(  $job_id );
 
@@ -163,10 +169,12 @@ function so_payment_complete( $order_id ){
             $update_job                  = array();
             $update_job['ID']            = $job->ID;
             $update_job['post_status']   = 'publish';
-
             wp_update_post( $update_job );
         }
+        update_post_meta($job->ID,'_targeted_budget', ($price*0.7) );
     }
+    update_post_meta($job->ID,'_applications_number', $appl_number );
+
 }
 
 function done_publish_job( $job_id ) {
@@ -185,12 +193,8 @@ function done_publish_job( $job_id ) {
 
         if ( $product ){
             $price = $product -> get_price();
-           // if ($price*$prod_count <=  $budget)
+
             WC()->cart->add_to_cart( $product_id,  $prod_count );
-
-            update_post_meta($job->ID,'_applications_number', $prod_count );
-            update_post_meta($job->ID,'_targeted_budget', ($price*0.7) );
-
         }
     }
 

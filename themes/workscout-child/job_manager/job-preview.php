@@ -32,17 +32,19 @@
                             if ( $possible_product == 'growth_inf' )    $can_growth = true;
                             if ( $possible_product == 'micro_inf' )     $can_micro = true;
                         }
-                        ?>
-                        <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
-
-                    <?php }
-                    if ( !isset($can_pro) && $can_growth && $can_micro)
+                        if ( floor( $budget/$price ) > 0){?>
+                            <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                        <?php }else{ ?>
+                            <input type="button" class="button button_orange add_prod_to_job" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                        <?php }
+                    }
+                    if ( !isset($can_pro) && isset($can_growth) && isset($can_micro))
                         $text = "For a chance to use a PRO influencer, please add more budget or check out how many GROW or MICRO influencers you can have." ;
 
-                    if ( !isset($can_pro) && !isset($can_growth) && $can_micro)
+                    if ( !isset($can_pro) && !isset($can_growth) && isset($can_micro))
                         $text = "For a chance to use a PRO or a GROW influencer, please add more budget or check out how many  MICRO influencers you can have." ;
 
-                    if ( !isset($can_pro) && !isset($can_growth) && !$can_micro){
+                    if ( !isset($can_pro) && !isset($can_growth) && !isset($can_micro)){
                         $text = "For a chance to use an influencer, please add more budget." ;?>
                     <?php }
                     ?>
@@ -124,10 +126,14 @@
                 $this.addClass('active');
                 var prodId = $this.data('prod_id');
                 var prodCount = $this.data('prod_count');
-                jQuery('.prod_id').val(prodId);
-                jQuery('.prod_count').val(prodCount);
+                if (prodId && prodCount){
+                    jQuery('.prod_id').val(prodId);
+                    jQuery('.prod_count').val(prodCount);
+                }
+
             });
-            jQuery('#job_preview').submit(function() {
+          /* jQuery('#job_preview_submit_button').click(function(e) {
+                e.preventDefault();
                 if (jQuery.trim(jQuery(".prod_id").val()) === "" || jQuery.trim(jQuery(".prod_count").val()) === "") {
                     jQuery.magnificPopup.open({
                         items: {
@@ -138,9 +144,11 @@
                             type: 'inline'
                         }
                     });
-                    return false;
+                }else{
+                    jQuery('#job_preview').submit();
                 }
-            });
+
+            });*/
         })
     </script>
 </div>

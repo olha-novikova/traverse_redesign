@@ -61,7 +61,6 @@ include_once get_stylesheet_directory() . '/inc/brand-functions.php';
 function remove_parent_theme_features() {
     remove_filter( 'woocommerce_login_redirect', 'wc_custom_user_redirect', 10, 2 );
     remove_action( 'wp_loaded', array( 'WP_Job_Manager_Applications_Dashboard', 'edit_handler' ) );
-    remove_action( 'transition_post_status', array( 'WP_Job_Manager_Applications_Post_Types', 'transition_post_status' ), 10);
 }
 
 add_action( 'after_setup_theme', 'remove_parent_theme_features', 10 );
@@ -931,18 +930,6 @@ function clear_cart() {
 }
 add_action('wp_logout', 'clear_cart');
 
-/*add_filter( 'job_manager_packages_admin_required_packages_frontend', 'smyles_packages_demo_admin_require_packages' );
-function smyles_packages_demo_admin_require_packages(){
-    return true;
-}
-
-
-add_action( 'woocommerce_archive_description','add_package_list');
-function add_package_list(){
-    echo do_shortcode('[submit_job_form]');
-}
-*/
-
 /**********************************Adding status to the job applicatioins ***********************************/
 
 
@@ -1073,30 +1060,11 @@ function update_employer_woocommerce_fields( $job_id, $values ){
 
 }
 
-
-add_action( 'transition_post_status',  'transition_post_status_for_multiply_job' , 10, 3 );
+add_action( 'transition_post_status',  'transition_post_status_for_multiply_job' , 20, 3 );
 
 function transition_post_status_for_multiply_job( $new_status, $old_status, $post ) {
     if ( 'job_application' !== $post->post_type ) {
         return;
-    }
-
-    $statuses = get_job_application_statuses();
-
-    // Add a note
-    if ( $old_status !== $new_status && array_key_exists( $old_status, $statuses ) && array_key_exists( $new_status, $statuses ) ) {
-        $user                 = get_user_by( 'id', get_current_user_id() );
-        $comment_author       = $user->display_name;
-        $comment_author_email = $user->user_email;
-        $comment_post_ID      = $post->ID;
-        $comment_author_url   = '';
-        $comment_content      = sprintf( __( 'Application status changed from "%s" to "%s"', 'wp-job-manager-applications' ), $statuses[ $old_status ], $statuses[ $new_status ] );
-        $comment_agent        = 'WP Job Manager';
-        $comment_type         = 'job_application_note';
-        $comment_parent       = 0;
-        $comment_approved     = 1;
-        $commentdata          = apply_filters( 'job_application_note_data', compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ), $application_id );
-        $comment_id           = wp_insert_comment( $commentdata );
     }
 
     $job_id = wp_get_post_parent_id( $post->ID );
@@ -1114,14 +1082,12 @@ function transition_post_status_for_multiply_job( $new_status, $old_status, $pos
 
         $existing_applications = get_posts($args);
 
-        if ( count ($existing_applications) == $nubmer_influencer_possible ){
+        if ( count ($existing_applications) >= $nubmer_influencer_possible ){
             update_post_meta( $job_id, '_filled', 1 );
+        }else{
+            update_post_meta( $job_id, '_filled', 0 );
         }
-
-
     }
-
-
 }
 
 
@@ -1294,9 +1260,6 @@ function get_candidate_cash_out_sum($user_id){
 
 }
 
-require_once 'message_system.php';
-
-
 if ( ! function_exists( 'get_application_id_user_has_applied_for_job' ) ) {
 
     function get_application_id_user_has_applied_for_job( $user_id, $job_id ) {
@@ -1418,14 +1381,6 @@ if ( ! function_exists( 'get_brand_listings_list' ) ) {
     }
 }
 
-function wc_paid_listings_has_user_package( $user_id ) {
-    global $wpdb;
-
-    $packages_count = intval($wpdb->get_var( "SELECT COUNT(id) FROM {$wpdb->prefix}wcpl_user_packages WHERE user_id = '".$user_id."' AND package_type IN ( 'job_listing' ) AND ( package_count < package_limit OR package_limit = 0 );"));
-
-    return $packages_count;
-}
-
 include_once get_stylesheet_directory() . '/inc/job-listing-handler.php';
 
 
@@ -1434,84 +1389,6 @@ add_action( 'register_form_child', 'workscout_register_form_child' );
 remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_registration' ), 20 );
 remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_login'), 20 );
 
-function create_custom_campaign(){
-    $nonce_value = isset( $_POST['_wpnonce'] ) ? $_POST['_wpnonce'] : '';
-    $nonce_value = isset( $_POST['custom-campaign'] ) ? $_POST['custom-campaign'] : $nonce_value;
-    $response = array();
-    $response['success'] = false;
-   // $admin_mail = "olha.novikova@gmail.com";
-    $admin_mail = "admin@jrrny.com";
-
-    if ( ! empty( $_POST['submit-campaign'] ) && wp_verify_nonce( $nonce_value, 'custom-campaign' ) ) {
-        $error = array();
-        $form_error = new WP_Error;
-
-        if( empty( $_POST['name'] ) ){
-            $form_error->add('no_name', 'First / Last Name can\'t be empty');
-        }
-
-        if( empty( $_POST['email'] ) ){
-            $form_error->add('no_email', 'Email can\'t be empty');
-        } elseif( ! is_email( $_POST['email'] ) ){
-            $form_error->add('invalid_email', 'Invalid email');
-        }
-
-        if( empty( $_POST['phone'] ) ){
-            $form_error->add('no_phone', 'Phone Number can\'t be empty');
-        }elseif( !preg_match('/^\(?\+?([0-9]{1,4})\)?[-\. ]?(\d{3})[-\. ]?([0-9]{7})$/', trim($_POST['phone'])) ) {
-            $form_error->add('invalid_phone','Please enter a valid phone number');
-        }
-
-        if( empty( $_POST['description'] ) ){
-            $form_error->add('no_description', 'Description for the Campaign can\'t be empty');
-        }
-
-        if( empty( $_POST['budget'] ) ){
-            $form_error->add('no_budget', 'Budget for the Campaign can\'t be empty');
-        }elseif( !is_numeric( trim( $_POST['budget'] ) ) ) {
-            $form_error->add('invalid_budget','Please enter a valid Budget ');
-        }
-
-        if ( $form_error->get_error_code() ) {
-
-            foreach( $form_error->get_error_messages() as $error_message ){
-                $error[]= $error_message;
-            }
-
-        }else{
-            $user_mail      = sanitize_email($_POST['email']);
-            $user_name      = sanitize_text_field($_POST['name']);
-            $user_phone     = sanitize_text_field($_POST['phone']);
-            $user_brand     = sanitize_text_field($_POST['brand']);
-            $user_website   = $_POST['website'];
-            $user_budget    = preg_replace('/[^0-9\.\-]+/','',strtolower($_POST['budget']));
-            $user_description = sanitize_text_field($_POST['description']);
-
-            $message = "Hi!\n ".
-                "New Custom Campaign!\n".
-                "Hi! I'm ".$user_name. " from ".$user_brand.". I'm interested in create new  Custom Campaign.\n".
-                "Description for the Campaign:\n".
-                $user_description."\n".
-                "Budget for the Campaign is $".$user_budget."\n".
-                "My contacts: \n".
-                "Phone Number: ". $user_phone."\n".
-                "Email address: ".$user_mail."\n";
-
-            if ( isset($_POST['website'])&&$_POST['website']!='' )
-                $message .= "Website URL: ".$user_website;
-
-            @wp_mail($admin_mail, "New Custom Campaign", $message);
-            $response['success'] = true;
-        }
-
-    }
-    $response['error'] = $error;
-    echo json_encode($response);
-    wp_die();
-}
-
-//add_action('wp_ajax_create_custom_campaign', 'create_custom_campaign');
-//add_action('wp_ajax_nopriv_create_custom_campaign', 'create_custom_campaign');
 
 function send_on_review (){
 

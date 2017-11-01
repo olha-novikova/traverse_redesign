@@ -187,7 +187,7 @@ class WP_Job_Manager_Applications_Post_Types {
 			$comment_type         = 'job_application_note';
 			$comment_parent       = 0;
 			$comment_approved     = 1;
-			$commentdata          = apply_filters( 'job_application_note_data', compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ), $application_id );
+			$commentdata          = apply_filters( 'job_application_note_data', compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ), $post->ID );
 			$comment_id           = wp_insert_comment( $commentdata );
 		}
 
