@@ -11,30 +11,31 @@
                             <input id="first" type="text" class="form__input"/>
                             <label for="first" class="form__input__label">i.e. $500 - $50,000+</label>
                         </div>
-                        <div class="input__block">
+                       <!-- <div class="input__block">
                             <input id="second" type="text" class="form__input"/>
                             <label for="second" class="form__input__label">i.e. $500 - $50,000+</label>
                         </div>
                         <div class="input__block">
                             <input id="third" type="text" class="form__input"/>
                             <label for="third" class="form__input__label">i.e. $500 - $50,000+</label>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="last-block">
                         <div class="last-block__left">
                             <p class="section__header">What Channels? (Check All That Apply)</p>
                             <div class="checkbox__block">
                                 <div class="checkbox">
-                                    <input id="first-check" type="checkbox" class="form__checkbox"/>
-                                    <label for="first-check" class="checkbox__label">Checked</label>
+                                 
+                                    <label for="first-check" class="checkbox__label">Facebook</label>
                                 </div>
                                 <div class="checkbox">
-                                    <input id="second-check" type="checkbox" class="form__checkbox"/>
-                                    <label for="second-check" class="checkbox__label">Unhecked</label>
+                                    <label for="second-check" class="checkbox__label">Instagram</label>
+                                </div>
+                              <div class="checkbox">
+                                    <label for="third-check" class="checkbox__label">YouTube</label>
                                 </div>
                                 <div class="checkbox">
-                                    <input id="third-check" type="checkbox" disabled="disabled" class="form__checkbox"/>
-                                    <label for="third-check" class="checkbox__label">Disabled</label>
+                                    <label for="third-check" class="checkbox__label">Twitter</label>
                                 </div>
                             </div>
                         </div>

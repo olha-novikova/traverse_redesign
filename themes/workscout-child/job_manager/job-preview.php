@@ -119,8 +119,7 @@
     <script>
         jQuery(document).ready(function () {
             jQuery('.add_prod_to_job').click(function(){
-
-                var $this = $(this);
+                var $this = jQuery(this);
                 jQuery('.add_prod_to_job').removeClass('active');
                 $this.addClass('active');
                 var prodId = $this.data('prod_id');
@@ -129,8 +128,8 @@
                 jQuery('.prod_count').val(prodCount);
             });
             jQuery('#job_preview').submit(function() {
-                if (jQuery.trim(jQuery(".prod_id").val()) === "" || $.trim($(".prod_count").val()) === "") {
-                    $.magnificPopup.open({
+                if (jQuery.trim(jQuery(".prod_id").val()) === "" || jQuery.trim(jQuery(".prod_count").val()) === "") {
+                    jQuery.magnificPopup.open({
                         items: {
                             src:'<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
                                 '<div class="small-dialog-headline"><h2><?php esc_html_e("Warning!","workscout"); ?></h2></div>'+

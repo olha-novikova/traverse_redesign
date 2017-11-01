@@ -11,8 +11,10 @@ get_header("newhomepage");
             <div class="container container_firstscreen">
                 <div class="section__text-block">
                     <h1 class="section__header">Welcome to the #1 Influencer Platform in Travel</h1>
-                    <p class="section__description">We are the best and biggest influencer platform within the travel and outdoor industry with thousands of active influencers all around the world. Range Influence is a platform for brands to discover and hire leading travel influencers. </p>
-                    <div class="section__buttons"><a href="#" class="section__button">I’M A BRAND / AGENCY</a><a href="#" class="section__button">I’M AN INFLUENCER</a></div>
+                    <p class="section__description">Range Influence is a platform for brands to discover and hire leading travel influencers.
+                  </ br>
+It's free to join.  Once you're signup up, you can create a campaign and discover thousands of travel, outdoor and lifestyle influencers </p>
+                  <!--  <div class="section__buttons"><a href="#" class="section__button">I’M A BRAND / AGENCY</a><a href="#" class="section__button">I’M AN INFLUENCER</a></div> -->
                 </div>
                 <?php if ( !is_user_logged_in() ) { ?>
                 <div class="firstscreen__form form">
@@ -234,10 +236,10 @@ get_header("newhomepage");
                     <div class="carousel__item">
                         <div class="carousel__item__wrap">
                             <div class="quote quote_review">
-                                <p class="quote__text">Range Influence made it easy to get the specs needed for the campaign I was assigned to </p>
+                                <p class="quote__text">Range made it easy for us to find experienced and professional influencers for our campaign. </p>
                                 <div class="quote__author">
-                                    <div class="quote__author__image-block"><img src="<?php echo get_stylesheet_directory_uri();?>/img/guy.png" alt="" class="quote__author__image"/></div>
-                                    <p class="quote__author__name">Barret Huie</p>
+                                    <div class="quote__author__image-block"><img src="http://rangeinfluence.com/wp-content/uploads/2017/10/GWQuote.png" alt="" class="quote__author__image"/></div>
+                                    <p class="quote__author__name">GrowlerWerks</p>
                                 </div>
                             </div>
                         </div>
@@ -277,7 +279,7 @@ get_header("newhomepage");
                     </div>
                 </div>
             </div>
-        </section>
+        </section> 
 
         <section class="section section_insta">
             <ul class="insta__photos">
@@ -301,7 +303,7 @@ get_header("newhomepage");
                 <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
                 <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
                 <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-            </ul><a href="#" class="button button_results button__insta">Follow us on Instagram</a>
+            </ul><a href="http://www.instagram.com/jrrny" class="button button_results button__insta">Follow us on Instagram</a>
         </section>
 
         <section class="section section_contact">
