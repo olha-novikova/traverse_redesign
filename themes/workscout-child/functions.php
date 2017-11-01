@@ -2038,6 +2038,213 @@ function custom_redirect_newhomepage(){
 add_action('wp_ajax_custom_redirect_newhomepage', 'custom_redirect_newhomepage');
 add_action('wp_ajax_nopriv_custom_redirect_newhomepage', 'custom_redirect_newhomepage');
 
+add_action('wp_ajax_aj_do_estimate', 'aj_do_estimate');
+
+function aj_do_estimate(){
+    $user = wp_get_current_user();
+    $response = array();
+
+    $budget = $_POST['target_budget'];
+    $meta_query = array('relation' => 'AND');
+
+    $meta_use = false;
+
+    if ( isset($_POST['fb_channel']) && $_POST['fb_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_fb_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['ig_channel']) && $_POST['ig_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_instagram_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['yt_channel']) && $_POST['yt_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_youtube_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['tw_channel']) && $_POST['tw_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_twitter_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['micro_exclude']) && $_POST['micro_exclude'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '>=',
+            'value'     => '50000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['growth_exclude']) && $_POST['growth_exclude'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '>=',
+            'value'     => '500000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['pro_exclude']) && $_POST['pro_exclude'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '<',
+            'value'     => '500000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    $args = array(
+        'post_type'           => 'resume',
+        'post_status'         => array( 'publish'),
+        'ignore_sticky_posts' => 1,
+        'orderby'             => 'ASC',
+        'order'               => 'date',
+        'posts_per_page'      => -1
+    );
+
+    if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
+        $categories = $_POST['traveler_type'];
+
+    if ( $categories ){
+        $args['tax_query'][] = array(
+            'taxonomy'         => 'resume_category',
+            'field'            => 'slug',
+            'terms'            => array_values( $categories ),
+            'include_children' => false,
+            'operator'         => 'IN'
+        );
+    }
+
+    if ( $meta_use ) {
+        $args['meta_query'] = $meta_query;
+    }
+
+    $resumes = new WP_Query($args);
+    $count =  $resumes -> post_count;
+
+    $company_name = ( get_user_meta( $user->ID, 'company_name', true) )?get_user_meta($user->ID, 'company_name', true)
+        :(  (get_user_meta($user->ID, 'first_name', true) && get_user_meta($user->ID, 'last_name', true)) ? get_user_meta($user->ID, 'first_name', true)." ". get_user_meta($user->ID, 'last_name', true) : ($user->display_name[0]) );
+
+    ?>
+    <section class="section section_listing">
+        <div class="listing__wrapper">
+            <p class="listing__view__header">
+                <span class="company-name"><?php echo $company_name; ?></span> campaign <span class="company-campaign"> estimate</span>
+            </p>
+        </div>
+    </section>
+    <section class="section orange_section">
+        <h2>Campaign Estimate</h2>
+    </section>
+    <section class="section section_listing">
+        <div class="listing__wrapper">
+            <p>
+                Lorem ipsum dolor sit amet, congue postea erroribus et his, vim te putant quaeque. An noster doctus nusquam pro. Stet choro pericula est ut, tale expetendis scribentur ei per. Ponderum sapientem in his, habemus principes intellegam eu eos. Nam prima labore at
+            </p>
+            <div class="list__options">
+                <?php
+                $possible_products = array('pro_inf', 'growth_inf', 'micro_inf');
+                $text = "";
+                foreach( $possible_products as $possible_product){
+                    $product_id = wc_get_product_id_by_sku( $possible_product );
+                    $product = new WC_Product( $product_id );
+                    $price = $product -> get_price();
+
+                    if ( floor( $budget/$price ) > 0){
+                        if ( $possible_product == 'pro_inf' )       $can_pro = true;
+                        if ( $possible_product == 'growth_inf' )    $can_growth = true;
+                        if ( $possible_product == 'micro_inf' )     $can_micro = true;
+                    }
+                    ?>
+                    <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+
+                <?php }
+                if ( !isset($can_pro) && $can_growth && $can_micro)
+                    $text = "For a chance to use a PRO influencer, please add more budget or check out how many GROW or MICRO influencers you can have." ;
+
+                if ( !isset($can_pro) && !isset($can_growth) && $can_micro)
+                    $text = "For a chance to use a PRO or a GROW influencer, please add more budget or check out how many  MICRO influencers you can have." ;
+
+                if ( !isset($can_pro) && !isset($can_growth) && !$can_micro){
+                    $text = "For a chance to use an influencer, please add more budget." ;?>
+                <?php }
+                ?>
+            </div>
+            <p class="listing__wrapper">
+                <?php echo $text;
+                if ( !isset($can_pro) && !$can_growth && !isset($can_micro) ){ ?>
+                    <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
+                <?php } ?>
+            </p>
+            <p class="listing__wrapper">
+                <?php if ( !$resumes->have_posts() ) :?>
+                    Sorry, no influencers for your request found
+                <?php endif; ?>
+            </p>
+            <?php if ( $resumes->have_posts() ) :?>
+            <div class="listing__wrapper">
+                <p class="list__number"><span>Number of influencers: </span> <span> <?php echo $count?></span></p>
+                <p>
+                    Example of influencers
+                </p>
+            </div>
+            <?php endif; ?>
+        </div>
+        <section class="section section_browse">
+            <div class="section__container">
+                <div class="carousel">
+                    <?php
+                    $possible_reach = 0;
+                    if ( $resumes->have_posts() ) :?>
+
+                        <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
+
+                            <?php get_template_part('template-parts/content', 'influencer')?>
+                            <?php
+                            $resume_id = get_the_ID();
+                            $possible_reach += get_influencer_audience($resume_id);
+                            ?>
+
+                        <?php endwhile; wp_reset_postdata();?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+        <?php if ( $resumes->have_posts() ) :?>
+        <div class="listing__wrapper">
+            <p class="list__number"><span>Possible Reach: </span><span><?php echo $possible_reach; ?></span></p>
+            <p>Average   audience   size   of   all   influencers   in   the   category selected   by   the   brand.</p>
+        </div>
+        <div class="listing__wrapper">
+            <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
+            <p>Average   possible   reach</p>
+        </div>
+        <?php $submit_job_page = get_permalink(get_option('job_manager_submit_job_form_page_id')); ?>
+        <a href="<?php echo $submit_job_page; ?>" class="button button_green">Let's Build My Campaign</a>
+        <?php endif; ?>
+
+    </section>
+    <?php
+    exit;
+}
 
 /*------------------------------------   Dashboard Init -----------------------------------------------*/
 include_once get_stylesheet_directory() . '/inc/term-walker.php';
