@@ -26,6 +26,15 @@ $('.form__side__top').click(function() {
 	}	
 });
 
+$('.toggle__link').click(function(e) {
+    e.preventDefault();
+    $('.login').hide();
+    $('.register').show();
+    $('.form__side__bottom .form__side__image_active').addClass('opacity1');
+    $('.form__side__top .form__side__image_active').removeClass('opacity1');
+
+});
+
     var youtube = document.querySelectorAll( ".youtube" );
     
     for (var i = 0; i < youtube.length; i++) {
