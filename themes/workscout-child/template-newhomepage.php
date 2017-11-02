@@ -18,17 +18,17 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                 </div>
                 <?php if ( !is_user_logged_in() ) { ?>
                 <div class="firstscreen__form form">
-                    <div class="form__side">
-                        <div class="form__side__top">
-                            <div class="form__side__top__image-block">
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus.png" alt="" class="form__side__image"/>
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus-active.png" alt="" class="form__side__image form__side__image_active opacity1"/>
+                    <div class="form__head">
+                        <div class="form__head__left form__head__active">
+                            <div class="form__head__left__image-block">
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus.png" alt="" class="form__head__image"/>
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus-active.png" alt="" class="form__head__image form__head__image_active opacity1"/>
                             </div>
                         </div>
-                        <div class="form__side__bottom">
-                            <div class="form__side__bottom__image-block">
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus-inactive.png" alt="" class="form__side__image"/>
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus.png" alt="" class="form__side__image form__side__image_active"/>
+                        <div class="form__head__right">
+                            <div class="form__head__right__image-block">
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus-inactive.png" alt="" class="form__head__image"/>
+                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus.png" alt="" class="form__head__image form__head__image_active"/>
                             </div>
                         </div>
                     </div>
