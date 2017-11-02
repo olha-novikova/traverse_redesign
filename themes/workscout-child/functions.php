@@ -334,8 +334,8 @@ function my_woocommerce_edit_account_form_child() {
              <label class="form__input__label" for="number">PHONE NUMBER</label>
          </div>
 
-         <div class="input__block <?php if (!empty($shortbio)) echo 'has-value';?>">
-             <textarea class="input-text" name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
+         <div class="input__block">
+             <textarea class="input-text <?php if (!empty($shortbio)) echo 'has-value';?>" name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
              <label class="form__input__label" for="birthdate">SHORT BIO</label>
          </div>
 
