@@ -401,7 +401,7 @@ button::-moz-focus-inner {
     padding: 1.625rem 1.25rem .6875rem;
     width: 100%;
     font-weight: 400;
-    line-height: .9375rem;
+    line-height: 1;
     position: relative;
     z-index: 2;
     border: 1px solid #d8dbe6;
@@ -1243,4 +1243,18 @@ html {
 
 .contacts__block:first-child .contacts__text {
     width: 5.9375rem
+}
+
+input[type="submit"].button{
+    display: block;
+    text-align: center;
+    width: 13.54vw;
+    padding-top: 1.09vw;
+    padding-bottom: 1.09vw;
+    font-size: .72vw;
+    color: #fff;
+    border-radius: .1875rem;
+    border: none;
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
 }

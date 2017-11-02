@@ -218,7 +218,7 @@ function my_woocommerce_edit_account_form_child() {
 
         <div class="input__block">
             <p style="margin-bottom: 8px;">Select Category</p>
-            <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
+            <select name="traveler_type[]" class="input-text job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
                 <?php
                 if( $portfolio_types && ! is_wp_error($portfolio_types) ){
                     foreach ($portfolio_types as $portfolio_type){ ?>
@@ -334,8 +334,8 @@ function my_woocommerce_edit_account_form_child() {
              <label class="form__input__label" for="number">PHONE NUMBER</label>
          </div>
 
-         <div class="input__block">
-             <textarea name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
+         <div class="input__block <?php if (!empty($shortbio)) echo 'has-value';?>">
+             <textarea class="input-text" name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
              <label class="form__input__label" for="birthdate">SHORT BIO</label>
          </div>
 
@@ -463,7 +463,7 @@ function my_woocommerce_edit_account_form_child() {
         ?>
 
          <div class="input__block">
-             <textarea name="shortbio" /><?php echo esc_attr( $shortbio ); ?></textarea>
+             <textarea class="form__input <?php if (!empty($shortbio)) echo 'has-value';?>" name="shortbio" /><?php echo esc_attr( $shortbio ); ?></textarea>
              <label class="form__input__label" for="birthdate">SHORT BIO</label>
          </div>
 
