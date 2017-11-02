@@ -156,8 +156,6 @@ function dashboard_child_scripts(){
 
     }
 
-
-
     if ( is_front_page() ){
 
         wp_dequeue_script('dashboard-main');
@@ -167,8 +165,6 @@ function dashboard_child_scripts(){
         wp_enqueue_script( 'home-main', get_stylesheet_directory_uri() . '/js/home/main.js', array('jquery'), '20150705', true );
 
     }
-
-
 
 }
 
