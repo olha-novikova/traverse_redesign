@@ -3,7 +3,7 @@
 		<div class="table__head">
 			<div class="table__row table__row_header">
 				<div class="table__header">
-					<p class="table__text">pitched campaigns</p>
+					<p class="section__header">Pitched Campaigns</p>
 				</div>
 			</div>
 		</div>
@@ -58,7 +58,7 @@
 		<div class="table__head">
 			<div class="table__row table__row_header">
 				<div class="table__header">
-					<p class="table__text">completed campaigns</p>
+					<p class="section__header">Completed Campaigns</p>
 				</div>
 			</div>
 		</div>
@@ -110,7 +110,7 @@
 		<div class="table__head">
 			<div class="table__row table__row_header">
 				<div class="table__header">
-					<p class="table__text">Current  Campaign</p>
+					<p class="section__header">Active Campaigns</p>
 				</div>
 			</div>
 		</div>
@@ -153,7 +153,7 @@
 				<div class="table__body">
 					<div class="table__row table__row_body table__row_empty">
 						<div class="empty"><i class="icon icon_calendar"></i>
-							<p class="empty-text">There are no completed campaigns to show</p>
+							<p class="empty-text">There are no active campaigns to show</p>
 						</div>
 					</div>
 				</div>

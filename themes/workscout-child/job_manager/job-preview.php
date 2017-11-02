@@ -16,6 +16,9 @@
                 <p class="listing__view__header">
                     <span class="company-name"><?php echo get_the_company_name($form->get_job_id()); ?></span> campaign <span class="company-campaign"> estimate</span>
                 </p>
+              <p>You find different performances based upon your targeted influencer categories, your budget, and more. We suggest packages to help make sure you get the performance you are looking for.</p>
+              
+              <h3 class="listing__view__header"> Select one of the following:</h3>
                 <div class="list__options">
                     <?php
                     $budget = get_post_meta( $form->get_job_id(), '_targeted_budget', true);
@@ -49,6 +52,41 @@
                     <?php }
                     ?>
                 </div>
+              
+              
+              
+              
+              
+               <div class="listing__wrapper">
+                <p class="list__number"><span>Estimated Reach: </span><span><?php echo $possible_reach; ?></span></p>
+               <!-- <p>Average   audience   size   of   all   influencers   in   the   category selected   by   the   brand.</p>-->
+            </div>
+            <div class="listing__wrapper">
+                <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
+               <!-- <p>Average   possible   reach</p> -->
+            </div>
+            <div class="buttons">
+                <input type="hidden" name="job_id" value="<?php echo esc_attr( $form->get_job_id() ); ?>" />
+                <input type="hidden" name="prod_id" class="prod_id"/>
+                <input type="hidden" name="prod_count" class="prod_count"/>
+                <input type="hidden" name="job_id" value="<?php echo esc_attr( $form->get_job_id() ); ?>" />
+                <input type="hidden" name="step" value="<?php echo esc_attr( $form->get_step() ); ?>" />
+                <input type="hidden" name="job_manager_form" value="<?php echo $form->get_form_name(); ?>" />
+
+                <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
+                <?php if ( isset($can_pro) || isset( $can_growth) ||  isset($can_micro) ) { ?>
+                    <input type="submit" name="continue" id="job_preview_submit_button" class="job-manager-button-submit-listing button button_green" value="<?php echo apply_filters( 'submit_job_step_preview_submit_text', __( 'Go to Checkout', 'wp-job-manager' ) ); ?>" />
+                <?php } ?>
+            </div>
+        </form>
+    </section>
+              
+              
+              
+              
+              
+              
+              
                 <p class="listing__wrapper">
                     <?php echo $text;
                     if ( !isset($can_pro) && !$can_growth && !isset($can_micro) ){ ?>
@@ -68,10 +106,10 @@
                 $count =  $resumes -> post_count;
                 ?>
                 <div class="listing__wrapper">
-                    <p class="list__number"><span>Number of influencers: </span> <span> <?php echo $count?></span></p>
-                    <p>
+                    <p class="list__number"><span>Here are some possible influencers that match your campaign: </span> <!--<span> <?php echo $count?></span></p> -->
+                   <!-- <p>
                         Example of influencers
-                    </p>
+                    </p> -->
                 </div>
             </div>
             <section class="section section_browse">

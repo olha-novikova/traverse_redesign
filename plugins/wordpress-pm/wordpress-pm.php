@@ -45,8 +45,9 @@
 			reciever  bigint(200) NOT NULL,
 			job bigint(200) NOT NULL,
 			job_name varchar(255) NOT NULL,
+			delete_status boolean DEFAULT 0 NOT NULL,
 			seen tinytext NULL,
-			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 			PRIMARY KEY  (id)
 		) $collate;
 		CREATE TABLE {$wpdb->prefix}pm_messages (
@@ -59,21 +60,21 @@
 			status tinytext NULL,
 			seen tinytext NULL,
 			delete_status boolean DEFAULT 0 NOT NULL,
-			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 			PRIMARY KEY  (id)
 		) $collate;
 		CREATE TABLE {$wpdb->prefix}pm_deleted_conversation (
 			id bigint(200) NOT NULL auto_increment,
 			user bigint(200) NOT NULL,
 			conv_id bigint(200) NOT NULL,
-			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 			PRIMARY KEY  (id)
 		) $collate;
 		CREATE TABLE {$wpdb->prefix}pm_blocked_conversation (
 			id bigint(200) NOT NULL auto_increment,
 			blocked_by bigint(200) NOT NULL,
 			blocked_user bigint(200) NOT NULL,
-			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 			PRIMARY KEY  (id)
 		) $collate;
 		CREATE TABLE {$wpdb->prefix}pm_attachments (
@@ -82,7 +83,7 @@
 			type tinytext NULL,
 			size bigint(200) NULL,
 			url longtext NULL,
-			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 			PRIMARY KEY  (id)
 		) $collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

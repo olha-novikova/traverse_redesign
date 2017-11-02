@@ -11,7 +11,7 @@ global $job_manager;
         <div class="submit-page">
         <form action="<?php echo esc_url( $action ); ?>" method="post" id="submit-job-form" class="job-manager-form section__container form form_listing" enctype="multipart/form-data">
             <?php if ( job_manager_user_can_post_job() ) : ?>
-                <p class="section__header section__header_listing">Create Listing</p>
+                <p class="section__header section__header_listing"><?php if ( $form == 'submit-job' ) echo "Create Listing"; elseif ( $form == 'edit-job' ) echo "Update Listing"; ?> </p>
                 <div class="form__inputs inputs inputs_listing">
                     <!-- Job Information Fields -->
                     <?php do_action( 'submit_job_form_job_fields_start' ); ?>
@@ -53,7 +53,7 @@ global $job_manager;
                     <?php $user_id = get_current_user_id(); $company_name = get_user_meta( $user_id, 'company_name', true );?>
                     <input type="hidden"  id = "job_company_name" name="job_company_name" value="<?php echo $company_name; ?>" />
                     <div class="buttons">
-                        <input type="submit" name="submit_job" class="button button_orange" value="Submit Listing" />
+                        <input type="submit" name="submit_job" class="button button_orange" value="<?php if ( $form == 'submit-job' ) echo "Estimate Campaign"; elseif ( $form == 'edit-job' ) echo "Update Campaign"; ?>" />
                     </div>
             <?php else : ?>
 

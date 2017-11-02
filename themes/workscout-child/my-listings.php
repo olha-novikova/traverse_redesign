@@ -17,8 +17,8 @@ get_sidebar();
             <section class="section section_listing app-content">
                 <div class="section_wrap_titles">
                     <div class="section__titles">
-                        <a class="button button__title app-link active" href="#listings">My Listings</a>
-                        <a class="button button__title app-link" href="#pitches">New Pitches<span class="button__badge"><?php echo get_total_count_applications();?></span></a>
+                        <a class="button button__title app-link active" href="#listings">My Campaigns</a>
+                        <a class="button button__title app-link" href="#pitches">Pitches<span class="button__badge"><?php echo get_total_count_applications();?></span></a>
                     </div>
                 </div>
             </section>
@@ -45,7 +45,7 @@ get_sidebar();
                                         <p class="table__text">Campaign Description</p>
                                     </div>
                                     <div class="table__header">
-                                        <p class="table__text">Influencers</p>
+                                        <p class="table__text"># of Influencers</p>
                                     </div>
                                 </div>
                             </div>
@@ -97,8 +97,9 @@ get_sidebar();
                                                     <a class="button button_green" href="<?php echo get_permalink( $job->ID ); ?>">View Campaign</a>
                                                 <?php endif; ?>
                                                 <?php if ( $job->post_status == 'publish' ):
-                                                    $action_url = add_query_arg( array( 'action' => 'edit', 'job_id' => $job->ID ) );
-                                                 //   echo '<a class="button button_white job-dashboard-action-edit" href="' . esc_url( $action_url ) . '">Edit Campaign</a>';
+                                                    $dash_url = get_permalink(get_option( 'job_manager_job_dashboard_page_id' ));
+                                                    $action_url = add_query_arg( array( 'action' => 'edit', 'job_id' => $job->ID ),$dash_url );
+                                                    echo '<a class="button button_white job-dashboard-action-edit" href="' . esc_url( $action_url ) . '">Edit Campaign</a>';
                                                 endif; ?>
                                             </div>
                                         </div>
@@ -128,7 +129,7 @@ get_sidebar();
                                     <p class="table__text">Campaign Description</p>
                                 </div>
                                 <div class="table__header">
-                                    <p class="table__text">Influencers</p>
+                                    <p class="table__text"># of Pitches</p>
                                 </div>
                             </div>
                         </div>
