@@ -19,7 +19,7 @@
 						<p class="table__text">Campaign Description</p>
 					</div>
 					<div class="table__header">
-						<p class="table__text">Influencers</p>
+						<p class="table__text"># of Influencers</p>
 					</div>
 				</div>
 			</div>
@@ -100,7 +100,7 @@
                 var max_pages = '<?php echo $jobs->max_num_pages; ?>';
 			</script>
 
-			<div class="button button_green" id="loadmore">View More Opportunities</div>
+			<div class="button button_green" id="loadmore">View More Campaigns</div>
 		</div>
 	</div>
 	<?php endif; ?>

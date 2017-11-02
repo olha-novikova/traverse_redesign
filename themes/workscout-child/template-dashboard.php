@@ -104,7 +104,7 @@ $class = ($layout !="full-width") ? "eleven columns woocommerce-account" : "sixt
 
                     $page = the_slug($employer_dashboard_page_id);
                     $class = ( $wp->query_vars[ 'pagename' ]== $page )?'is-active':'';
-                    printf( __( '<li class="woocommerce-MyAccount-navigation-link %s"><a href="%s"> My Listings </a></li>', 'workscout' ),
+                    printf( __( '<li class="woocommerce-MyAccount-navigation-link %s"><a href="%s"> My Campaigns </a></li>', 'workscout' ),
                         $class,
                         get_permalink($employer_dashboard_page_id)
                     );

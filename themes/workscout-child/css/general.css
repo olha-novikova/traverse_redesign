@@ -342,7 +342,6 @@ button::-moz-focus-inner {
     color: #fff;
     display: -ms-flexbox;
     display: flex;
-    height: 6.25rem;
     -ms-flex-align: center;
     align-items: center
 }

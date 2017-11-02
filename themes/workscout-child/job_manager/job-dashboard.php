@@ -88,7 +88,7 @@
     <section class="section section_campaigns" id="job-manager-job-dashboard">
         <div class="section__container">
             <?php if ( ! $jobs ) : ?>
-                <?php esc_html_e( 'You do not have any active listings.', 'workscout' ); ?>
+                <?php esc_html_e( 'You do not have any active listings. Click Create Listing to start now.', 'workscout' ); ?>
             <?php else : ?>
                 <div class="table">
                     <div class="table__head">

@@ -20,7 +20,7 @@ get_sidebar();?>
 
         <section class="section_profile section_profile-completed">
             <div class="profile__background">
-                <div class="profile__background__gradient"></div>
+                <!--<div class="profile__background__gradient"></div>-->
                 <div class="profile__image_circle" style="background-image: url(' <?php echo get_company_logo_url($post->ID); ?>'); background-size:cover; ">
                 </div>
             </div>

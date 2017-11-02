@@ -28,7 +28,7 @@ $user_id = get_current_user_id();
                 <li class="profile__link"><a href="<?php echo get_permalink($submit_job_page) ?>" class="profile__link__a">Create Listing</a></li>
                 <li class="profile__link"><a href="<?php echo get_permalink($influencers) ?>" class="profile__link__a">Influencers</a></li>
                 <li class="profile__link profile__link_brand"><span class="profile__brandname"> <?php echo $brand_name; ?> </span></li>
-                <li class="profile__link"><a href="<?php echo  home_url('/my-listings'); ?>" class="profile__link__a">My Listings</a></li>
+                <li class="profile__link"><a href="<?php echo  home_url('/my-listings'); ?>" class="profile__link__a">My Campaigns</a></li>
                 <li class="profile__link"><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>" class="profile__link__a">Account</a></li>
             <?php endif;
 
