@@ -15,7 +15,6 @@ add_action( 'wp_print_scripts', 'workscout_child_dequeue_script', 100 );
 function workscout_child_scripts(){
     wp_enqueue_script( 'workscout-custom-parent', get_stylesheet_directory_uri() . '/js/custom.parent.js', array('jquery'), '20150705', true );
     wp_enqueue_script( 'workscout-custom-child', get_stylesheet_directory_uri() . '/js/custom-child.js', array('jquery' ,'workscout-custom-parent'), '20150705', true );
-    wp_register_script('message-by-job',get_stylesheet_directory_uri() . '/js/message-by-job.js', array('jquery'), '20150705', true);
 
     $ajax_url = admin_url( 'admin-ajax.php' );
 
@@ -2120,6 +2119,242 @@ function aj_do_estimate(){
 
     </section>
     <?php
+    exit;
+}
+
+add_action('wp_ajax_aj_preview_estimate_influencers', 'aj_preview_estimate_influencers');
+
+add_action('wp_ajax_aj_preview_estimate_summary', 'aj_preview_estimate_summary');
+
+function aj_preview_estimate_influencers(){
+
+    $budget = $_POST['target_budget'];
+    $meta_query = array('relation' => 'AND');
+
+    $meta_use = false;
+
+    if ( isset($_POST['fb_channel']) && $_POST['fb_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_fb_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['ig_channel']) && $_POST['ig_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_instagram_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['yt_channel']) && $_POST['yt_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_youtube_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['tw_channel']) && $_POST['tw_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_twitter_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['include']) && $_POST['include'] == 'pro_inf' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '>=',
+            'value'     => '500000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['include']) && $_POST['include'] == 'growth_inf' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => 'BETWEEN',
+            'value'     => array(50000, 499999),
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['include']) && $_POST['include'] == 'micro_inf' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '<',
+            'value'     => '50000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    $names = array(
+        'micro_inf'     => "Micro",
+        'growth_inf'    => "Growth",
+        'pro_inf'       => "Pro",
+    );
+
+    $args = array(
+        'post_type'           => 'resume',
+        'post_status'         => array( 'publish'),
+        'ignore_sticky_posts' => 1,
+        'orderby'             => 'ASC',
+        'order'               => 'date',
+        'posts_per_page'      => -1
+    );
+
+    if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
+        $categories = $_POST['traveler_type'];
+
+    if ( $categories ){
+        $args['tax_query'][] = array(
+            'taxonomy'         => 'resume_category',
+            'field'            => 'slug',
+            'terms'            => array_values( $categories ),
+            'include_children' => false,
+            'operator'         => 'IN'
+        );
+    }
+
+    if ( $meta_use ) {
+        $args['meta_query'] = $meta_query;
+    }
+
+    $resumes = new WP_Query($args);
+
+    if ( $resumes->have_posts() ) :?>
+        <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
+            <?php get_template_part('template-parts/content', 'influencer')?>
+        <?php endwhile; wp_reset_postdata();?>
+        <?php else: echo "Sorry, We can't find any ".$names[$_POST['include']]." influencers now"; ?>
+    <?php endif;
+
+    exit;
+}
+
+function aj_preview_estimate_summary(){
+
+    $response = array();
+
+    $budget = $_POST['target_budget'];
+    $meta_query = array('relation' => 'AND');
+
+    $meta_use = false;
+
+    if ( isset($_POST['fb_channel']) && $_POST['fb_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_fb_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['ig_channel']) && $_POST['ig_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_instagram_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['yt_channel']) && $_POST['yt_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_youtube_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['tw_channel']) && $_POST['tw_channel'] == 'on' ){
+        $meta_query[] = array(
+            'key'       => '_twitter_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['include']) && $_POST['include'] == 'pro_inf' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '>=',
+            'value'     => '500000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['include']) && $_POST['include'] == 'growth_inf' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => 'BETWEEN',
+            'value'     => array(50000, 499999),
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    if ( isset($_POST['include']) && $_POST['include'] == 'micro_inf' ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '<',
+            'value'     => '50000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    $args = array(
+        'post_type'           => 'resume',
+        'post_status'         => array( 'publish'),
+        'ignore_sticky_posts' => 1,
+        'orderby'             => 'ASC',
+        'order'               => 'date',
+        'posts_per_page'      => -1
+    );
+
+    if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
+        $categories = $_POST['traveler_type'];
+
+    if ( $categories ){
+        $args['tax_query'][] = array(
+            'taxonomy'         => 'resume_category',
+            'field'            => 'slug',
+            'terms'            => array_values( $categories ),
+            'include_children' => false,
+            'operator'         => 'IN'
+        );
+    }
+
+    if ( $meta_use ) {
+        $args['meta_query'] = $meta_query;
+    }
+
+    $resumes = new WP_Query($args);
+
+    $possible_reach = 0;
+    if ( $resumes->have_posts() ) :
+        while ( $resumes->have_posts() ) : $resumes->the_post();
+            $resume_id = get_the_ID();
+            $possible_reach += get_influencer_audience($resume_id);
+        endwhile;
+    endif;
+
+    if ( $possible_reach != "0" ){
+        $response['possible_reach'] = $possible_reach;
+        $response['possible_engagement'] = (round($possible_reach*0.03)." - ".round($possible_reach*0.07));
+    }else {
+        $response['no'];
+    }
+
+    echo json_encode($response);
+
     exit;
 }
 

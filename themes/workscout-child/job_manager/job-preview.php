@@ -1,5 +1,133 @@
 <?php session_start(); $_SESSION['job_id'] = $form->get_job_id();?>
+<?php ?>
 <div class="content create-page">
+    <?php
+    $categories = wp_get_post_terms($form->get_job_id(), 'job_listing_category', array("fields" => "id=>slug"));
+    $types  = wp_get_post_terms($form->get_job_id(), 'job_listing_type', array("fields" => "id=>slug"));
+
+    $meta_query = array('relation' => 'AND');
+
+    $meta_use = false;
+
+    if ( in_array('facebook', $types) ){
+        $meta_query[] = array(
+            'key'       => '_fb_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( in_array('instagram', $types) ){
+        $meta_query[] = array(
+            'key'       => '_instagram_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( in_array('youtube', $types) ){
+        $meta_query[] = array(
+            'key'       => '_youtube_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    if ( in_array('twitter', $types) ){
+        $meta_query[] = array(
+            'key'       => '_twitter_link',
+            'compare'   => 'EXISTS'
+        );
+        $meta_use = true;
+    }
+
+    $budget = get_post_meta( $form->get_job_id(), '_targeted_budget', true);
+
+    $product_id = wc_get_product_id_by_sku( 'pro_inf' );
+
+    $product_pro = new WC_Product( $product_id );
+    $price_pro = $product_pro -> get_price();
+
+    if ( $budget < $price_pro ) {
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '<',
+            'value'     => '500000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+
+    $product_id = wc_get_product_id_by_sku( 'growth_inf' );
+
+    $product_growth = new WC_Product( $product_id );
+    $price_growth = $product_growth -> get_price();
+
+    if ( $budget < $price_growth ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '<',
+            'value'     => '500000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    $product_id = wc_get_product_id_by_sku( 'micro_inf' );
+
+    $product_micro = new WC_Product( $product_id );
+    $price_micro = $product_micro -> get_price();
+
+    if ( $budget < $price_micro ){
+        $meta_query[] = array(
+            'key'       => '_audience',
+            'compare'   => '<',
+            'value'     => '50000',
+            'type'      => 'NUMERIC'
+        );
+        $meta_use = true;
+    }
+
+    $args = array(
+        'post_type'           => 'resume',
+        'post_status'         => array( 'publish'),
+        'ignore_sticky_posts' => 1,
+        'orderby'             => 'ASC',
+        'order'               => 'date',
+        'posts_per_page'      => -1
+    );
+
+    if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
+        $categories = $_POST['traveler_type'];
+
+    if ( $categories ){
+        $args['tax_query'][] = array(
+            'taxonomy'         => 'resume_category',
+            'field'            => 'slug',
+            'terms'            => array_values( $categories ),
+            'include_children' => false,
+            'operator'         => 'IN'
+        );
+    }
+
+    if ( $meta_use ) {
+        $args['meta_query'] = $meta_query;
+    }
+
+    $resumes = new WP_Query($args);
+
+    $possible_reach = 0;
+
+    if ( $resumes->have_posts() ) :?>
+
+        <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
+            <?php
+            $resume_id = get_the_ID();
+            $possible_reach += get_influencer_audience($resume_id);
+            ?>
+        <?php endwhile; wp_reset_postdata();?>
+    <?php endif; ?>
     <section class="section section_listing">
         <form method="post" id="job_preview" action="<?php echo esc_url( $form->get_action() ); ?>" class="section__container form form_listing">
             <div class="listing__wrapper">
@@ -7,7 +135,7 @@
                 <p class="section__header section__header_listing">Create Listing</p>
                 <?php
                 $budget = get_post_meta($form->get_job_id(), '_targeted_budget', true);
-                $categories = wp_get_post_terms($form->get_job_id(), 'job_listing_category', array("fields" => "id=>slug"));
+
                 ?>
                 <p class="listing__view__header">
                     <span class="company-name"><?php echo get_the_company_name($form->get_job_id()); ?></span> campaign <span class="company-campaign"> estimate</span>
@@ -17,11 +145,11 @@
                     We suggest packages to help make sure you get the performance you are looking for.
                 </p>
               
-                <h3 class="listing__view__header"> Select one of the following:</h3>
+                <p id="selected_option" class="listing__view__header"><span class="company-name">Select one of the following:</span> <span class="company-campaign option"></span></p>
 
                 <div class="list__options">
                     <?php
-                    $budget = get_post_meta( $form->get_job_id(), '_targeted_budget', true);
+
 
                     $possible_products = array('pro_inf', 'growth_inf', 'micro_inf');
                     $text = "";
@@ -36,9 +164,9 @@
                             if ( $possible_product == 'micro_inf' )     $can_micro = true;
                         }
                         if ( floor( $budget/$price ) > 0){?>
-                            <input type="button" class="button button_orange add_prod_to_job" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                            <input type="button" class="button button_orange add_prod_to_job" data-include = "<?php echo $possible_product; ?>" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
                         <?php }else{ ?>
-                            <input type="button" class="button button_orange add_prod_to_job" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                            <input type="button" class="button button_white" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
                         <?php }
                     }
                     if ( !isset($can_pro) && isset($can_growth) && isset($can_micro))
@@ -54,10 +182,10 @@
                 </div>
 
                 <div class="listing__wrapper">
-                    <p class="list__number"><span>Estimated Reach: </span><span><?php echo $possible_reach; ?></span></p>
+                    <p class="list__number"><span>Estimated Reach: </span><span class="pos_rich"><?php echo $possible_reach; ?></span></p>
                 </div>
                 <div class="listing__wrapper">
-                    <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
+                    <p class="list__number"><span>Estimated Engagement: </span><span class="pos_eng"><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
                 </div>
             </div>
 
@@ -85,36 +213,16 @@
 
     </section>
 
-    <?php
-    $args = array(
-        'orderby'           => 'ASC',
-        'order'             => 'date',
-        'posts_per_page'    => -1,
-        'search_categories' => array_values($categories)
-    );
-
-    $resumes = get_resumes( apply_filters( 'resume_manager_get_resumes_args', $args ) );
-    $count =  $resumes -> post_count;
-    ?>
-   
     <section class="section section_browse">
         <div class="listing__wrapper">
-            <p class="list__number"><span>Here are some possible influencers that match your campaign: </span> <!--<span> <?php echo $count?></span></p> -->
+            <p class="list__number"><span>Here are some possible influencers that match your campaign: </span></p>
         </div>
         <div class="section__container">
             <div class="carousel">
                 <?php
-                $possible_reach = 0;
                 if ( $resumes->have_posts() ) :?>
-
                     <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
-
                         <?php get_template_part('template-parts/content', 'influencer')?>
-                        <?php
-                        $resume_id = get_the_ID();
-                        $possible_reach += get_influencer_audience($resume_id);
-                        ?>
-
                     <?php endwhile; wp_reset_postdata();?>
 
                 <?php endif; ?>
@@ -122,36 +230,97 @@
         </div>
     </section>
     <script>
-        jQuery(document).ready(function () {
-            jQuery('.add_prod_to_job').click(function(){
-                var $this = jQuery(this);
-                jQuery('.add_prod_to_job').removeClass('active');
-                $this.addClass('active');
-                var prodId = $this.data('prod_id');
-                var prodCount = $this.data('prod_count');
-                if (prodId && prodCount){
-                    jQuery('.prod_id').val(prodId);
-                    jQuery('.prod_count').val(prodCount);
-                }
+        ( function( $ ) {
+            $(document).ready(function () {
+                $('.prod_id').val('');
+                $('.prod_count').val('');
 
-            });
-          /* jQuery('#job_preview_submit_button').click(function(e) {
-                e.preventDefault();
-                if (jQuery.trim(jQuery(".prod_id").val()) === "" || jQuery.trim(jQuery(".prod_count").val()) === "") {
-                    jQuery.magnificPopup.open({
-                        items: {
-                            src:'<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
-                                '<div class="small-dialog-headline"><h2><?php esc_html_e("Warning!","workscout"); ?></h2></div>'+
-                                '<div class="small-dialog-content"><p>Please select one of options to Create you campaign</p></div>'+
-                                '</div>',
-                            type: 'inline'
+                var traveler_types = '';
+                <?php foreach($categories as $category){ ?>
+                    traveler_types = traveler_types +"&traveler_type[]=<?php echo $category?>";
+                <?php } ?>
+
+                $('.add_prod_to_job').click(function(){
+
+                    var base = "target_budget=<?php echo  get_post_meta($form->get_job_id(), '_targeted_budget', true); ?>"+
+                        "&fb_channel=<?php if (in_array('facebook', $types)) echo "on";?>"+
+                        "&ig_channel=<?php if (in_array('instagram', $types)) echo "on";?>"+
+                        "&yt_channel=<?php if (in_array('youtube', $types)) echo "on";?>"+
+                        "&tw_channel=<?php if (in_array('twitter', $types)) echo "on";?>";
+
+                    base += traveler_types;
+
+                    var $this = $(this);
+                    $('.add_prod_to_job').removeClass('active');
+                    $this.addClass('active');
+
+                    var prodId = $this.data('prod_id');
+                    var prodCount = $this.data('prod_count');
+                    var include = $this.data('include');
+
+                    base = base+"&include=" +include;
+
+                    var text = $this.val();
+
+                    if (prodId && prodCount){
+                        $('.prod_id').val(prodId);
+                        $('.prod_count').val(prodCount);
+                        $('#selected_option').find('span.option').html(text);
+                    }
+
+                     $.ajax({
+                        url: ws.ajaxurl,
+                        type: 'POST',
+                        data: base + '&action=aj_preview_estimate_summary',
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.possible_reach){
+                                $('.pos_rich').html(response.possible_reach);
+                            }else{
+                                $('.pos_rich').html('');
+                            }
+                            if (response.possible_engagement){
+                                $('.pos_eng').html(response.possible_engagement);
+                            }else{
+                                $('.pos_eng').html('');
+                            }
                         }
                     });
-                }else{
-                    jQuery('#job_preview').submit();
-                }
 
-            });*/
-        })
+                     $.ajax({
+                        url: ws.ajaxurl,
+                        type: 'POST',
+                        data: base + '&action=aj_preview_estimate_influencers',
+                        dataType: 'html',
+                        success: function(response) {
+                            $('.carousel').slick('unslick');
+                            $('.carousel').html( response );
+                            $('.carousel').slick({dots: !0, arrows: !1, infinite: !0, speed: 500, slidesToShow: 4, slidesToScroll: 4, autoplay: !1, autoplaySpeed: 7500});
+
+                        }
+                    });
+
+                });
+
+                $('#job_preview_submit_button').click(function(e) {
+                    e.preventDefault();
+                    if ($.trim($(".prod_id").val()) === "" || jQuery.trim(jQuery(".prod_count").val()) === "") {
+                        $.magnificPopup.open({
+                            items: {
+                                src:'<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
+                                    '<div class="small-dialog-headline"><h2><?php esc_html_e("Warning!","workscout"); ?></h2></div>'+
+                                    '<div class="small-dialog-content"><p>Please select which group of influencers you wish to have complete your campaign</p></div>'+
+                                    '</div>',
+                                type: 'inline'
+                            }
+                        });
+                    }else{
+                        $('#job_preview').append("<input type='hidden' name='continue' value='continue'/>");
+                        $('#job_preview').submit();
+                    }
+                });
+            })
+        } )( jQuery );
+
     </script>
 </div>
