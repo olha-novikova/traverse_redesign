@@ -231,7 +231,9 @@ button::-moz-focus-inner {
     font-family: Roboto, sans-serif;
     font-weight: 400
 }
-
+.button.large_text{
+    font-size: 0.83vw;
+}
 .button_white, a.button_white {
     background-color: #fff !important;
     color: #888da8 !important;

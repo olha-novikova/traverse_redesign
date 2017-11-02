@@ -169,7 +169,7 @@
                 </div><!--table-->
             <?php endif; ?>
             <div class="after-table">
-                <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green">View All Campaigns</a>
+                <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green large_text">View All Campaigns</a>
             </div>
         </div>
     </section>
