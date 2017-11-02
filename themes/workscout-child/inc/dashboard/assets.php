@@ -20,7 +20,7 @@ function dashboard_enqueue_styles() {
 
 	wp_enqueue_style( 'vendor-style', get_stylesheet_directory_uri() . '/css/dashboard/vendor.css', array() );
 
-
+	wp_enqueue_style( 'general-style', get_stylesheet_directory_uri() . '/css/general.css', array() );
 
 	if (is_page_template(['influencer-dashboard.php', 'recent-opportunities.php', 'influencer-pitches.php', 'template-new-balance.php'])) {
 
