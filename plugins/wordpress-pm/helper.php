@@ -90,6 +90,7 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 	$all_conversations = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_conversation WHERE (sender = %d OR reciever = %d) AND delete_status != 1 ORDER BY created_at DESC",  $user_id,  $user_id), ARRAY_A);
 	if( !empty($all_conversations) )
 	{
+		$count = 0;
 		foreach ($all_conversations as &$conversation) 
 		{
 			$conversation['sender_name'] = get_user_name_by_id($conversation['sender']);
@@ -127,6 +128,7 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 		// die();
 				if( $last_message[0]['sender_id'] != get_current_user_id() )
 				{
+					$count++;
 					$conversation['seen'] = $last_message[0]['seen'] != 1 ? false: true;
 				} else {
 					$conversation['seen'] = true;
@@ -151,6 +153,8 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 	} else{
 		$all_conversations =  array();
 	}
+	
+	// print_r($all_conversations);
   
 	$blocked_user = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_blocked_conversation WHERE blocked_by = %d",  $user_id), ARRAY_A);
 	$blocked_by = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_blocked_conversation WHERE blocked_user = %d",  $user_id), ARRAY_A);
@@ -158,6 +162,7 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 		'conversation' => $all_conversations,
 		'blocked_user' => $blocked_user,
 		'blocked_by' => $blocked_by,
+		'count' => $count,
 	);
 }
 
@@ -198,6 +203,31 @@ function get_few_messages_by_conversation($conv_id)
 		return $total_messages;
 	} else {
 		return array();
+	}
+}
+
+function do_store_attach ($new_message, $uploaded_files)
+{
+	global $wpdb;
+	
+	$json = json_encode($uploaded_files);
+	$new_attachment = array(
+		'type_t' => null,
+		'conv_id' => $new_message['conv_id'],
+		'url' => $json,
+		'size' => null,
+	);
+	
+	$sql = $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_attachments (`conv_id`, `url`) VALUES (%d, %s)", $new_message['conv_id'], $json) );
+		
+	$new_attachment['id'] = $wpdb->insert_id;
+	
+	if (isset($new_attachment['id'])) 
+	{
+		$new_message['attachment_id'] = $new_attachment['id'];
+		$stored_message = do_store_message($new_message);
+		$stored_message['attachments'] = $new_attachment;
+		return json_encode($stored_message);
 	}
 }
 
@@ -302,11 +332,11 @@ function get_all_user_info(){
   }
 }
 
-function create_new_message_if_possible( $reciever_id , $text)
+function create_new_message_if_possible( $reciever_id , $text, $jobid = 0, $jobname = "")
 {
 	global $wpdb;
 	
-	$new_conversation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_conversation WHERE ((sender = %d AND reciever = %d) OR (sender = %d AND reciever = %d)) AND delete_status != 1 ORDER BY created_at DESC", get_current_user_id(), $reciever_id, $reciever_id, get_current_user_id()), ARRAY_A );
+	$new_conversation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_conversation WHERE ((sender = %d AND reciever = %d) OR (sender = %d AND reciever = %d)) AND job = %d AND delete_status != 1 ORDER BY created_at DESC", get_current_user_id(), $reciever_id, $reciever_id, get_current_user_id(), $jobid), ARRAY_A );
 	
 	if( !empty($new_conversation) )
 	{
@@ -319,7 +349,7 @@ function create_new_message_if_possible( $reciever_id , $text)
 			'time' =>  date("Y-m-d H:i:s"),
 			'time_iso' => date('Y-m-d\TH:i:sO', strtotime(date("Y-m-d H:i:s")))
 		);
-		$sql = $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_messages (`conv_id`, `sender_id`, `reciever_id`, `attachment_id`, `message`, `created_at`) VALUES (%d, %d, %d, %d, %s)", $new_conversation['id'], get_current_user_id(), $reciever_id, null, encrypt_decrypt($text, get_current_user_id()), date("Y-m-d H:i:s")) );
+		$sql = $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_messages (`conv_id`, `sender_id`, `reciever_id`, `attachment_id`, `message`, `created_at`) VALUES (%d, %d, %d, %d, %s, %s)", $new_conversation['id'], get_current_user_id(), $reciever_id, null, encrypt_decrypt($text, get_current_user_id()), date("Y-m-d H:i:s")) );
 		
 		$new_message['id'] = $wpdb->insert_id;
 
@@ -327,10 +357,19 @@ function create_new_message_if_possible( $reciever_id , $text)
 		$new_conversation = array(
 			'sender' => get_current_user_id(),
 			'reciever'=> $reciever_id,
+			'job' => $jobid,
+			'job_name' => $jobname
 		);
-		$sql = $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_conversation (`sender`, `reciever`) VALUES (%d, %d)", get_current_user_id(), $reciever_id) );
+		$sql = $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_conversation (`sender`, `reciever`, `job`, `job_name`) VALUES (%d, %d, %d, %s)", get_current_user_id(), $reciever_id, $jobid, $jobname) );
 		
 		$new_conversation['id'] = $wpdb->insert_id;
+		
+		if (!empty($jobid) && $jobid > 0)
+		{
+			$url = get_permalink( $jobid );
+			if ($url)
+				$text = $text. " <br>To pitch this campaign click here: <a href='".$url."'>".$url."</a>";
+		}
 		
 		$new_message  = array(
 			'conv_id' => $new_conversation['id'],
@@ -351,6 +390,8 @@ function create_new_message_if_possible( $reciever_id , $text)
           $conversation['id'] = $new_conversation['id'];
           $conversation['sender_name'] = get_user_name_by_id($new_conversation['sender']);
           $conversation['reciever_name'] = get_user_name_by_id($new_conversation['reciever']);
+          $conversation['job'] = $jobid;
+          $conversation['job_name'] = $jobname;
 
           $user_id = get_current_user_id();
           if( $user_id == $new_conversation['sender'] ){
@@ -513,3 +554,22 @@ function unblock_user($blocked_user){
 	];
 }
 
+function uploadImageToWP($image_temp_url, $thumbnail, $name)
+{
+	if($thumbnail === 'true'){
+		$image = wp_get_image_editor( $image_temp_url );
+		if ( ! is_wp_error( $image ) ) {
+			$image->resize( 500, true );
+			$image->save(PM_DIR.'/temp_thumbnail.jpg');
+			$image_temp_url = PM_DIR.'/temp_thumbnail.jpg';
+		}
+	}
+	
+	$url = wp_upload_bits($name, null, file_get_contents( $image_temp_url ));
+	
+	if(file_exists(PM_DIR.'/temp_thumbnail.jpg')){
+		unlink(PM_DIR.'/temp_thumbnail.jpg');
+	}
+			
+	return $url['url'];
+}

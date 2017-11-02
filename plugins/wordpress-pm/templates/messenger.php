@@ -23,10 +23,13 @@
 						<?php
 						foreach ($conversations['conversation'] as $conversation)
 						{
+							// print_R($conversation);
 							$active_class = $conversation['id'] == $conversationID ? " active" : "";
 							$conv_name = $conversation['sender'] == get_current_user_id() ? $conversation['reciever_name'] : $conversation['sender_name'];
 							// yes, yes, i know it's bullshit.
 							$conversation['seen'] = ($conversation['seen'] != 1) ? "false" : "true";
+							if (!empty($conversation["job_name"]))
+								$conv_name = $conv_name." | ".$conversation["job_name"];
 							?>
 							<div class="chat_content_single<?php echo $active_class; ?>" data-msg-id="<?php echo $conversation['message_id']; ?>" data-reciever-id="<?php echo $conversation['reciever']; ?>" data-sender-id="<?php echo $conversation['sender']; ?>" data-reciever-name="<?php echo $conversation['reciever_name']; ?>" data-sender-name="<?php echo $conversation['sender_name']; ?>" data-conversation-id="<?php echo $conversation['id']; ?>" data-seen="<?php echo $conversation['seen']; ?>" data-created_at="<?php echo $conversation['created_at']; ?>" data-owner="<?php echo $conversation['owner']; ?>" data-time="<?php echo $conversation['time']; ?>">
 								<div class="chat__left_image">
@@ -36,6 +39,7 @@
 									<div class="chat__content_wrapper">
 										<?php if ($conversation['seen']=="false") { 
 											// do_message_seen( $conversation['id'] , $conversation['sender'] , $conversation['message_id'] );
+											
 										?>
 											<h3 class="chat__content_title"><strong><?php echo $conv_name; ?></strong></h3>
 										<?php } else { ?>
@@ -79,6 +83,7 @@
 					</div>
 					<div class="chat_listing">
 						<?php foreach ($messages as $message) { 
+						// print_R($message);
 						if ($message['owner']) $pname = $message['sender_name'];
 						else $pname = $message['reciever_name'];
 						$message['time'] = date('Y-m-d\TH:i:sO', strtotime($message['time']));
@@ -127,7 +132,7 @@
 							<div class="attach-part">
 								<!--<span class="icon-list__element"><i class="icon icon_camera"></i></span>-->
 								<span class="icon-list__element uploadmedia"><i class="icon icon_computer"></i></span>
-							   <!-- <span class="icon-list__element"><i class="icon icon_snippet"></i></span>-->
+							    <span class="icon-list__element"><i class="icon icon_snippet"></i></span>
 							</div>
 							<input type="submit" value="Post Reply">
 						</div>

@@ -803,3 +803,7 @@ footer{
     float: right;
     color: red;
 }
+
+.hide {
+    display: none;
+}

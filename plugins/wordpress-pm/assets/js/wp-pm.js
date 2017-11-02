@@ -121,7 +121,7 @@ jQuery(document).ready(function( $ )
                 'id': id
             },
 			success: function(response) {
-				console.log(response);
+				// console.log(response);
 			}
 		});
 	}
@@ -142,11 +142,18 @@ jQuery(document).ready(function( $ )
 						
 						var active_class = (element.id == conversationID) ? "active" : "";
 						var conv_name = (element.sender == userID) ? element.reciever_name : element.sender_name;
+						var job_name = element.job_name;
+						if (job_name.length > 0) conv_name = conv_name + " | " + job_name;
 						var fromnow = moment(element.time_iso).fromNow();
 						var convname = (element.seen!=1) ? '<strong>'+conv_name+'</strong>' : conv_name;	
 						html+='<div class="chat_content_single '+active_class+'" data-msg-id="'+element.message_id+'" data-reciever-id="'+element.reciever+'" data-sender-id="'+element.sender+'" data-reciever-name="'+element.reciever_name+'" data-sender-name="'+element.sender_name+'" data-conversation-id="'+element.id+'" data-seen="'+element.seen+'" data-created_at="'+element.created_at+'" data-owner="'+element.owner+'" data-time="'+element.time+'"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><h3 class="chat__content_title">'+convname+'</h3><div class="chat_content_text"><p>'+element.message+'</p></div><small class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</small></div></div><div class="chat_right_logo"><span class="icon-list__element"><i class="icon icon_chat_msg"></i></span></div></div>';
 					});
 					dom.html(html);
+					if (response.new_conversations.count!=null)
+						var count = response.new_conversations.count;
+					else 
+						var count = 0;
+					$(".icon__number_purple").text(count);
 				},
 				complete: grab_latest_conversation
 			});
@@ -433,21 +440,34 @@ jQuery(document).ready(function( $ )
 		var previewTemplate = previewNode.parentNode.innerHTML;
 		previewNode.parentNode.removeChild(previewNode); 
 		var myDropzone = new Dropzone(document.body, { 
-			url: wp_pm_ajax.ajax_url+"?action=asset_upload",
+			url: wp_pm_ajax.ajax_url+"?action=pm_asset_upload",
 			autoProcessQueue: false,
 			uploadMultiple: true,
-			acceptedFiles: ".jpg",
-			parallelUploads: 100,
-			maxFiles: 100,
+			showFiletypeIcon: true,
+			createImageThumbnails: true,
+			acceptedFiles: ".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx",
+			maxFilesize: 2,
+			maxFiles: 10,
 			previewTemplate: previewTemplate,
 			previewsContainer: "#chat__files", 
 			clickable: ".uploadmedia",
-			accept: function(file, done) {
-				console.log(file);
-			}
 		});
-
-		myDropzone.on("addedfile", function(file) { myDropzone.processQueue(); });
+		document.querySelector(".icon_snippet").onclick = function() {
+			// console.log("processQueue");
+			myDropzone.processQueue();
+		};
+		// myDropzone.on("addedfile", function(file) { myDropzone.processQueue(); });
+		/*myDropzone.on("sending", function(file, xhr, data) {
+			var conv_id = document.querySelector("#usrform input[name=conv_id]").value;
+			var reciever_id = document.querySelector("#usrform input[name=reciever_id]").value;
+			var sender_id = document.querySelector("#usrform input[name=sender_id]").value;
+			var message = document.querySelector("#usrform textarea").value;
+            data.append("details", '{"conv_id":'+conv_id+',"reciever_id":'+reciever_id+',"sender_id":'+sender_id+',"message":"'+message+'"}');
+        });*/
+		myDropzone.on("success", function(data, err) {
+			this.removeFile(data);
+        });
+		
 		myDropzone.on("removedfile", function(file) {  });
 		myDropzone.on("error", function(file, errorMessage) {
 			if (!file.accepted) this.removeFile(file);
