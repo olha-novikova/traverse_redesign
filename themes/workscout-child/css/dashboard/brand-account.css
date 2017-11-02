@@ -9,7 +9,7 @@ a.other_view{
     color: #515365
 }
 
-.form__header, .settings__menu__header, .settings__menu__list, .settings__menu__list__header {
+.form__header, .settings__menu__header, .settings__menu__list__header {
     border-bottom: 2px solid #e6ecf5
 }
 .form__input.has-value + .form__input__label, .form__input:focus + .form__input__label {
