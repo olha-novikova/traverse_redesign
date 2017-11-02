@@ -233,6 +233,7 @@ button::-moz-focus-inner {
 }
 
 .button_white, a.button_white {
+    background-color: #fff !important;
     color: #888da8 !important;
     border: 1px solid #e8e9f0 !important;
 }
