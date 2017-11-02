@@ -38,7 +38,6 @@
 									</div>
 									<div class="chat__content_wrapper">
 										<?php if ($conversation['seen']=="false") { 
-											// do_message_seen( $conversation['id'] , $conversation['sender'] , $conversation['message_id'] );
 											
 										?>
 											<h3 class="chat__content_title"><strong><?php echo $conv_name; ?></strong></h3>
@@ -46,7 +45,10 @@
 											<h3 class="chat__content_title"><?php echo $conv_name; ?></h3>
 										<?php } ?>
 										<div class="chat_content_text">
-											<p><?php echo $conversation['message']; ?></p>
+											<?php 
+											if (!empty($conversation['message'])) echo "<p>".$conversation['message']."</p>";
+											else echo '<p class="chat__italic">attachment</p>';
+											?>
 										</div>
 										<small class="chat_content_time" data-livestamp="<?php echo $conversation['time_iso']; ?>" title="<?php echo $conversation['time_iso']; ?>"></small>
 									</div>
@@ -82,6 +84,7 @@
 						</i></span>
 					</div>
 					<div class="chat_listing">
+						
 						<?php foreach ($messages as $message) { 
 						// print_R($message);
 						if ($message['owner']) $pname = $message['sender_name'];
@@ -99,8 +102,32 @@
 										<span class="chat_content_time" data-livestamp="<?php echo $message['time']; ?>" title="<?php echo $message['time']; ?>"></span>
 									</div>
 									<div class="chat_content_text">
-										
 										<p><?php echo $message['message']; ?><span data-message-id="<?php echo $message['id']; ?>">x</span></p>
+										<?php 
+										if (isset($message['attachments']) && !empty($message['attachments'])) 
+										{ 
+											$att_json = json_decode($message['attachments']['url'], true);
+											?>
+											<div class="images">
+												<div class="images_list">
+													<?php foreach ($att_json as $attachment) { 
+														if (strpos($attachment['type'], 'image') !== false) 
+														{
+													?>
+														<span><a href="<?php echo $attachment['url'];?>" data-fancybox="cl-group"><img src="<?php echo $attachment['url'];?>" title="<?php echo $attachment['name'];?>" alt="<?php echo $attachment['name'];?>"></a></span>
+														<?php } ?>
+													<?php } ?>
+													<?php foreach ($att_json as $attachment) { 
+														if (strpos($attachment['type'], 'image') === false) 
+														{
+													?>
+														<div class="file"><a href="<?php echo $attachment['url'];?>" ><?php echo $attachment['name'];?></a></div>
+														<?php } ?>
+													<?php } ?>
+											
+												</div>
+											</div>
+										<?php } ?>
 									</div>
 								</div>
 							</div>
@@ -132,7 +159,7 @@
 							<div class="attach-part">
 								<!--<span class="icon-list__element"><i class="icon icon_camera"></i></span>-->
 								<span class="icon-list__element uploadmedia"><i class="icon icon_computer"></i></span>
-							    <span class="icon-list__element"><i class="icon icon_snippet"></i></span>
+							    <!--<span class="icon-list__element"><i class="icon icon_snippet"></i></span>-->
 							</div>
 							<input type="submit" value="Post Reply">
 						</div>

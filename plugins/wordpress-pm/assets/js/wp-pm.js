@@ -82,7 +82,7 @@ jQuery(document).ready(function( $ )
 						if (element.owner) pname = element.sender_name;
 						else pname = element.reciever_name;
 						var fromnow = moment(element.time_iso).fromNow();
-						html+='<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+' | '+element.time+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p></div></div> </div> </div>';
+						html+='<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p></div></div> </div> </div>';
 					});
 					dom.html(html);
 					dom.scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
@@ -121,7 +121,6 @@ jQuery(document).ready(function( $ )
                 'id': id
             },
 			success: function(response) {
-				// console.log(response);
 			}
 		});
 	}
@@ -139,14 +138,16 @@ jQuery(document).ready(function( $ )
 					var html = "", dom = $('#pm_conversations');
 					var conversationID = (getUrlParameter('conversationID') != null) ? getUrlParameter('conversationID') : response.new_conversations.conversation[0].id ;
 					$.each(response.new_conversations.conversation, function(index, element) {
-						
+						var message = element.message ;
 						var active_class = (element.id == conversationID) ? "active" : "";
 						var conv_name = (element.sender == userID) ? element.reciever_name : element.sender_name;
 						var job_name = element.job_name;
 						if (job_name.length > 0) conv_name = conv_name + " | " + job_name;
 						var fromnow = moment(element.time_iso).fromNow();
-						var convname = (element.seen!=1) ? '<strong>'+conv_name+'</strong>' : conv_name;	
-						html+='<div class="chat_content_single '+active_class+'" data-msg-id="'+element.message_id+'" data-reciever-id="'+element.reciever+'" data-sender-id="'+element.sender+'" data-reciever-name="'+element.reciever_name+'" data-sender-name="'+element.sender_name+'" data-conversation-id="'+element.id+'" data-seen="'+element.seen+'" data-created_at="'+element.created_at+'" data-owner="'+element.owner+'" data-time="'+element.time+'"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><h3 class="chat__content_title">'+convname+'</h3><div class="chat_content_text"><p>'+element.message+'</p></div><small class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</small></div></div><div class="chat_right_logo"><span class="icon-list__element"><i class="icon icon_chat_msg"></i></span></div></div>';
+						var convname = (element.seen!=1) ? '<strong>'+conv_name+'</strong>' : conv_name;
+						if (message.length > 0) message = '<p>'+message+'</p>';
+						else message = '<p class="chat__italic">attachment</p>';
+						html+='<div class="chat_content_single '+active_class+'" data-msg-id="'+element.message_id+'" data-reciever-id="'+element.reciever+'" data-sender-id="'+element.sender+'" data-reciever-name="'+element.reciever_name+'" data-sender-name="'+element.sender_name+'" data-conversation-id="'+element.id+'" data-seen="'+element.seen+'" data-created_at="'+element.created_at+'" data-owner="'+element.owner+'" data-time="'+element.time+'"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><h3 class="chat__content_title">'+convname+'</h3><div class="chat_content_text">'+message+'</div><small class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</small></div></div><div class="chat_right_logo"><span class="icon-list__element"><i class="icon icon_chat_msg"></i></span></div></div>';
 					});
 					dom.html(html);
 					if (response.new_conversations.count!=null)
@@ -189,22 +190,48 @@ jQuery(document).ready(function( $ )
 				},
 				dataType: 'json',  
 				success: function (response) {
-					var html = "", pname = "", dom = $('.chat_listing');
-					$.each(response.autopush_messages.new_unseen_messages, function(index, element) {
-						console.log('[data-message-id="'+element.id+']');
-						if (($('[data-message-id='+element.id+']').length < 1)){
-							if (element.owner) pname = element.sender_name;
-							else pname = element.reciever_name;
-							var fromnow = moment(element.time_iso).fromNow();
-							html+='<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+' | '+element.time+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p></div></div> </div> </div>';
-						}
-					});
-					dom.append(html);
-					// console.log(seen);
-					var reciever_id = (reciever==userID) ? sender : reciever;
-					
-					if (seen==null || seen===false || seen==="false" ) message_seen(conversation_id, reciever_id, msg);
-					$('.chat__content__right .chat_listing').scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
+					var html = "", pname = "", dom = $('.chat_listing'), new_unseen = response.autopush_messages.new_unseen_messages;
+					if (new_unseen.length > 0)
+					{
+						$.each(new_unseen, function(index, element) {
+							if (($('[data-message-id='+element.id+']').length < 1))
+							{
+								if (element.owner) pname = element.sender_name;
+								else pname = element.reciever_name;
+								var fromnow = moment(element.time_iso).fromNow();
+								html += '<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p>';
+								var attachments = jQuery.parseJSON( element.attachments.url );
+								if (attachments.length > 0) 
+								{
+									html += '<div class="images"><div class="images_list">';
+								
+									$.each(attachments, function(index, attachment) {
+										var string = attachment.type,
+											substring = "image";
+										if (string.indexOf(substring) !== -1)
+											html += '<span><a href="'+attachment.url+'" data-fancybox="cl-group"><img src="'+attachment.url+'" title="'+attachment.name+'" alt="'+attachment.name+'"></a></span>';
+										
+									});
+									$.each(attachments, function(index, attachment) {
+										var string = attachment.type,
+											substring = "image";
+										if (string.indexOf(substring) === -1)
+											html += '<div class="file"><a href="'+attachment.url+'" >'+attachment.name+'</a></div>';
+										
+									});
+									
+									html += '</div></div>';
+								}
+								
+								html += '</div></div> </div> </div>';
+							}
+						});
+						dom.append(html);
+						var reciever_id = (reciever==userID) ? sender : reciever;
+						
+						if (seen==null || seen===false || seen==="false" ) message_seen(conversation_id, reciever_id, msg);
+						$('.chat__content__right .chat_listing').scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
+					}
 				},
 				complete: auto_pull_messages
 			});
@@ -221,7 +248,7 @@ jQuery(document).ready(function( $ )
             },
 			success: function(response) {
 				
-				console.log(response);
+				// console.log(response);
 			}
 		});
 	}
@@ -235,7 +262,7 @@ jQuery(document).ready(function( $ )
 				'id': id
             },
 			success: function(response) {
-				console.log(response);
+				// console.log(response);
 			}
 		});
 	}
@@ -257,12 +284,12 @@ jQuery(document).ready(function( $ )
 					var pname="", 
 						element = response.message;
 						
-					console.log(element);
+					// console.log(element);
 					if (element.owner) pname = element.sender_name;
 						else pname = element.reciever_name;
 					var fromnow = moment(element.time_iso).fromNow();
 					
-					$('.chat__content__right .chat_listing').append('<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+' | '+element.time+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p></div></div> </div> </div>');
+					$('.chat__content__right .chat_listing').append('<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p></div></div> </div> </div>');
 					$('.chat__content__right .chat_listing').scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
 					
 					$("#usrform textarea").removeAttr("disabled");
@@ -284,7 +311,7 @@ jQuery(document).ready(function( $ )
 				'blocked_user': blocked_user
             },
 			success: function(response) {
-				console.log(response);
+				// console.log(response);
 			}
 		});
 	}
@@ -302,7 +329,7 @@ jQuery(document).ready(function( $ )
 				if (response.error != 'undefined' && response.error) {
 					return true;
 				} else {
-					console.log(response);
+					// console.log(response);
 					return false;
 				}
 			}
@@ -339,7 +366,7 @@ jQuery(document).ready(function( $ )
 	$(document).on('click', '.chat_content_text p span', function()
 	{
 		var mid = $( this ).attr("data-message-id");
-		console.log(mid);
+		// console.log(mid);
 		$( this ).closest(".chat_listing_single").remove();
 		swal({
 			title: 'Are you sure?',
@@ -411,15 +438,6 @@ jQuery(document).ready(function( $ )
 		
 	});
 	
-	$( "#usrform" ).submit(function( event ) {
-		event.preventDefault();
-		var text = $('#usrform textarea').val();
-		if (text.length > 0)
-			push_new_message($(this).serialize());
-		else
-			swal('oops...', "message can't be blank", 'error');
-	});
-	
 	$("#usrform textarea").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
@@ -452,20 +470,64 @@ jQuery(document).ready(function( $ )
 			previewsContainer: "#chat__files", 
 			clickable: ".uploadmedia",
 		});
-		document.querySelector(".icon_snippet").onclick = function() {
-			// console.log("processQueue");
-			myDropzone.processQueue();
-		};
-		// myDropzone.on("addedfile", function(file) { myDropzone.processQueue(); });
-		/*myDropzone.on("sending", function(file, xhr, data) {
+		// document.querySelector(".icon_snippet").onclick = function() {
+			// myDropzone.processQueue();
+		// };
+		myDropzone.on("sending", function(file, xhr, data) {
 			var conv_id = document.querySelector("#usrform input[name=conv_id]").value;
 			var reciever_id = document.querySelector("#usrform input[name=reciever_id]").value;
 			var sender_id = document.querySelector("#usrform input[name=sender_id]").value;
 			var message = document.querySelector("#usrform textarea").value;
             data.append("details", '{"conv_id":'+conv_id+',"reciever_id":'+reciever_id+',"sender_id":'+sender_id+',"message":"'+message+'"}');
-        });*/
-		myDropzone.on("success", function(data, err) {
-			this.removeFile(data);
+        });
+		myDropzone.on("success", function(file, response) {
+			this.removeFile(file);
+			var response = jQuery.parseJSON( response );
+			var attachments = jQuery.parseJSON( response.attachments.url );
+			var pname="", 
+				html="", 
+				element = response;
+			
+			if (element.owner) pname = element.sender_name;
+				else pname = element.reciever_name;
+				
+			var fromnow = moment(element.time_iso).fromNow();
+			
+			if (($('[data-message-id='+element.id+']').length < 1))
+			{
+				html += '<div class="chat_listing_single"><div class="chat__left_image"><div class="chat_person_image"><span class="person_image" style="background-image:url('+element.pic+');"></span></div><div class="chat__content_wrapper"><div class="chat__content_header"><h3 class="chat__content_title">'+pname+'</h3><span class="chat_content_time" data-livestamp="'+element.time_iso+'" title="'+element.time_iso+'">'+fromnow+'</span></div> <div class="chat_content_text"><p>'+element.message+'<span data-message-id="'+element.id+'">x</span></p>';
+				
+				if (attachments.length > 0) 
+				{
+					html += '<div class="images"><div class="images_list">';
+				
+					$.each(attachments, function(index, attachment) {
+						var string = attachment.type,
+							substring = "image";
+						if (string.indexOf(substring) !== -1)
+							html += '<span><a href="'+attachment.url+'" data-fancybox="cl-group"><img src="'+attachment.url+'" title="'+attachment.name+'" alt="'+attachment.name+'"></a></span>';
+						
+					});
+					$.each(attachments, function(index, attachment) {
+						var string = attachment.type,
+							substring = "image";
+						if (string.indexOf(substring) === -1)
+							html += '<div class="file"><a href="'+attachment.url+'" >'+attachment.name+'</a></div>';
+						
+					});
+					
+					html += '</div></div>';
+				}
+				
+				html += '</div></div> </div> </div>';
+			}		
+			$('.chat__content__right .chat_listing').append(html);
+			$('.chat__content__right .chat_listing').scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
+					
+			$("#usrform textarea").val('');
+			$("#usrform textarea").focus();
+			
+			
         });
 		
 		myDropzone.on("removedfile", function(file) {  });
@@ -473,8 +535,38 @@ jQuery(document).ready(function( $ )
 			if (!file.accepted) this.removeFile(file);
 			swal('oops...', errorMessage, 'warning');
         });
+		
+		$( "#usrform" ).submit(function( event ) {
+			event.preventDefault();
+			var files_count = myDropzone.getAcceptedFiles().length;
+			if (files_count > 0)
+			{
+				myDropzone.processQueue();
+			} else {
+				var text = $('#usrform textarea').val();
+				if (text.length > 0)
+					push_new_message($(this).serialize());
+				else
+					swal('oops...', "message can't be blank", 'error');
+			}
+		});
+		
+		$('a[data-fancybox="cl-group"]').fancybox({
+			baseClass : 'fancybox-custom-layout',
+			infobar   : false,
+			thumbs    : {
+				hideOnClose : false
+			},
+			touch : {
+				vertical : 'auto'
+			},
+			buttons : [
+				'close',
+				'thumbs',
+				'slideShow',
+				'fullScreen',
+			],
+
+		});
 	}
-	
-	
-	
 });

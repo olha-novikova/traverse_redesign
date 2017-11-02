@@ -124,7 +124,7 @@
     .chat_content_text .images .images_list {
       display: flex;
       width: 100%; }
-      .chat_content_text .images .images_list span {
+.chat_content_text .images .images_list span {
         background-color: #9a9fbf;
         height: 4vw;
         width: 4vw;
@@ -132,7 +132,17 @@
         flex-direction: row;
         float: left;
         margin-right: 1vw;
-        border-radius: 0.3vw; }
+        border-radius: 0.3vw;
+		*background-size: cover;
+}
+.chat_content_text .images .images_list .file {
+    display:block;
+	
+}
+
+.chat_content_text .images .images_list span img{
+    object-fit: cover;
+}
 
 .chat_content_time {
   color: #888da8;
@@ -220,7 +230,6 @@
 	display:inline-block;
 }
 
-/* line 142, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .submit_part input {
   color: #FFF;
   cursor:pointer;
@@ -230,7 +239,6 @@
   border-radius: 0.3vw;
   font-size: 1vw; }
 
-/* line 149, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .submit_part {
   display: flex;
   align-items: center;
@@ -238,23 +246,17 @@
   justify-content: space-between;
   border-top: 1px solid #e6ecf5; }
 
-/* line 156, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .submit_part .icon-list__element {
   margin-right: 1.5vw; }
 
-/* line 160, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat_right_logo .icon-list__element i {
   font-size: 1.5vw; }
 
-/* line 164, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .submit_part .icon-list__element i {
   font-size: 1.5vw; }
 
-/* line 167, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 #usrform textarea::placeholder {
   color: #888da8; }
-
-/* line 169, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat_listing {
   position: absolute;
   top: 6vw;
@@ -264,15 +266,12 @@
   bottom: 6vw;
   overflow: auto; }
 
-/* line 177, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat_listing_single {
   padding: 1.5vw 2vw; }
 
-/* line 180, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat__content_header .chat_content_time {
   font-size: 0.8vw; }
 
-/* line 183, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat__content_header .chat__content_title {
   padding-top: 0.5vw;
   padding-bottom: 0;
@@ -280,7 +279,6 @@
   color: #515365;
   font-weight: bold; }
 
-/* line 189, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat__content_header {
   display: flex;
   justify-content: space-between;
@@ -288,7 +286,6 @@
   line-height: 1;
   padding-bottom: 1vw; }
 
-/* line 195, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat__content_wrapper {
   display: flex;
   flex-direction: column;
@@ -351,4 +348,8 @@
 	background: #FF5E3A;
     padding: 10px 27px;
     font-weight: 600;
+}
+
+.chat__italic {
+	font-style:italic;
 }

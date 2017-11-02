@@ -37,7 +37,7 @@
     ?>
 
     <div class="icons">
-        <a href="<?php echo  home_url('/messages'); ?>" class="icon__block"><i class="icon icon_chat"></i><!--<i class="icon__number icon__number_purple"></i>--></a>
+        <a href="<?php echo  home_url('/messages'); ?>" class="icon__block"><i class="icon icon_chat"></i><i class="icon__number icon__number_purple">0</i></a>
 <!--        <div class="icon__block"><i class="icon icon_notifications"></i><i class="icon__number icon__number_orange"></i></div>-->
     </div>
     <?php

@@ -137,6 +137,7 @@ class PrivateMessagesAjax {
 				}
 				$uploaded_files[$key]['type'] = $allFiles["type"][$key];
 				$uploaded_files[$key]['size'] =  $allFiles["size"][$key];
+				$uploaded_files[$key]['name'] =  $allFiles["name"][$key];
 				
 			}
 			// print_R($uploaded_files);

@@ -114,9 +114,11 @@
 		{
 			//Chat CSS
 			wp_enqueue_style('wp-private-messages', PM_CSS.'wp-pm.css');
+			wp_enqueue_style('fancybox', PM_CSS.'jquery.fancybox.min.css');
 			
 			//Chat JS
 			wp_enqueue_script( 'wp-private-messages', PM_JS . 'wp-pm.js', array('jquery'), PM_VERSION, true );
+			wp_enqueue_script( 'fancybox', PM_JS . 'jquery.fancybox.min.js', array('wp-private-messages','jquery'), '3.1.25', true );
 			wp_enqueue_script('dropzonejs', PM_JS . 'dropzone.js', array(), PM_VERSION, true );
 			wp_register_script( 'momentjs', PM_JS . 'moment.js', array('jquery'), '2.19.1', true );
 			wp_enqueue_script( 'momentjs' );
