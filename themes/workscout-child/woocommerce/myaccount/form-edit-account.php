@@ -11,7 +11,7 @@ $all_meta_for_user = get_user_meta( $current_user->ID );
 $part = 'main';
 if ( isset( $_GET['password']) && $_GET['password'] == 'change') $part = 'pass';
 ?>
-<div class="section__container settings__workarea">
+
 
     <?php do_action( 'woocommerce_before_edit_account_form' );?>
 
@@ -94,6 +94,6 @@ if ( isset( $_GET['password']) && $_GET['password'] == 'change') $part = 'pass';
 
     <?php do_action( 'woocommerce_after_edit_account_form1' ); ?>
     <?php do_action( 'woocommerce_after_edit_account_form' ); ?>
-</div>
+
 
 

@@ -140,7 +140,7 @@ button::-moz-focus-inner {
     color: #515365;
     width: 100%;
     font-size: .729vw;
-    line-height: .078vw;
+    line-height: 1;
     z-index: 2;
     border: 1px solid #d8dbe6;
     border-radius: .25rem
@@ -167,7 +167,7 @@ button::-moz-focus-inner {
     position: absolute;
     left: 0;
     top: 0;
-    content: url(../img/check.png);
+    content: url(../../img/check.png);
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: center;
@@ -797,4 +797,13 @@ footer{
 #menu-main_footer li.menu-item a{
     color: #fff;
     font-weight: bold;
+}
+
+.error_msg {
+    float: right;
+    color: red;
+}
+
+.hide {
+    display: none;
 }

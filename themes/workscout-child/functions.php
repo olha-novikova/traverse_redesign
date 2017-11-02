@@ -202,7 +202,7 @@ function my_woocommerce_edit_account_form_child() {
         ?>
 
         <div class="input__block">
-            <textarea type="textfield"  name="shortbio"  class="<?php if (!empty($shortbio)) echo 'has-value';?>" /><?php echo esc_attr( $shortbio ); ?></textarea>
+            <textarea type="textfield"  name="shortbio"  class="input-text <?php if (!empty($shortbio)) echo 'has-value';?>" /><?php echo esc_attr( $shortbio ); ?></textarea>
             <label class="form__input__label" for="shortbio">SHORT BIO</label>
         </div>
 
@@ -218,7 +218,7 @@ function my_woocommerce_edit_account_form_child() {
 
         <div class="input__block">
             <p style="margin-bottom: 8px;">Select Category</p>
-            <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
+            <select name="traveler_type[]" class="input-text job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
                 <?php
                 if( $portfolio_types && ! is_wp_error($portfolio_types) ){
                     foreach ($portfolio_types as $portfolio_type){ ?>
@@ -230,65 +230,65 @@ function my_woocommerce_edit_account_form_child() {
         </div>
 
         <div class="input__block full_width">
-            <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($location)) echo 'has-value';?>"    type="text"  name="location" value="<?php echo esc_attr( $location ); ?>"   />
             <label class="form__input__label" for="location">LOCATIONS YOU KNOW BEST</label>
         </div>
 
         <div class="input__block">
-            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
+            <input class="form__input input-text <?php if (!empty($number)) echo 'has-value';?>"    type="text"  value="<?php echo esc_attr( $number ); ?>" />
             <label class="form__input__label" for="number">YOUR PHONE NUMBER</label>
 
         </div>
 
          <div class="input__block">
-             <input class="form__input <?php if (!empty($insta)) echo 'has-value';?>"    type="text"  name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
+             <input class="form__input input-text <?php if (!empty($insta)) echo 'has-value';?>"    type="text"  name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
              <label class="form__input__label" for="insta">YOUR INSTAGRAM URL</label>
          </div>
 
          <div class="input__block">
-             <input class="form__input <?php if (!empty($fb)) echo 'has-value';?>"    type="text"  name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
+             <input class="form__input input-text <?php if (!empty($fb)) echo 'has-value';?>"    type="text"  name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
              <label class="form__input__label" for="fb">YOUR FACEBOOK URL</label>
          </div>
 
          <div class="input__block">
-             <input class="form__input <?php if (!empty($twitter)) echo 'has-value';?>"    type="text"  name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>"   />
+             <input class="form__input input-text <?php if (!empty($twitter)) echo 'has-value';?>"    type="text"  name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>"   />
              <label class="form__input__label" for="birthdate">YOUR TWITTER URL</label>
          </div>
 
          <div class="input__block">
-             <input class="form__input <?php if (!empty($youtube)) echo 'has-value';?>"    type="text"  name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>"   />
+             <input class="form__input input-text <?php if (!empty($youtube)) echo 'has-value';?>"    type="text"  name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>"   />
              <label class="form__input__label" for="youtube">YOUR YOUTUBE URL</label>
          </div>
 
          <div class="input__block">
-            <input class="form__input <?php if (!empty($jrrny_link_own)||!empty($jrrny_link_auto)) echo 'has-value';?>"    type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>"   />
+            <input class="form__input input-text <?php if (!empty($jrrny_link_own)||!empty($jrrny_link_auto)) echo 'has-value';?>"    type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>"   />
                 <label class="form__input__label" for="youtube">YOUR JRRNY.COM PROFILE <?php if (!$jrrny_link_own && $jrrny_link_auto) echo "(A new JRRNY account was created automatically, but you can use your own if you have one.)";?></label>
          </div>
 
          <div class="input__block">
-            <input class="form__input <?php if (!empty($website)) echo 'has-value';?>"    type="text"  name="website" value="<?php echo esc_attr( $website ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($website)) echo 'has-value';?>"    type="text"  name="website" value="<?php echo esc_attr( $website ); ?>"   />
              <label class="form__input__label" for="website">YOUR WEBSITE URL</label>
          </div>
 
          <div class="input__block">
-             <input class="form__input <?php if (!empty($monthlyvisit)) echo 'has-value';?>"    type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>"   />
+             <input class="form__input input-text <?php if (!empty($monthlyvisit)) echo 'has-value';?>"    type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>"   />
              <label class="form__input__label" for="monthlyvisit">YOUR WEBSITE'S ESTIMATED NUMBER OF MONTHLY VISITS</label>
          </div>
 
          <div class="input__block">
-            <label for="newsletter">DOES YOUR WEBSITE HAVE A NEWSLETTER?</label>
+            <p>DOES YOUR WEBSITE HAVE A NEWSLETTER?</p>
             <input type="radio" name="newsletter" value="yes" <?php if ( $newsletter == 'yes') echo 'checked = "checked"';?>> YES
             <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
          </div>
 
          <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
 
-            <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
-             <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
+            <input class="input-text form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+             <label style="z-index: 99" class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
          </div>
 
         <div class="input__block full_width">
-            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
             <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
         </div>
         <script type="text/javascript">
@@ -324,18 +324,18 @@ function my_woocommerce_edit_account_form_child() {
          
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($company_name)) echo 'has-value';?>"    type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
+            <input class="form__input input-text <?php if (!empty($company_name)) echo 'has-value';?>"    type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
              <label class="form__input__label" for="company_name">COMPANY</label>
          </div>
 
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
+            <input class="form__input input-text <?php if (!empty($number)) echo 'has-value';?>"    type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
              <label class="form__input__label" for="number">PHONE NUMBER</label>
          </div>
 
-         <div class="input__block">
-             <textarea name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
+         <div class="input__block <?php if (!empty($shortbio)) echo 'has-value';?>">
+             <textarea class="input-text" name="shortbio"><?php echo esc_attr( $shortbio ); ?></textarea>
              <label class="form__input__label" for="birthdate">SHORT BIO</label>
          </div>
 
@@ -345,13 +345,13 @@ function my_woocommerce_edit_account_form_child() {
                 <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
             <?php } ?>
 
-            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
              <label class="form__input__label" for="logo">LOGO</label>
          </div>
 
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($website)) echo 'has-value';?>"    type="text" name="website" value="<?php echo esc_attr( $website ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($website)) echo 'has-value';?>"    type="text" name="website" value="<?php echo esc_attr( $website ); ?>"   />
              <label class="form__input__label" for="website">WEBSITE</label>
          </div>
 
@@ -367,13 +367,13 @@ function my_woocommerce_edit_account_form_child() {
          
          <div class="input__block">
 
-             <input class="form__input <?php if (!empty($company_name)) echo 'has-value';?>"    type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
+             <input class="form__input input-text <?php if (!empty($company_name)) echo 'has-value';?>"    type="text" name="company_name" value="<?php echo esc_attr( $company_name ); ?>" class="input-text sdjhjksdhk" />
              <label class="form__input__label" for="company_name">COMPANY</label>
          </div>
 
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($number)) echo 'has-value';?>"    type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
+            <input class="form__input input-text <?php if (!empty($number)) echo 'has-value';?>"    type="text" name="number" value="<?php echo esc_attr( $number ); ?>" class="input-text sdjhjksdhk" />
              <label class="form__input__label" for="number">PHONE NUMBER</label>
          </div>
 
@@ -392,25 +392,25 @@ function my_woocommerce_edit_account_form_child() {
 
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($monthlyvisit)) echo 'has-value';?>"    type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($monthlyvisit)) echo 'has-value';?>"    type="text" name="monthlyvisit" value="<?php echo esc_attr( $monthlyvisit ); ?>"   />
              <label class="form__input__label" for="monthlyvisit">ESTIMATED MONTHLY VISIT</label>
          </div>
 
          <div class="input__block">
 
-                <input class="form__input <?php if (!empty($jrrny_link_own) || !empty($jrrny_link_auto)) echo 'has-value';?>"    type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>"   />
+                <input class="form__input input-text <?php if (!empty($jrrny_link_own) || !empty($jrrny_link_auto)) echo 'has-value';?>"    type="text" name="jrrny_link" id = "jrrny_link" value="<?php echo esc_attr( $jrrny_link_own ? $jrrny_link_own: $jrrny_link_auto); ?>"   />
              <label class="form__input__label" for="youtube">JRRNY.COM <?php if (!$jrrny_link_own && $jrrny_link_auto) echo "(account was created automatically, you can use your own if you have)";?></label>
          </div>
 
          <div class="input__block">
-            <label class="form__input__label" for="newsletter">DO YOU HAVE A NEWSLETTER?</label>
+            <p>DO YOU HAVE A NEWSLETTER?</p>
             <input type="radio" name="newsletter" value="yes" <?php if ($newsletter == 'yes') echo 'checked = "checked"';?>> YES
             <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
          </div>
 
         <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-            <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
-            <input class="form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+          <input class="input-text form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
+          <label class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
          </div>
         <?php
         global $wpdb;
@@ -419,7 +419,7 @@ function my_woocommerce_edit_account_form_child() {
         <?php wp_enqueue_script( 'wp-job-manager-multiselect' ); ?>
          
          <div class="input__block">
-
+           <p>TARGET AUDIENCE</p>
             <select name="traveler_type[]" class="job-manager-multiselect" multiple="multiple" data-no_results_text="<?php _e( 'No results match', 'wp-job-manager' ); ?>" data-multiple_text="<?php _e( 'Select Some Options', 'wp-job-manager' ); ?>">
                 <?php
                 foreach ($sql as $result){ ?>
@@ -427,13 +427,13 @@ function my_woocommerce_edit_account_form_child() {
                 <?php }
                 ?>
             </select>
-             <label class="form__input__label" for="traveler_type">TARGET AUDIENCE</label>
+
          </div>
 
          
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($location)) echo 'has-value';?>"    type="text" name="location" value="<?php echo esc_attr( $location ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($location)) echo 'has-value';?>"    type="text" name="location" value="<?php echo esc_attr( $location ); ?>"   />
              <label class="form__input__label" for="location">LOCATIONS YOU HAVE ACCESS TO</label>
          </div>
 
@@ -463,38 +463,38 @@ function my_woocommerce_edit_account_form_child() {
         ?>
 
          <div class="input__block">
-             <textarea name="shortbio" /><?php echo esc_attr( $shortbio ); ?></textarea>
+             <textarea class="form__input input-text <?php if (!empty($shortbio)) echo 'has-value';?>" name="shortbio" /><?php echo esc_attr( $shortbio ); ?></textarea>
              <label class="form__input__label" for="birthdate">SHORT BIO</label>
          </div>
 
 
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($website)) echo 'has-value';?>"    type="text" name="website" value="<?php echo esc_attr( $website ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($website)) echo 'has-value';?>"    type="text" name="website" value="<?php echo esc_attr( $website ); ?>"   />
              <label class="form__input__label" for="website">WEBSITE</label>
          </div>
 
          <div class="input__block">
-                <input class="form__input <?php if (!empty($insta)) echo 'has-value';?>"    type="text" name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
+                <input class="form__input input-text <?php if (!empty($insta)) echo 'has-value';?>"    type="text" name="insta" id = "instagram_link" value="<?php echo esc_attr( $insta ); ?>"   />
              <label class="form__input__label" for="insta">INSTAGRAM</label>
          </div>
 
          <div class="input__block">
 
-            <input class="form__input <?php if (!empty($fb)) echo 'has-value';?>"    type="text" name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($fb)) echo 'has-value';?>"    type="text" name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
              <label class="form__input__label" for="fb">FACEBOOK</label>
          </div>
 
 
          <div class="input__block">
 
-             <input class="form__input <?php if (!empty($twitter)) echo 'has-value';?>"    type="text" name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>"   />
+             <input class="form__input input-text <?php if (!empty($twitter)) echo 'has-value';?>"    type="text" name="twitter"  id ="twitter_link" value="<?php echo esc_attr($twitter); ?>"   />
              <label class="form__input__label" for="birthdate">TWITTER</label>
          </div>
 
          <div class="input__block">
 
-                <input class="form__input <?php if (!empty($youtube)) echo 'has-value';?>"    type="text" name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>"   />
+                <input class="form__input input-text <?php if (!empty($youtube)) echo 'has-value';?>"    type="text" name="youtube" id = "youtube_link" value="<?php echo esc_attr( $youtube ); ?>"   />
              <label class="form__input__label" for="youtube">YOUTUBE</label>
          </div>
 
@@ -504,7 +504,7 @@ function my_woocommerce_edit_account_form_child() {
                 <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
             <?php } ?>
 
-            <input class="form__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
             <label class="form__input__label" for="logo">PHOTO/LOGO</label>
         </div>
 

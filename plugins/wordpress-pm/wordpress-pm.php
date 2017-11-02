@@ -11,6 +11,14 @@
 	* License URI: http://www.gnu.org/licenses/gpl-3.0.html
 	*
 */
+	
+	define( 'PM_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+	define( 'PM_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
+	define( 'PM_IMG', PM_URL.'/assets/img/' );
+	define( 'PM_CSS', PM_URL.'/assets/css/' );
+	define( 'PM_JS', PM_URL.'/assets/js/' );
+	define( 'PM_VERSION',  1 );
+	
 	if (version_compare(PHP_VERSION, "5.4.0", "<")) 
 	{
 
@@ -90,12 +98,6 @@
 
 		dbDelta($schema);
 	}
-
-	define( 'PM_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
-	define( 'PM_IMG', PM_URL.'/assets/img/' );
-	define( 'PM_CSS', PM_URL.'/assets/css/' );
-	define( 'PM_JS', PM_URL.'/assets/js/' );
-	define( 'PM_VERSION',  1 );
 	
 	function pm_scripts() 
 	{
@@ -105,26 +107,27 @@
         wp_enqueue_style('sweetalert2', 'https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css');
 		
 		//general JS
-		wp_register_script( 'wp-private-messages', PM_JS . 'wp-pm-nochat.js', array('jquery'), PM_VERSION, true );
-		wp_localize_script( 'wp-private-messages', 'wp_pm_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'userID' => get_current_user_id() ) );
-		wp_enqueue_script( 'wp-private-messages' );
         wp_enqueue_script('sweetalert2', 'https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.all.min.js');
         wp_enqueue_script('sweetalert2-min', 'https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.min.js');
         
-		if (isset($post) && (strpos($post->post_content, '[wp_pm_chatbox') !== false))
+		if (isset($post) && (strpos($post->post_content, '[wp_pm_chatbox]') !== false))
 		{
 			//Chat CSS
 			wp_enqueue_style('wp-private-messages', PM_CSS.'wp-pm.css');
 			
 			//Chat JS
-			wp_enqueue_script( 'wp-private-messages-page', PM_JS . 'wp-pm.js', array('jquery'), PM_VERSION, true );
+			wp_enqueue_script( 'wp-private-messages', PM_JS . 'wp-pm.js', array('jquery'), PM_VERSION, true );
 			wp_enqueue_script('dropzonejs', PM_JS . 'dropzone.js', array(), PM_VERSION, true );
 			wp_register_script( 'momentjs', PM_JS . 'moment.js', array('jquery'), '2.19.1', true );
 			wp_enqueue_script( 'momentjs' );
 			wp_register_script( 'livestampjs', PM_JS . 'livestamp.min.js', array('jquery', 'momentjs'), '1.1.2', true );
 			wp_enqueue_script( 'livestampjs' );
+		} else {
+			wp_register_script( 'wp-private-messages', PM_JS . 'wp-pm-nochat.js', array('jquery'), PM_VERSION, true );
 		}
 		
+		wp_localize_script( 'wp-private-messages', 'wp_pm_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'userID' => get_current_user_id() ) );
+		wp_enqueue_script( 'wp-private-messages' );
 	}
 
 	add_action( 'wp_enqueue_scripts', 'pm_scripts' );

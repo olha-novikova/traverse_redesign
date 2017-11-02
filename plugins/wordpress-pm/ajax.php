@@ -93,8 +93,10 @@ class PrivateMessagesAjax {
 		if( isset( $_POST['reciever_id'] ) && !empty( $_POST['reciever_id'] ) ){
 			$reciever_id = $_POST['reciever_id'];
 			$text = $_POST['text'];
+			$jobid = (!empty($_POST['jobid'])) ? $_POST['jobid'] : 0;
+			$jobname = (!empty($_POST['jobname'])) ? $_POST['jobname'] : "";
 		}
-		$conversation = create_new_message_if_possible( $reciever_id , $text);
+		$conversation = create_new_message_if_possible( $reciever_id , $text, $jobid, $jobname);
 		echo json_encode( $conversation );
 		wp_die();
 	}
@@ -117,38 +119,40 @@ class PrivateMessagesAjax {
 	}
 	public function asset_upload() {
 		$new_message = json_decode( stripslashes_deep(html_entity_decode($_POST['details'])), true);
-		$allFiles = $_FILES;
-		if (isset($allFiles) && !empty($allFiles)) {
-			$s3 = new YoBro_S3_Handler();
+		$allFiles = $_FILES["file"];
+		// print_r(array_shift($allFiles);
+		if (isset($allFiles) && !empty($allFiles)) 
+		{
 			$uploaded_files = [];
-			foreach ($allFiles as $key => $singleFile) {
-				$uploaded_files[$key]['url'] = $s3->uploadImageToS3($singleFile['tmp_name'], 'false');
-				if(strpos($singleFile['type'], 'image') !== false){
-					$uploaded_files[$key]['thumbnail_url'] = $s3->uploadImageToS3($singleFile['tmp_name'], 'true');
+			foreach($allFiles["tmp_name"] as $key=>$tmp_name)
+			{
+				$file_name = $allFiles["name"][$key];
+                $file_tmp = $allFiles["tmp_name"][$key];
+				
+				// echo $file_name;
+				
+				$uploaded_files[$key]['url'] = uploadImageToWP($file_tmp, "false", $file_name);
+				if(strpos($file_type, 'image') !== false){
+					$uploaded_files[$key]['thumbnail_url'] = uploadImageToWP($file_tmp, "true", $file_name);
 				}
-				$uploaded_files[$key]['type'] = $singleFile['type'];
-				$uploaded_files[$key]['size'] = $singleFile['size'];
+				$uploaded_files[$key]['type'] = $allFiles["type"][$key];
+				$uploaded_files[$key]['size'] =  $allFiles["size"][$key];
+				
 			}
-			try {
-				$new_attachment = Attachment::create([
-					'type_t' => null,
-					'conv_id' => $new_message['conv_id'],
-					'url' => json_encode($uploaded_files),
-					'size' => null,
-				]);
-			} catch (Exception $e) {
-				$error = [
-					'status_code' => 400,
-					'message' => $e->messages()
-				];
-	      echo json_encode( $error );
-			}
-			if (isset($new_attachment)) {
-				$new_message['attachment_id'] = $new_attachment['id'];
-				$stored_message = do_store_message($new_message);
-				$stored_message['attachments'] = $new_attachment;
-				echo json_encode($stored_message);
-			}
+			// print_R($uploaded_files);
+			// foreach ($allFiles as $key => $singleFile) {
+				// print_r($singleFile);
+				// $uploaded_files[$key]['url'] = uploadImageToWP($singleFile['tmp_name'][$key], "false", $singleFile['name'][$key]);
+				// if(strpos($singleFile['type'][$key], 'image') !== false){
+					// $uploaded_files[$key]['thumbnail_url'] = uploadImageToWP($singleFile['tmp_name'][$key], "true", $singleFile['name'][$key]);
+				// }
+				// $uploaded_files[$key]['type'] = $singleFile['type'][$key];
+				// $uploaded_files[$key]['size'] = $singleFile['size'][$key];
+			// }
+			
+			// do_store_attach($new_message, $uploaded_files);
+			echo do_store_attach($new_message, $uploaded_files);
+		// print_R(do_store_attach($new_message, $uploaded_files));
 		}
 		wp_die();
 	}
