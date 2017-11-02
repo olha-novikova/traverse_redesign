@@ -78,11 +78,11 @@ function dashboard_child_scripts(){
         wp_enqueue_script('sinc-social', get_stylesheet_directory_uri().'/js/sinc-social.js', array('jquery'), '', true);
     }
 
-    if ( is_front_page() ){
-        wp_dequeue_script('dashboard-main');
-        wp_enqueue_script( 'home-carousel', get_stylesheet_directory_uri() . '/js/home/carousel.js', array('jquery'), '20150705', true );
-        wp_enqueue_script( 'home-main', get_stylesheet_directory_uri() . '/js/home/main.js', array('jquery'), '20150705', true );
-    }
+//    if ( is_front_page() ){
+//        wp_dequeue_script('dashboard-main');
+//        wp_enqueue_script( 'home-carousel', get_stylesheet_directory_uri() . '/js/home/carousel.js', array('jquery'), '20150705', true );
+//        wp_enqueue_script( 'home-main', get_stylesheet_directory_uri() . '/js/home/main.js', array('jquery'), '20150705', true );
+//    }
 
 }
 

@@ -184,7 +184,8 @@ jQuery(document).ready(function( $ )
 				success: function (response) {
 					var html = "", pname = "", dom = $('.chat_listing');
 					$.each(response.autopush_messages.new_unseen_messages, function(index, element) {
-						if (($('[data-message-id="'+element.id+']').length < 1)){
+						console.log('[data-message-id="'+element.id+']');
+						if (($('[data-message-id='+element.id+']').length < 1)){
 							if (element.owner) pname = element.sender_name;
 							else pname = element.reciever_name;
 							var fromnow = moment(element.time_iso).fromNow();
@@ -192,9 +193,10 @@ jQuery(document).ready(function( $ )
 						}
 					});
 					dom.append(html);
-					console.log(seen);
+					// console.log(seen);
 					var reciever_id = (reciever==userID) ? sender : reciever;
-					if (!seen) message_seen(conversation_id, reciever_id, msg);
+					
+					if (seen==null || seen===false || seen==="false" ) message_seen(conversation_id, reciever_id, msg);
 					$('.chat__content__right .chat_listing').scrollTop($('.chat__content__right .chat_listing')[0].scrollHeight);
 				},
 				complete: auto_pull_messages
@@ -376,36 +378,6 @@ jQuery(document).ready(function( $ )
 		
 	});
 	
-	$(document).on('click', '.send_test_msg', function()
-	{
-		// alert(userID);
-		swal({
-			title: 'Send message',
-			input: 'textarea',
-			inputPlaceholder: 'Type your message here',
-			showCancelButton: true,
-			confirmButtonText: 'Send',
-			showLoaderOnConfirm: true,
-			inputValidator: function (value) {
-				return new Promise(function (resolve, reject) {
-				  if (value) {
-					resolve()
-				  } else {
-					reject('You need to write something!')
-				  }
-				})
-			},
-			inputAttributes: {
-				'name': 'message'
-			}
-		}).then(function (text) {
-			create_new_message(218, text);
-			
-			
-		});
-		
-	});
-	
 	$(document).on('click', '.chat__menu .delete_conv', function()
 	{
 		var convid = $( this ).attr("data-convid");
@@ -434,7 +406,11 @@ jQuery(document).ready(function( $ )
 	
 	$( "#usrform" ).submit(function( event ) {
 		event.preventDefault();
-		push_new_message($(this).serialize());
+		var text = $('#usrform textarea').val();
+		if (text.length > 0)
+			push_new_message($(this).serialize());
+		else
+			swal('oops...', "message can't be blank", 'error');
 	});
 	
 	$("#usrform textarea").keypress(function (e) {
@@ -473,6 +449,10 @@ jQuery(document).ready(function( $ )
 
 		myDropzone.on("addedfile", function(file) { myDropzone.processQueue(); });
 		myDropzone.on("removedfile", function(file) {  });
+		myDropzone.on("error", function(file, errorMessage) {
+			if (!file.accepted) this.removeFile(file);
+			swal('oops...', errorMessage, 'warning');
+        });
 	}
 	
 	

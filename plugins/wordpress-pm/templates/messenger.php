@@ -35,7 +35,7 @@
 									</div>
 									<div class="chat__content_wrapper">
 										<?php if ($conversation['seen']=="false") { 
-											do_message_seen( $conversation['id'] , $conversation['sender'] , $conversation['message_id'] );
+											// do_message_seen( $conversation['id'] , $conversation['sender'] , $conversation['message_id'] );
 										?>
 											<h3 class="chat__content_title"><strong><?php echo $conv_name; ?></strong></h3>
 										<?php } else { ?>

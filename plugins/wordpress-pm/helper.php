@@ -71,8 +71,6 @@ function get_conversation_data( $conv_id )
 function get_conversation_autopush_message( $conv_id , $last_message )
 {
 	global $wpdb;
-	// print_R( $conv_id);
-	// print_R( $last_message);
 	if( $last_message['sender_id'] == get_current_user_id() )
 	{
 		$reciever_id = $last_message['reciever_id'];
@@ -117,8 +115,6 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 				}
 			}
 			$last_message = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_messages WHERE conv_id = %d AND delete_status != 1 ORDER BY id DESC LIMIT 1",  $conversation['id']), ARRAY_A);
-		// print_R($last_message);
-		// die();
 			if( !empty($last_message) )
 			{
 				$conversation['message'] = encrypt_decrypt($last_message[0]['message'], $last_message[0]['sender_id'], 'decrypt');
@@ -168,7 +164,6 @@ function get_users_all_conversation( $user_id , $limit = 10 )
 function get_few_messages_by_conversation($conv_id)
 {
 	global $wpdb;
-	// $messages = \YoBro\App\Message::where('conv_id','=',$conv_id )->where('delete_status', '!=', 1)->orderBy('id','asc')->get()->toArray();
 	$messages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_messages WHERE conv_id = %d AND delete_status != 1 ORDER BY id ASC",  $conv_id), ARRAY_A);	
 	$total_messages = array();
 	if( isset($messages) && !empty($messages) )
@@ -192,7 +187,6 @@ function get_few_messages_by_conversation($conv_id)
 			$message['time'] = $message['created_at'];
 			$message['time_iso'] = date('Y-m-d\TH:i:sO', strtotime($message['created_at']));
 			if(isset($message['attachment_id']) && $message['attachment_id'] != null){
-				// $message['attachments'] = YoBro\App\Attachment::where('id', '=', $message['attachment_id'])->first();
 				$message['attachments'] = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_attachments WHERE id = %d ",  $message['attachment_id'] ), ARRAY_A );
 			}
 			if( !isset($total_messages[ $message['id'] ]) )
@@ -232,7 +226,6 @@ function do_store_message( $message )
 	
 	if (isset($message['attachment_id'])) 
 	{
-		// $update_attachment =  \YoBro\App\Attachment::where('id', '=', $message['attachment_id'])->update(array('conv_id' => $message['conv_id']));
 		$update_attachment = $wpdb->query( 
 			$wpdb->prepare( "UPDATE ".$wpdb->prefix."pm_messages SET conv_id = %d WHERE id = %d", $message['conv_id'], $message['attachment_id'] ) 
 		);
@@ -245,7 +238,6 @@ function do_store_message( $message )
 }
 
 function encrypt_decrypt($string, $user_id, $action = 'encrypt') {
-  // $user_id = get_current_user_id();
 	$secret_key = $user_id;
 	$secret_iv = $user_id;
 	
@@ -267,21 +259,18 @@ function do_message_seen( $conv_id , $last_message_sender , $id ){
 	global $wpdb;	
 	$wpdb->query( 
 		$wpdb->prepare( "UPDATE ".$wpdb->prefix."pm_messages SET seen = 1 WHERE sender_id = %d AND seen IS NULL AND conv_id = %d AND id <= %d", $last_message_sender, $conv_id, $id ) 
-		// $wpdb->prepare( "UPDATE ".$wpdb->prefix."pm_messages SET seen = 1 WHERE sender_id = %d AND conv_id = %d AND id <= %d", $last_message_sender, $conv_id, $id ) 
 	);
-	// echo $wpdb->prepare( "UPDATE ".$wpdb->prefix."pm_messages SET seen = 1 WHERE sender_id = %d AND seen != 1 AND conv_id = %d AND id <= %d", $last_message_sender, $conv_id, $id ) ;
 	return true;
 }
 
 
-function get_user_pic( $user_id ){
-
-  if( get_user_meta( $user_id , 'user_mini_photo' , true ) ){
-    return get_user_meta( $user_id , 'user_mini_photo' , true );
-  }else{
-    return up_user_placeholder_image();
-  }
-
+function get_user_pic( $user_id )
+{
+	if( get_avatar_url( $user_id) ){
+		return get_avatar_url( $user_id );
+	} else {
+		return  up_user_placeholder_image();
+	}
 }
 
 
@@ -312,25 +301,6 @@ function get_all_user_info(){
     return array();
   }
 }
-
-function my_print_error(){
-
-    global $wpdb;
-
-    if($wpdb->last_error !== '') :
-
-        $str   = htmlspecialchars( $wpdb->last_result, ENT_QUOTES );
-        $query = htmlspecialchars( $wpdb->last_query, ENT_QUOTES );
-
-        print "<div id='error'>
-        <p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
-        <code>$query</code></p>
-        </div>";
-		die();
-    endif;
-
-}
-
 
 function create_new_message_if_possible( $reciever_id , $text)
 {
@@ -391,15 +361,16 @@ function create_new_message_if_possible( $reciever_id , $text)
               $conversation['name'] = 'Untitled';
             }
             if( $new_conversation['sender'] == $user_id ) {
-              $conversation['owner'] = 'true';
-            }else{
-      				$conversation['owner'] = 'false';
-      			}
-            if(  get_user_meta( $new_conversation['reciever'] , 'user_mini_photo' , true ) ){
-              $conversation['pic'] =  get_user_meta( $new_conversation['reciever'] , 'user_mini_photo' , true );
-            }else{
-              $conversation['pic'] =  up_user_placeholder_image();
-            }
+				$conversation['owner'] = 'true';
+            } else {
+      			$conversation['owner'] = 'false';
+      		}
+			
+			if( get_avatar_url(  $new_conversation['reciever'] ) ){
+				$conversation['pic'] =  get_avatar_url(  $new_conversation['reciever'] );
+			} else {
+				$conversation['pic'] =  up_user_placeholder_image();
+			}
 
           }else{
 
@@ -409,16 +380,13 @@ function create_new_message_if_possible( $reciever_id , $text)
               $conversation['name'] = 'Untitled';
             }
 
-            if( get_user_meta( $new_conversation['sender'] , 'user_mini_photo' , true ) ){
-              $conversation['pic'] = get_user_meta( $new_conversation['sender'] , 'user_mini_photo' , true );
-            }else{
-              $conversation['pic'] =  up_user_placeholder_image();
-            }
+			if( get_avatar_url(  $new_conversation['sender'] ) ){
+				$conversation['pic'] =  get_avatar_url(  $new_conversation['sender'] );
+			} else {
+				$conversation['pic'] =  up_user_placeholder_image();
+			}
 
           }
-
-          // need to get last message and its time .
-          // $last_message = \YoBro\App\Message::where('conv_id','=',$conversation['id'] )->orderBy('id','desc')->first()->toArray();
 
           if( !empty($new_message) ){
 
@@ -525,7 +493,6 @@ function block_user($blocked_user){
 		)
 	);
 
-	// $wpdb->query( $wpdb->prepare( "INSERT INTO ".$wpdb->prefix."pm_blocked_conversation (`blocked_by`, `blocked_user`) VALUES (%d, %d)", $blocked_by, $blocked_user));
 	
 	$blocked_user = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_blocked_conversation WHERE blocked_by = %d",  $blocked_by), ARRAY_A);
 	$blocked_by = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_blocked_conversation WHERE blocked_user = %d",  $blocked_by), ARRAY_A);
