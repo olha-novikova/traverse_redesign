@@ -324,3 +324,4 @@
 
     </script>
 </div>
+Please change “WARNING!” to “Whoops!” On pop up if you try to continue without a selection of influencer group

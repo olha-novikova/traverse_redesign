@@ -21,9 +21,9 @@ while ( have_posts() ) : the_post();
 						<p class="section__header">Influencer Overview</p>
 						<div class="influencer__tags">
 							<?php $tags = explode(', ', get_the_resume_category($post)); ?>
-							<?php foreach($tags as $tag) : ?>
+							<?php foreach($tags as $tag) : if ( $tag ):?>
 							<p class="influencer__tag influencer__tag_blue"><?php esc_html_e($tag) ?></p>
-							<?php endforeach; ?>
+							<?php endif; endforeach; ?>
 						</div>
 					</div>
 					<div class="section__body">

@@ -33,7 +33,11 @@
 	height: 8.33vw;
 	background-color: #ff5e3a
 }
-
+.profile__background .candidate_photo{
+    height: auto;
+    object-fit: fill;
+    width: 100%;
+}
 .profile__button_add {
 	margin-left: 7.78vw;
 	width: 9.8vw;
