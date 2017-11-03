@@ -30,7 +30,16 @@ a.other_view{
     font-family: Roboto, sans-serif;
     font-weight: 500
 }
-
+.photos{
+    background-color: #fcfcfc;
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 1.61vw;
+    padding:1.61vw 0 ;
+    width: 100%;
+    border-radius: 0.25rem;
+}
 .section_settings {
     display: -ms-flexbox;
     display: flex;

@@ -9,7 +9,7 @@
 		<div class="profile__button profile__button_favourite">
 
 		</div>
-		<div class="profile__button profile__button_message"></div>
+<!--		<div class="profile__button profile__button_message"></div>-->
 	</div>
 <!--	<div class="profile__action">-->
 <!--		<ul class="profile__links">-->

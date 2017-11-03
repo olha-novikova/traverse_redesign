@@ -21,15 +21,15 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <div class="section__container settings__workarea">
-            <?php
-            wc_print_notices();
-            ?>
+
             <?php
                 /**
                  * My Account content.
                  * @since 2.6.0
                  */
                 do_action( 'woocommerce_account_content' );
+
+
             ?>
         </div>
 
