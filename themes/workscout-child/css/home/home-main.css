@@ -1126,7 +1126,13 @@ html {
 .insta__photo {
 	width: 10%;
 	height: 10vw;
-	background-color: #e6e6e6
+	background-color: #e6e6e6;
+	overflow: hidden;
+}
+
+.insta__photo img {
+	max-width: 160%;
+	height: auto;
 }
 
 .insta__photo:nth-child(2n) {

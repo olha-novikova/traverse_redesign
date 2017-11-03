@@ -684,12 +684,10 @@ button::-moz-focus-inner {
 }
 
 .profile__link {
-    margin-left: 5.2%
+    width: 12%;
+    text-align: center;
 }
 
-.profile__link:first-child {
-    margin-left: 0
-}
 
 .profile__link__a {
     color: #9a9fbf;
@@ -703,8 +701,7 @@ button::-moz-focus-inner {
 }
 
 .profile__link_brand {
-    margin-left: 6%;
-    margin-right: .5%
+    width: 20%;
 }
 
 .profile__brandname {

@@ -3,10 +3,15 @@
 /*
 * Template Name: New Homepage
 */
+
+
 get_header("newhomepage");
+
+
 ?>
 <div class="wrapper">
     <div class="sections">
+
         <div class="section section_firstscreen">
             <div class="container container_firstscreen">
                 <div class="section__text-block">
@@ -283,26 +288,9 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
 
         <section class="section section_insta">
             <ul class="insta__photos">
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
-                <li class="insta__photo"><img src="#" alt="" class="insta__photo__image"/></li>
+              <?php $photos = scrape_insta('jrrny'); foreach ($photos as $elem) : ?>
+                <li class="insta__photo"><img src="<?php echo $elem->display_src ?>" alt="" class="insta__photo__image"/></li>
+                <?php endforeach; ?>
             </ul><a href="http://www.instagram.com/jrrny" class="button button_results button__insta">Follow us on Instagram</a>
         </section>
 
@@ -322,3 +310,4 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
         </section>
     </div>
 <?php get_footer("newhomepage"); ?>
+
