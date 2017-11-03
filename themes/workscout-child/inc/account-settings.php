@@ -201,11 +201,16 @@ function traverse_process_login() { //add_action( 'wp_loaded',  'traverse_proces
                 if( $role == 'employer' || $role == 'administrator' ) {
                     if(get_option( 'job_manager_job_dashboard_page_id')) {
                         $redirect = home_url().'/job-dashboard';
-
                     } else {
                         $redirect= home_url();
                     };
                 } elseif ( $role == 'candidate' ) {
+                    /*
+                     * block update _audience and social links
+                     */
+                    @update_audience_for_user($user->ID);
+
+
                     if(get_option( 'resume_manager_candidate_dashboard_page_id')) {
                         $redirect = get_permalink(get_option( 'resume_manager_candidate_dashboard_page_id'));
                     } else {
@@ -349,8 +354,14 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label style="z-index: 99" class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
         </div>
 
+
+        <div id="logo_im" class="logo_im">
+            <?php if (!empty($logo)){?>
+                <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
+            <?php } ?>
+        </div>
         <div class="input__block full_width">
-            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
+            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo" value="<?php echo esc_attr( $logo ); ?>"   />
             <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
         </div>
         <?php
@@ -378,7 +389,10 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             $margin = 2;
             $width = (100 - 2*$margin*count ($photo_samples))/count ($photo_samples);
             foreach ($photo_samples as $photo_sample){?>
-                <img src="<?php echo $photo_sample ?>" alt="Photo Sample" style="width: <?php echo $width; ?>%; float: left; margin: 0 <?php echo $margin; ?>%">
+                <div class="im_wr">
+                    <span class="remove exists" data-resume_id="<?php echo $user_resumes->ID; ?>">remove</span>
+                    <img src="<?php echo $photo_sample ?>" alt="Photo Sample" >
+                </div>
         <?php }} ?>
         </div>
         <div class="input__block full_width">
@@ -388,34 +402,60 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
         <?php if ($video ){ ?>
             <div class="video">
-                <div class="video__thumbnail">
-                    <div class="wrapper_youtube">
-
-                        <div data-embed="<?= $video[0] ?>" class="youtube">
-                            <div class="play-button video__play-button"></div>
-                        </div>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="6px" class="button__svg button__svg_video">
-                        <path fill-rule="evenodd" d="M20.890,5.984 C19.308,5.984 18.025,4.703 18.025,3.121 C18.025,1.539 19.308,0.257 20.890,0.257 C22.472,0.257 23.755,1.539 23.755,3.121 C23.755,4.703 22.472,5.984 20.890,5.984 ZM12.295,5.984 C10.713,5.984 9.430,4.703 9.430,3.121 C9.430,1.539 10.713,0.257 12.295,0.257 C13.877,0.257 15.160,1.539 15.160,3.121 C15.160,4.703 13.877,5.984 12.295,5.984 ZM3.700,5.984 C2.118,5.984 0.835,4.703 0.835,3.121 C0.835,1.539 2.118,0.257 3.700,0.257 C5.283,0.257 6.565,1.539 6.565,3.121 C6.565,4.703 5.283,5.984 3.700,5.984 Z"></path>
-                    </svg>
+                <div data-embed="<?= $video[0] ?>" class="youtube">
+                    <div class="play-button video__play-button"></div>
                 </div>
             </div>
         <?php } ?>
         <div class="input__block full_width">
-            <input class="form__input input-text" type="url" name="video" multiple/>
+            <input class="form__input input-text" type="url" name="video"/>
             <label class="form__input__label" for="video">Add a sample video(YouTube Embed Link): </label>
         </div>
 
 
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
+                $('.remove').click(function(){
+                        $(this).parent(".im_wr").remove();
+                        if ( $(this).hasClass('exists')){
+
+                            var data = {
+                                id: $(this).data('resume_id'),
+                                value: $(this).parent(".im_wr").find('img').attr('src'),
+                                action: 'remove_assets_from_resume'
+                            }
+
+                            $.ajax({
+                                url: ws.ajaxurl,
+                                data: data,
+                                type: 'POST',
+                                dataType: 'JSON',
+                                cache: false,
+                                success: function(response) {
+
+                                }
+                            });
+                        }
+                    }
+                );
+
                 var imagesPreview = function(input, placeToInsertImagePreview) {
                     if (input.files) {
                         var filesAmount = input.files.length;
                         for (var i = 0; i < filesAmount; i++) {
                             var reader = new FileReader();
                             reader.onload = function(event) {
-                                $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                                var file = event.target;
+                                var item = "<div class=\"im_wr\"><span class=\"remove\">remove</span>" +
+                                    "<img src=\"" + event.target.result + "\" title=\"" + file.name + "\"/>"+
+                                    "</div>";
+
+                                $(placeToInsertImagePreview).append(item);
+
+                                $(".remove").click(function(){
+                                    $(this).parent(".im_wr").remove();
+                                });
+
                             }
                             reader.readAsDataURL(input.files[i]);
                         }
@@ -424,6 +464,11 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
                 $("#samples").change(function() {
                     imagesPreview(this, 'div.photos');
+                });
+
+                $("#logo").change(function() {
+                    $('.user_logo').remove();
+                    imagesPreview(this, 'div.logo_im');
                 });
 
                 $('input[name="newsletter"]').on('change', function(){
@@ -493,7 +538,22 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
     }
 } // end func
 
+add_action('wp_ajax_remove_assets_from_resume', 'remove_assets_from_resume');
 
+function remove_assets_from_resume(){
+    $id = $_POST['id'];
+    $meta_value = $_POST['value'];
+
+    if ( $photos = get_post_meta ($id, '_photo_sample', true)){
+        foreach ($photos as $key => $photo){
+            if ( $photo == $meta_value) unset ($photos[$key]);
+
+        }
+        update_post_meta( $id, '_photo_sample', $photos);
+    }
+
+    die;
+}
 
 
 function traverse_validate_custom_field( $args )
@@ -553,8 +613,13 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
 
             if( !$errors ){
                 $dir = wp_get_upload_dir();
-                @move_uploaded_file($file_tmp, $dir['basedir']."/users/".$new_name);
-                update_user_meta( $user_id, 'photo', $new_name );
+
+                $path = $dir['basedir']."/users/";
+                $url = $dir['baseurl']."/users/";
+
+                @move_uploaded_file($file_tmp, $path."/".$new_name);
+
+                update_user_meta( $user_id, 'photo', $url.$new_name );
             }
         }
 
@@ -584,14 +649,17 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                 }
 
             }
-        }
+        }echo "<pre>";
+
 
         foreach ( $_POST as $key => $value ){
             if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
                 update_user_meta( $user_id, '_'.$key, htmlentities( $_POST[ $key ] ) );
-            elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ]))
-                delete_user_meta( $user_id, '_'.$key);
+            elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ])){
+                delete_user_meta( $user_id, $key);
+            }
         }
+
 
         $user_resumes =  get_posts( array(
             'post_type'           => 'resume',
@@ -604,59 +672,110 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
 
         if ( $user_resumes ){
             foreach ( $user_resumes as $user_resumes ){
+
                 if ( get_user_meta($user_id, 'photo', true) )
                     update_post_meta( $user_resumes->ID, '_candidate_photo', get_user_meta($user_id, 'photo', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_candidate_photo' );
 
                 if ( get_user_meta($user_id, 'website', true) )
                     update_post_meta( $user_resumes->ID, '_influencer_website',get_user_meta($user_id, 'website', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_influencer_website' );
+
 
                 if ( get_user_meta($user_id, 'jrrny_link', true) )
                     update_post_meta( $user_resumes->ID, '_jrrny_link', get_user_meta($user_id, 'jrrny_link', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_jrrny_link' );
+
 
                 if ( get_user_meta($user_id, 'monthlyvisit', true) )
                     update_post_meta( $user_resumes->ID, '_estimated_monthly_visitors', get_user_meta($user_id, 'monthlyvisit', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_estimated_monthly_visitors' );
+
 
                 if ( get_user_meta($user_id, 'insta', true) )
                     update_post_meta( $user_resumes->ID, '_instagram_link', get_user_meta($user_id, 'insta', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_instagram_link' );
+
 
                 if ( get_user_meta($user_id, 'fb', true) )
                     update_post_meta( $user_resumes->ID, '_facebook_link', get_user_meta($user_id, 'fb', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_facebook_link' );
 
                 if ( get_user_meta($user_id, 'twitter', true) )
                     update_post_meta( $user_resumes->ID, '_twitter_link',get_user_meta($user_id, 'twitter', true) );
+                else{
+                    delete_post_meta( $user_resumes->ID, '_twitter_link' );
+                }
 
                 if ( get_user_meta($user_id, 'youtube', true) )
                     update_post_meta( $user_resumes->ID, '_youtube_link',get_user_meta($user_id, 'youtube', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_youtube_link' );
+
 
                 if ( get_user_meta($user_id, 'newsletter', true) )
                     update_post_meta( $user_resumes->ID, '_newsletter', get_user_meta($user_id, 'newsletter', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_newsletter' );
+
 
                 if ( get_user_meta($user_id, 'newsletter_subscriber_count', true) )
                     update_post_meta( $user_resumes->ID, '_newsletter_total', get_user_meta($user_id, 'newsletter_subscriber_count', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_newsletter_total' );
+
 
                 if ( get_user_meta($user_id, 'shortbio', true) )
                     update_post_meta( $user_resumes->ID, '_portfolio_description', get_user_meta($user_id, 'shortbio', true));
+                else
+                    delete_post_meta( $user_resumes->ID, '_portfolio_description' );
+
 
                 if ( get_user_meta($user_id, 'shortbio', true) )
                     update_post_meta( $user_resumes->ID, '_short_influencer_bio', get_user_meta($user_id, 'shortbio', true));
+                else
+                    delete_post_meta( $user_resumes->ID, '_short_influencer_bio' );
+
 
                 if ( get_user_meta($user_id, 'traveler_type', true) ) {
                     $cat_ids = array_map( 'intval', get_user_meta($user_id, 'traveler_type', true) );
                     $cat_ids = array_unique( $cat_ids );
                     wp_set_object_terms( $user_resumes->ID, $cat_ids, 'resume_category' );
+                }else{
+                    wp_set_object_terms( $user_resumes->ID, NULL, 'resume_category' );
                 }
 
                 if ( get_user_meta($user_id, 'location', true) )
                     update_post_meta( $user_resumes->ID, '_resume_locations', get_user_meta($user_id, 'location', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_resume_locations' );
+
 
                 if ( get_user_meta($user_id, 'phone_number', true) )
                     update_post_meta( $user_resumes->ID, '_influencer_number', get_user_meta($user_id, 'phone_number', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_influencer_number' );
+
 
                 if ( get_user_meta($user_id, 'video', true) )
                     update_post_meta( $user_resumes->ID, '_video_sample_embed', get_user_meta($user_id, 'video', true) );
+                else
+                    delete_post_meta( $user_resumes->ID, '_video_sample_embed' );
+
 
                 if ( sizeof( $samples ) ) {
-                    update_post_meta( $user_resumes->ID, '_photo_sample', $samples );
+
+                    $current_samples = get_post_meta( $user_resumes->ID, 'photo_sample', true);
+
+                    $new = array_merge( $current_samples, $samples);
+
+                    update_post_meta( $user_resumes->ID, '_photo_sample', $new );
                 }
 
                 if ( $user_resumes -> post_status == 'preview'){
@@ -668,13 +787,14 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                     ) );
                 }
 
+                @update_audience_for_user( $user_id );
+
             }
         }
 
     }
 
     if( $str->roles[0] == "employer" || $str->roles[0] == "administrator" ) {
-
         if(isset($_FILES['logo']['name']) && !empty($_FILES['logo']['name'])){
             $errors= array();
             $file_name = $_FILES['logo']['name'];
@@ -699,9 +819,13 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
 
             if( !$errors ){
                 $dir = wp_get_upload_dir();
-                if (move_uploaded_file($file_tmp, $dir['basedir']."/users/".$new_name)){
-                    update_user_meta( $user_id, 'logo', $new_name);
-                }
+
+                $path = $dir['basedir']."/users/";
+                $url = $dir['baseurl']."/users/";
+
+                @move_uploaded_file($file_tmp, $path."/".$new_name);
+
+                update_user_meta( $user_id, 'logo', $url.$new_name );
             }
         }
 

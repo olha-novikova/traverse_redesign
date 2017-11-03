@@ -560,6 +560,94 @@ function update_audience(){
 
 }
 
+function update_audience_for_user( $user_id ){
+
+    if ( !$user_id ) return;
+
+    $user = get_userdata( $user_id );
+
+    $role = $user->roles[0];
+
+    if ( $role != 'candidate' )  return;
+
+
+    $query_args = array(
+        'post_type'              => 'resume',
+        'post_status'            => 'any',
+        'posts_per_page'         => -1,
+        'fields'                 => 'ids',
+         'author'                => $user_id
+    );
+
+    $result = new WP_Query( $query_args );
+    $resumes = $result ->posts;
+
+    if ( !$resumes )  return;
+
+    foreach ( $resumes as $resume_id) {
+        $insta_link     = get_post_meta( $resume_id, '_instagram_link', true );
+
+        $youtube        = get_post_meta( $resume_id, '_youtube_link', true );
+
+        $newsletter     = intval( str_replace(array('.', ','), '' ,get_post_meta( $resume_id, '_newsletter', true )) );
+
+        $newsletter_total = intval(get_post_meta( $resume_id, '_newsletter_total', true ));
+
+        $twitter        = get_post_meta( $resume_id, '"_twitter_link', true );
+
+        $website        = get_post_meta( $resume_id, '_influencer_website', true );
+
+        $monthly_visitors = intval( str_replace(array('.', ','), '' ,get_post_meta( $resume_id, '_estimated_monthly_visitors', true )) );
+
+        $jrrny_link = get_post_meta( $resume_id, '_jrrny_link', true );
+
+        $jrrny_followers = get_user_followers_count($jrrny_link);
+
+        $audience = 0;
+
+        if ( $youtube ){
+            $count = get_youtube_subscriber_count( $youtube );
+            update_post_meta( $resume_id, '_yt_count', $count );
+            $audience    += $count;
+        }
+
+        if ( $insta_link ){
+            $count = get_instagram_followers_count( $insta_link );
+            update_post_meta( $resume_id, '_inst_count', $count );
+            $audience    +=  $count;
+        }
+
+        if ( $newsletter == 'yes' && $newsletter_total > 0 ){
+            $count = $newsletter_total;
+            update_post_meta( $resume_id, '_nwl_count', $count );
+            $audience    += $count;
+        }
+
+        if ( $twitter ){
+            $count =  get_twitter_followers_count( $twitter );
+            update_post_meta( $resume_id, '_tw_count', $count );
+            $audience    += $count;
+        }
+
+        if ( $website && $monthly_visitors > 0 ){
+            $count =  $monthly_visitors;
+            update_post_meta( $resume_id, '_mov_count', $count );
+            $audience    += $count;
+        }
+
+        if ( $jrrny_link && $jrrny_followers > 0){
+            $count = $jrrny_followers;
+            update_post_meta( $resume_id, '_jrn_count', $count );
+            $audience    +=$count;
+        }
+        echo $resume_id." - ".$audience."<br>";
+        update_post_meta( $resume_id, '_audience', $audience );
+
+    }
+
+}
+
+
 //update_audience();
 
 function update_finished_companies(){
