@@ -13,14 +13,14 @@ get_sidebar();
 while ( have_posts() ) : the_post();
 ?>
 	<main class="main">
-    <?php get_template_part('template-parts/single-influencer-header')?>
+    <?php get_template_part('template-parts/single-influencer-header');?>
 		<div class="content">
 			<section class="section section_overview">
 				<div class="section__container">
 					<div class="section__top">
 						<p class="section__header">Influencer Overview</p>
 						<div class="influencer__tags">
-							<?php $tags = explode(', ', get_the_resume_category($post)); ?>
+							<?php   $tags = explode(', ', get_the_resume_category($post)); ?>
 							<?php foreach($tags as $tag) : if ( $tag ):?>
 							<p class="influencer__tag influencer__tag_blue"><?php esc_html_e($tag) ?></p>
 							<?php endif; endforeach; ?>
@@ -30,7 +30,7 @@ while ( have_posts() ) : the_post();
 						<div class="section__left">
 							<div class="section__block section__block_bio">
 								<p class="section__block__header">Bio</p>
-								<?php $bio = get_post_meta( $post->ID, '_short_influencer_bio', true ); ?>
+								<?php $bio = get_post_meta( $post->ID, '_short_influencer_bio', true );var_dump( $post->ID); ?>
 								<p class="section__block__text"><?php esc_html_e($bio) ?></p>
 							</div>
 							<div class="section__block section__block_cities">

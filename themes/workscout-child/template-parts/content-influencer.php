@@ -1,6 +1,6 @@
 <div class="carousel__influencer influencer-<?php the_ID();?>">
     <div class="carousel__influencer__top"></div>
-    <div class="carousel__influencer__person"><?php output_candidate_photo(); ?>
+    <div class="carousel__influencer__person"><?php output_candidate_photo('full'); ?>
         <p class="carousel__influencer__name"><a href="<?php echo get_permalink()?>"><?php the_title(); ?></a></p>
     </div>
     <div class="carousel__influencer__info">
@@ -19,10 +19,7 @@
     </div>
     <div class="carousel__influencer__buttons">
 <div class="carousel__influencer__button carousel__influencer__button_star">
-      
-      
-      
-      <?php
+<?php
 global $resume_preview;
 
 if ( $resume_preview ) {
@@ -51,6 +48,7 @@ if ( resume_manager_user_can_view_contact_details( $post->ID ) ) :
 					echo '</option>';
 					
 				}
+                wp_reset_postdata();
 				?>
 			</div>
 		</div>
@@ -60,14 +58,6 @@ if ( resume_manager_user_can_view_contact_details( $post->ID ) ) :
 	<?php get_job_manager_template_part( 'access-denied', 'contact-details', 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
 
 <?php endif; ?>
-  
-  
-  
-  
-  
   </div>
-      
-      
-      <div class="carousel__influencer__button carousel__influencer__button_message"></div>
-    </div>
+  </div>
 </div>

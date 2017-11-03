@@ -640,7 +640,7 @@ function update_audience_for_user( $user_id ){
             update_post_meta( $resume_id, '_jrn_count', $count );
             $audience    +=$count;
         }
-        echo $resume_id." - ".$audience."<br>";
+
         update_post_meta( $resume_id, '_audience', $audience );
 
     }
@@ -649,6 +649,43 @@ function update_audience_for_user( $user_id ){
 
 
 //update_audience();
+function update_finished_companies_for_user( $user_id ){
+
+    if ( !$user_id ) return;
+
+    $user = get_userdata( $user_id );
+
+    $role = $user->roles[0];
+
+    if ( $role != 'candidate' )  return;
+
+    $query_args = array(
+        'post_type'              => 'resume',
+        'post_status'            => 'any',
+        'posts_per_page'         => -1,
+        'fields'                 => 'ids',
+        'author'                => $user_id
+    );
+
+    $result = new WP_Query( $query_args );
+    $resumes = $result ->posts;
+
+    foreach ( $resumes as $resume_id) {
+        $applications = new WP_Query( array(
+            'post_type'      => 'job_application',
+            'post_status'    => 'completed',
+            'posts_per_page' => 1,
+            'meta_key'       => '_resume_id',
+            'meta_value'     => $resume_id,
+            'fields'         => 'ids'
+        ) );
+
+        update_post_meta( $resume_id, '_finished_companies', $applications -> found_posts );
+
+    }
+
+}
+
 
 function update_finished_companies(){
 

@@ -66,7 +66,9 @@ function output_candidate_audience( $resume ){
     if ( !$post || $post->post_type !== 'resume' )
         return;
 
-    return get_post_meta( $resume, '_audience', true);
+    if ( get_post_meta( $resume, '_audience', true) )  return get_post_meta( $resume, '_audience', true);
+
+    else return 0;
 
 }
 
@@ -77,7 +79,8 @@ function output_candidate_campaigns_count( $resume ){
     if ( !$post || $post->post_type !== 'resume' )
         return;
 
-    return get_post_meta( $resume, '_finished_companies', true);
+    if ( get_post_meta( $resume, '_finished_companies', true) )  return get_post_meta( $resume, '_finished_companies', true);
+    else return 0;
 
 }
 

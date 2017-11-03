@@ -209,7 +209,7 @@ function traverse_process_login() { //add_action( 'wp_loaded',  'traverse_proces
                      * block update _audience and social links
                      */
                     @update_audience_for_user($user->ID);
-
+                    @update_finished_companies_for_user( $user->ID );
 
                     if(get_option( 'resume_manager_candidate_dashboard_page_id')) {
                         $redirect = get_permalink(get_option( 'resume_manager_candidate_dashboard_page_id'));
@@ -789,6 +789,7 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                 }
 
                 @update_audience_for_user( $user_id );
+                @update_finished_companies_for_user( $user_id );
 
             }
         }
