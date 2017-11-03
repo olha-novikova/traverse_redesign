@@ -19,10 +19,7 @@
     </div>
     <div class="carousel__influencer__buttons">
 <div class="carousel__influencer__button carousel__influencer__button_star">
-      
-      
-      
-      <?php
+<?php
 global $resume_preview;
 
 if ( $resume_preview ) {
@@ -88,10 +85,6 @@ if ( resume_manager_user_can_view_contact_details( $post->ID ) ) :
 	<?php get_job_manager_template_part( 'access-denied', 'contact-details', 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
 
 <?php endif; ?>
-  
-  
-  
-  
   
   </div>
       
