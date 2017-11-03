@@ -649,12 +649,12 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                 }
 
             }
-        }echo "<pre>";
+        }
 
 
         foreach ( $_POST as $key => $value ){
             if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
-                update_user_meta( $user_id, '_'.$key, htmlentities( $_POST[ $key ] ) );
+                update_user_meta( $user_id, $key, htmlentities( $_POST[ $key ] ) );
             elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ])){
                 delete_user_meta( $user_id, $key);
             }
@@ -769,13 +769,14 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                     delete_post_meta( $user_resumes->ID, '_video_sample_embed' );
 
 
+
                 if ( sizeof( $samples ) ) {
 
-                    $current_samples = get_post_meta( $user_resumes->ID, 'photo_sample', true);
+                    $current_samples = get_post_meta( $user_resumes->ID, '_photo_sample', true);
 
-                    $new = array_merge( $current_samples, $samples);
+                    if ( $current_samples ) $samples = array_merge( $current_samples, $samples);
 
-                    update_post_meta( $user_resumes->ID, '_photo_sample', $new );
+                    update_post_meta( $user_resumes->ID, '_photo_sample', $samples );
                 }
 
                 if ( $user_resumes -> post_status == 'preview'){

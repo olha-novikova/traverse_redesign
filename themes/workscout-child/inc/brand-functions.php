@@ -100,12 +100,12 @@ function get_main_image( $user_id = null ){
     endif;
 
     if( $logo ) {
-        $dir = wp_get_upload_dir();
-        return $dir['baseurl'].'/users/'.$logo;
+        return $logo;
     }
     return false;
 
 }
+
 
 add_action( 'wp_ajax_nopriv_resume_manager_get_influencers', 'get_influencers'  );
 add_action( 'wp_ajax_resume_manager_get_influencers',  'get_influencers'  );
