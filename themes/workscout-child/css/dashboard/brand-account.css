@@ -12,7 +12,7 @@ a.other_view{
 .form__header, .settings__menu__header, .settings__menu__list__header {
     border-bottom: 2px solid #e6ecf5
 }
-.form__input.has-value + .form__input__label, .form__input:focus + .form__input__label {
+.form__input.has-value + .form__input__label, .form__input:focus + .form__input__label, textarea.has-value + .form__input__label, textarea:focus + .form__input__label {
     font-size: 0.52vw;
     transform: translateY(-2px);
 }

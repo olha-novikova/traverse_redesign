@@ -30,7 +30,7 @@ while ( have_posts() ) : the_post();
 						<div class="section__left">
 							<div class="section__block section__block_bio">
 								<p class="section__block__header">Bio</p>
-								<?php $bio = get_post_meta( $post->ID, '_short_influencer_bio', true );var_dump( $post->ID); ?>
+								<?php $bio = get_post_meta( $post->ID, '_short_influencer_bio', true ); ?>
 								<p class="section__block__text"><?php esc_html_e($bio) ?></p>
 							</div>
 							<div class="section__block section__block_cities">

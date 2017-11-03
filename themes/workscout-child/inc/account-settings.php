@@ -519,9 +519,8 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
         </div>
 
         <div class="input__block">
-            <?php if( $logo ) {
-                $dir = wp_get_upload_dir();?>
-                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
+            <?php if( $logo ) {?>
+                <img class="img-responsive" src="<?php $logo; ?>" />
             <?php } ?>
 
             <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
@@ -797,6 +796,7 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
     }
 
     if( $str->roles[0] == "employer" || $str->roles[0] == "administrator" ) {
+
         if(isset($_FILES['logo']['name']) && !empty($_FILES['logo']['name'])){
             $errors= array();
             $file_name = $_FILES['logo']['name'];
@@ -833,9 +833,9 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
 
         foreach ( $_POST as $key => $value ){
             if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
-                update_user_meta( $user_id, '_'.$key, htmlentities( $_POST[ $key ] ) );
+                update_user_meta( $user_id, $key, htmlentities( $_POST[ $key ] ) );
             elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ]))
-                delete_user_meta( $user_id, '_'.$key);
+                delete_user_meta( $user_id, $key);
         }
 
     }
