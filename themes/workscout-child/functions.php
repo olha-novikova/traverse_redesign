@@ -553,6 +553,8 @@ function get_candidate_cash_out_sum($user_id){
         wp_reset_postdata();
     }
 
+    update_user_meta( $user_id, '_available_money', $available_cash );
+
     $sum_in_log = get_user_meta( $user_id, '_available_money', true );
 
     return $sum_in_log;
