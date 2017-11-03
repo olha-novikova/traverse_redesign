@@ -8,13 +8,8 @@ $user = wp_get_current_user();
 $currency = get_woocommerce_currency_symbol();
 if ( in_array( 'candidate', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ) ) :
 	$applications_list = get_candidate_account_balance_info($user->ID);
-	$available_cash = get_candidate_cash_out_sum($user->ID);
+	$available_cash = (get_candidate_cash_out_sum($user->ID) != '' ? get_candidate_cash_out_sum($user->ID) : 0);
 
-endif;
-if ( in_array( 'employer', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ) ) :
-	$listings_list = get_paid_listings_employer_packages($user->ID);
-	$operations_list = get_employer_account_balance_info($user->ID);
-	// print_r($operations_list);
 endif;
 
 get_header('new');
@@ -35,7 +30,7 @@ get_sidebar();?>
 					<div class="money">
 						<div class="money__balance">
 							<p class="money__balance__header">Account Balance</p>
-							<p class="money__balance__amount"><?php echo $operation['currency'].$sum;?></p>
+							<p class="money__balance__amount"><?php echo $currency.$sum;?></p>
 						</div>
 						<div class="money__available">
 							<p class="money__available__header">Available to Cash Out</p>
@@ -52,7 +47,7 @@ get_sidebar();?>
 								</div>
 								<div class="input__block">
 									<input id="second" type="text" class="form__input" type="email"/>
-									<label for="second" class="form__input__label">Where should we send it?</label>
+									<label for="second" class="form__input__label">What is your paypal email address?</label>
 								</div>
 							</div>
 							<div class="buttons">
