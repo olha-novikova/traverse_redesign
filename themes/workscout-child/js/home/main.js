@@ -7,7 +7,7 @@ $('.form__input').focusout(function() {
       $(this).addClass('has-value');
     }
     
-  })
+  });
 
 $('.form__head__right').click(function() {
 	if (!$('.register').is(':visible')) {
@@ -39,30 +39,32 @@ $('.toggle__link').click(function(e) {
 
 });
 
-    var youtube = document.querySelectorAll( ".youtube" );
-    
-    for (var i = 0; i < youtube.length; i++) {
-        
-        var source = "https://img.youtube.com/vi/"+ youtube[i].dataset.embed +"/hqdefault.jpg";
-        
-        var image = new Image();
-                image.src = source;
-                image.addEventListener( "load", function() {
-                    youtube[ i ].appendChild( image );
-                }( i ) );
-        
-                youtube[i].addEventListener( "click", function() {
+var youtube = document.querySelectorAll( ".youtube" );
 
-                    var iframe = document.createElement( "iframe" );
+for (var i = 0; i < youtube.length; i++) {
 
-                            iframe.setAttribute( "frameborder", "0" );
-                            iframe.setAttribute( "allowfullscreen", "" );
-                            iframe.setAttribute( "src", "https://www.youtube.com/embed/"+ this.dataset.embed +"?rel=0&showinfo=0&autoplay=1" );
-                            iframe.setAttribute( "width", "640px" );
-                            iframe.setAttribute( "height", "450px" );
-                            this.innerHTML = "";
-                            this.appendChild( iframe );
-                } );    
-    };
-    
+    var source = "https://img.youtube.com/vi/"+ youtube[i].dataset.embed +"/hqdefault.jpg";
+
+    var image = new Image();
+    image.src = source;
+    image.addEventListener( "load", function() {
+        youtube[ i ].appendChild( image );
+    }( i ) );
+
+    youtube[i].addEventListener( "click", function() {
+
+        var iframe = document.createElement( "iframe" );
+
+                iframe.setAttribute( "frameborder", "0" );
+                iframe.setAttribute( "allowfullscreen", "" );
+                iframe.setAttribute( "src", "https://www.youtube.com/embed/"+ this.dataset.embed +"?rel=0&showinfo=0&autoplay=1" );
+                iframe.setAttribute( "width", "640px" );
+                iframe.setAttribute( "height", "450px" );
+                this.innerHTML = "";
+                this.appendChild( iframe );
+    } );
+}
+
+
+
 } );

@@ -2361,3 +2361,23 @@ function aj_preview_estimate_summary(){
 /*------------------------------------   Dashboard Init -----------------------------------------------*/
 include_once get_stylesheet_directory() . '/inc/term-walker.php';
 require_once 'inc/dashboard-init.php';
+
+function scrape_insta($username) {
+	$baseUrl = 'http://instagram.com/'. $username . '/?__a=1';
+	$url = $baseUrl;
+	$data = [];
+	for($i = 0; $i < 2; $i++) {
+		$json = json_decode(file_get_contents($url));
+		$nodes = $json->user->media->nodes;
+
+		foreach ($nodes as $node) {
+			array_push($data, $node);
+		}
+
+		if(!$json->user->media->page_info->has_next_page) break;
+		$url = $baseUrl.'&max_id=' . $json->user->media->page_info->end_cursor;
+	}
+
+	return array_slice($data, 0, 20) ;
+
+}
