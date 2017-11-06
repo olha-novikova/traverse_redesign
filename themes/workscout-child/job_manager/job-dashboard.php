@@ -2,8 +2,12 @@
     <?php // get_template_part('template-parts/estimator-module');  /* Turn Off  for now* /?>
     <section class="section section_campaigns" id="job-manager-job-dashboard">
         <div class="section__container">
-            <?php if ( ! $jobs ) : ?>
-                <?php esc_html_e( 'You do not have any active listings. Click Create Listing to start now.', 'workscout' ); ?>
+            <?php if ( ! $jobs ) :
+                $submit_job_page = get_option('job_manager_submit_job_form_page_id'); ?>
+                <p style="padding: 1.45vw;"><?php esc_html_e( 'You’ll need to add a listing before you add influencers!', 'workscout' ); ?> </p>
+                <div class="after-table">
+                    <a  href="<?php echo get_permalink($submit_job_page) ?>" class="button button_green large_text">Create Listing</a>
+                </div>
             <?php else : ?>
                 <div class="table">
                     <div class="table__head">
@@ -82,10 +86,11 @@
                         <?php endforeach; ?>
                     </div><!--table__body-->
                 </div><!--table-->
+                <div class="after-table">
+                    <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green large_text">View All Campaigns</a>
+                </div>
             <?php endif; ?>
-            <div class="after-table">
-                <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green large_text">View All Campaigns</a>
-            </div>
+
         </div>
     </section>
     <section class="section section_browse">

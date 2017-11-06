@@ -26,8 +26,12 @@ get_sidebar();
 
                 <section class="section__container app-tab-content opened" id="listings">
                     <?php $jobs = get_job_listings_list(); ?>
-                    <?php if ( ! $jobs ) : ?>
-                        <?php esc_html_e( 'You do not have any active listings.', 'workscout' ); ?>
+                    <?php if ( ! $jobs ) : 
+                        $submit_job_page = get_option('job_manager_submit_job_form_page_id'); ?>
+                        <p style="padding: 1.45vw;"><?php esc_html_e( 'You’ll need to add a listing before you add influencers!', 'workscout' ); ?> </p>
+                        <div class="after-table">
+                            <a  href="<?php echo get_permalink($submit_job_page) ?>" class="button button_green large_text">Create Listing</a>
+                        </div>
                     <?php else : ?>
                         <div class="table">
                             <div class="table__head">

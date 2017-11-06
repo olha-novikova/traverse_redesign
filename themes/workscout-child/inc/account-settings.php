@@ -537,13 +537,10 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label class="form__input__label" for="birthdate">SHORT BIO</label>
         </div>
 
-        <div class="input__block">
-            <?php if( $logo ) {?>
-                <img class="img-responsive" src="<?php $logo; ?>" />
-            <?php } ?>
-
-            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
-            <label class="form__input__label" for="logo">LOGO</label>
+        <div class="input__block panel__search panel__search fieldset-header_image">
+            <input class="input-text panel__search__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo_img" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO </label>
+            <div class="upload-btn button_search"></div>
         </div>
 
         <div class="input__block">
@@ -552,6 +549,52 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label class="form__input__label" for="website">WEBSITE</label>
         </div>
 
+        <div class="input__block">
+            <div id="logo_im" class="logo_im">
+                <?php
+                if (!empty($logo)){?>
+                    <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
+                <?php }else{ ?>
+                    <img class="user_logo" src="<?php echo get_template_directory_uri().'/images/candidate.png'?>" alt="Photo">
+                <?php } ?>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+
+                var imagesPreview = function(input, placeToInsertImagePreview) {
+                    if (input.files) {
+                        var filesAmount = input.files.length;
+                        for (var i = 0; i < filesAmount; i++) {
+                            var reader = new FileReader();
+                            reader.onload = function(event) {
+                                var file = event.target;
+                                var item = "<div class=\"im_wr\"><span class=\"remove\">remove</span>" +
+                                    "<img src=\"" + event.target.result + "\" title=\"" + file.name + "\"/>"+
+                                    "</div>";
+
+                                $(placeToInsertImagePreview).append(item);
+
+                                $(".remove").click(function(){
+                                    $(this).parent(".im_wr").remove();
+                                });
+
+                            }
+                            reader.readAsDataURL(input.files[i]);
+                        }
+                    }
+                };
+
+
+                $("#logo_img").change(function() {
+                    $('.user_logo').remove();
+                    imagesPreview(this, 'div.logo_im');
+                });
+
+            });
+        </script>
     <?php
     }
 } // end func

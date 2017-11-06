@@ -30,7 +30,7 @@
 					'post_type'              => 'job_listing',
 					'post_status'            => 'publish',
 					'ignore_sticky_posts'    => 1,
-					'posts_per_page'         => 2,
+					'posts_per_page'         => 10,
 				);
 
 				$jobs = new WP_Query( $query_args );

@@ -195,7 +195,16 @@ button::-moz-focus-inner {
 	background-size: cover;
 	min-height: 62.5rem
 }
+.section_about{
+    background: url(../../img/bg.jpg) center center no-repeat;
+    background-size: cover;
+    padding: 10vw 0;
+    line-height: 1.75rem;
 
+}
+.section_about a, .section_about h1, .section_about h2, .section_about h3, .section_about h4, .section_about h5,.section_about  h6, .section_about p{
+    color: #fff;
+}
 .container_firstscreen {
 	padding-top: 10.9375rem;
 	display: -ms-flexbox;
@@ -1147,7 +1156,7 @@ html {
 	background-color: #e6e6e6
 }
 
-.button__insta {
+.section_insta a.button__insta {
 	position: absolute;
 	width: 18.125rem;
 	margin-left: -9.0625rem;
@@ -1159,7 +1168,10 @@ html {
 	line-height: 1.25rem;
 	padding: .9375rem 0;
 	justify-content: center;
-	max-width: none
+	max-width: none;
+    border-radius: 2.8125rem;
+    text-transform: none;
+    text-decoration: none;
 }
 
 .button__insta:before {

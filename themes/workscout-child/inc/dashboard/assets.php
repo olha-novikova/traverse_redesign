@@ -44,7 +44,7 @@ function dashboard_enqueue_styles() {
 
 
 
-    if ( is_front_page() ){
+    if ( is_front_page() || is_page_template('template-about.php')){
 
         wp_dequeue_style('main-style');
 

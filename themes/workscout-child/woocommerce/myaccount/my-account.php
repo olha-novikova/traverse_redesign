@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     items: {
                         src: '<div id="singup-dialog" class="small-dialog zoom-anim-dialog apply-popup">'+
                             '<div class="small-dialog-headline"><h2><?php esc_html_e("Success!","workscout"); ?></h2></div>'+
-                            '<div class="small-dialog-content"><p class="margin-reset"><?php esc_html_e("Next, we’ll capture some information about your company, so that we can match you with the best influencers!","workscout"); ?></p></div>'+
+                            '<div class="small-dialog-content"><p class="margin-reset"><?php esc_html_e("First, we need your account details, then you'll be able to create a listing and browse influencers.","workscout"); ?></p><p style="text-align: right;"><a class="button" href="<?php echo get_home_url()?>/my-account/edit-account">Next</a></p></div>'+
                             '</div>', // can be a HTML string, jQuery object, or CSS selector
                         type: 'inline'
                     }
