@@ -1402,3 +1402,5 @@ function scrape_insta($username) {
 	return array_slice($data, 0, 20) ;
 
 }
+
+require_once 'settings.php';
