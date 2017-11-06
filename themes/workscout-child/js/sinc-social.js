@@ -19,15 +19,95 @@
 
     });
 
+    function update_facebook() {
+
+        var userProfileLink = $('#fb_link'),
+            count = "<span class='count_subcr'><i class='ln  ln-icon-Boy'></i></span>",
+            error = "<span class='error_msg'></span>";
+
+        if ( userProfileLink.val().length ){
+
+            userProfileLink.closest('.input__block').find('.count_subcr').remove();
+            userProfileLink.closest('.input__block').find('.error_msg').remove();
+
+            var  $url = userProfileLink.val();
+
+            FB.getLoginStatus(function(response) {
+
+                if (response.status === 'connected') {
+
+                    var data = {
+                        action: 'aj_get_fb_users_count',
+                        link: $url
+                    }
+
+                    jQuery.ajax({
+                        type: 'POST',
+                        url:  ws.ajaxurl,
+                        data: data,
+                        dataType: 'json',
+                        success: function( response ) {
+                            if(response.success) {
+                                $.each(response.data, function(key, value){
+                                    userProfileLink.closest('.input__block').append(count);
+                                    userProfileLink.closest('.input__block').find('.count_subcr').append(value.toString());
+                                });
+                            }
+                            else {
+                                $.each(response.data, function(key, value){
+                                    userProfileLink.addClass('error');
+                                    userProfileLink.before(error);
+                                    userProfileLink.prev('.error_msg').text(value.toString());
+                                });
+                            }
+                        },
+                        error:	function( ) {
+                        }
+                    });
+                }else{
+                    document.getElementById('face_book_login').innerHTML = 'Please log into this app to update data';
+
+                    $('#face_book_login').click( function(){
+                        FB.login(function(response) { }, {scope: 'public_profile,user_friends'});
+                        return false;
+                    });
+                }
+            })
+        }
+
+    }
 
     $( document ).ready( function() {
         update_yotTube();
         update_instagram();
         update_twitter();
 
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId            : '1886251131695070',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.10',
+                status           : true,
+                cookie           : true,
+                oauth            : true
+            });
+
+            update_facebook();
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
         $('#youtube_link').on('change', function(e){ update_yotTube();});
         $('#instagram_link').on('change',  function(e){update_instagram(); } );
         $('#witter_link').on('change',  function(e){update_twitter(); } );
+        $('#fb_link').on('change',  function(e){ update_facebook(); } );
 
     });
 
