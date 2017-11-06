@@ -298,6 +298,12 @@ require_once __DIR__ . '/inc/Facebook/autoload.php';
 add_action('wp_ajax_aj_get_fb_users_count', 'aj_get_fb_users_count');
 
 function aj_get_fb_users_count(){
+    $error = '';
+
+    $user_id = get_current_user_id();
+
+    if ( ! $user_id ) $error .= 'User failed';
+
     $url = esc_url_raw( $_POST['link'] );
 
     $fb = new \Facebook\Facebook([
@@ -308,22 +314,12 @@ function aj_get_fb_users_count(){
 
     $helper = $fb->getJavaScriptHelper();
 
-    $error = '';
-    $signedRequest = $helper->getSignedRequest();
-
-    if ($signedRequest) {
-        $payload = $signedRequest->getPayload();
-
-    }
-
     try {
         $accessToken = $helper->getAccessToken();
     } catch(Facebook\Exceptions\FacebookResponseException $e) {
-        // When Graph returns an error
-        echo 'Graph returned an error: ' . $e->getMessage();
+        $error .= 'Graph returned an error: ' . $e->getMessage();
     } catch(Facebook\Exceptions\FacebookSDKException $e) {
-        // When validation fails or other local issues
-        echo 'Facebook SDK returned an error: ' . $e->getMessage();
+        $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
     }
 
     if ( $accessToken) {
@@ -384,6 +380,22 @@ function aj_get_fb_users_count(){
                         break;
                 }
                 if ( $error == '' && isset($count) ){
+                    $query_args = array(
+                        'post_type'              => 'resume',
+                        'post_status'            => 'any',
+                        'posts_per_page'         => -1,
+                        'fields'                 => 'ids',
+                        'author'                => $user_id
+                    );
+
+                    $result = new WP_Query( $query_args );
+                    $resumes = $result ->posts;
+
+                    if ( $resumes ) {
+                        foreach ( $resumes as $resume_id) {
+                            update_post_meta( $resume_id, '_fb_count', $count );
+                        }
+                    }
                     wp_send_json_success( array( 'count' => $count ) );
                 }else
                     wp_send_json_error(array('error' => $error));
@@ -394,7 +406,7 @@ function aj_get_fb_users_count(){
 }
 
 
-function get_fb_users_count( $url ){
+/*function get_fb_users_count( $url ){
 
     $fb = new \Facebook\Facebook([
         'app_id' => '1886251131695070',
@@ -480,7 +492,7 @@ function get_fb_users_count( $url ){
     }
     return false;
 
-}
+}*/
 
 
 function update_audience(){
@@ -543,8 +555,7 @@ function update_audience(){
         }
 
         if ( $fb ){
-            $count =  get_fb_users_count( $fb );
-            update_post_meta( $resume_id, '_fb_count', $count );
+            $count =   get_post_meta( $resume_id, '_fb_count', true );
             $audience    += $count;
         }
 
@@ -599,9 +610,9 @@ function update_audience_for_user( $user_id ){
 
         $newsletter_total = intval(get_post_meta( $resume_id, '_newsletter_total', true ));
 
-        $twitter        = get_post_meta( $resume_id, '"_twitter_link', true );
+        $twitter        = get_post_meta( $resume_id, '_twitter_link', true );
 
-        $fb             = get_post_meta( $resume_id, '"_facebook_link', true );
+        $fb             = get_post_meta( $resume_id, '_facebook_link', true );
 
         $website        = get_post_meta( $resume_id, '_influencer_website', true );
 
@@ -638,8 +649,7 @@ function update_audience_for_user( $user_id ){
         }
 
         if ( $fb ){
-            $count =  get_fb_users_count( $fb );
-            update_post_meta( $resume_id, '_fb_count', $count );
+            $count =   get_post_meta( $resume_id, '_fb_count', true );
             $audience    += $count;
         }
 

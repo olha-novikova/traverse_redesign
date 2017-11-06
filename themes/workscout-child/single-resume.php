@@ -107,7 +107,7 @@ while ( have_posts() ) : the_post();
                     if ( $facebook_subscriber_count > 0 ) {
                         echo '
                     <p class="section__block__text section__block__text_media">
-                    <i class="fa facebook-square"></i>'.$facebook_subscriber_count.' subscribers
+                    <i class="fa fa-facebook-official"></i>'.$facebook_subscriber_count.' subscribers
                      </p>';
                     }
                 }
