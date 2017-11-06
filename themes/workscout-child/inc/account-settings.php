@@ -314,7 +314,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
         <div class="input__block">
             <input class="form__input input-text <?php if (!empty($fb)) echo 'has-value';?>"    type="text"  name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
-            <label class="form__input__label" for="fb">YOUR FACEBOOK URL</label>
+            <label class="form__input__label" for="fb">YOUR FACEBOOK URL<span id="face_book_login"></span></label>
         </div>
 
         <div class="input__block">
@@ -420,11 +420,11 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
 
         <div class="input__block full_width ">
-            <input class="form__input input-text" type="url" name="video"/>
+            <input class="form__input input-text <?php if (!empty($video)) echo 'has-value';?>" type="url" name="video" value="<?php echo esc_attr( $logo ); ?>"/>
             <label class="form__input__label" for="video">Add a sample video (YouTube Embed Link): </label>
         </div>
 
-        <?php if ($video ){ ?>
+        <?php if ( $video ){ ?>
             <div class="video">
                 <div data-embed="<?= $video[0] ?>" class="youtube">
                     <div class="play-button video__play-button"></div>

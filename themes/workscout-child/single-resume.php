@@ -102,7 +102,7 @@ while ( have_posts() ) : the_post();
                 }
                 }
 
-                if ( $facebook_subscriber_count = get_post_meta( $post->ID, 'fb_subscribers_count', true ) ) {
+                if ( $facebook_subscriber_count = get_post_meta( $post->ID, '_fb_count', true ) ) {
 
                     if ( $facebook_subscriber_count > 0 ) {
                         echo '

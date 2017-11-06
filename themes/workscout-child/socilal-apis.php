@@ -298,11 +298,6 @@ require_once __DIR__ . '/inc/Facebook/autoload.php';
 add_action('wp_ajax_aj_get_fb_users_count', 'aj_get_fb_users_count');
 
 function aj_get_fb_users_count(){
-
-    $user_id = get_current_user_id();
-
-    if ( !$user_id )  wp_send_json_error( array('error'=> 'User not found') );
-
     $url = esc_url_raw( $_POST['link'] );
 
     $fb = new \Facebook\Facebook([
@@ -312,14 +307,23 @@ function aj_get_fb_users_count(){
     ]);
 
     $helper = $fb->getJavaScriptHelper();
+
     $error = '';
+    $signedRequest = $helper->getSignedRequest();
+
+    if ($signedRequest) {
+        $payload = $signedRequest->getPayload();
+
+    }
 
     try {
         $accessToken = $helper->getAccessToken();
     } catch(Facebook\Exceptions\FacebookResponseException $e) {
-        $error .= 'Graph returned an error: ' ;
+        // When Graph returns an error
+        echo 'Graph returned an error: ' . $e->getMessage();
     } catch(Facebook\Exceptions\FacebookSDKException $e) {
-        $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
+        // When validation fails or other local issues
+        echo 'Facebook SDK returned an error: ' . $e->getMessage();
     }
 
     if ( $accessToken) {
@@ -380,7 +384,6 @@ function aj_get_fb_users_count(){
                         break;
                 }
                 if ( $error == '' && isset($count) ){
-                    update_user_meta( $user_id, 'fb_subscribers_count',$count );
                     wp_send_json_success( array( 'count' => $count ) );
                 }else
                     wp_send_json_error(array('error' => $error));
@@ -391,11 +394,7 @@ function aj_get_fb_users_count(){
 }
 
 
-function get_fb_users_count( $user_id ){
-
-    if ( !$user_id )  return false;
-
-    $url = esc_url_raw( $_POST['link'] );
+function get_fb_users_count( $url ){
 
     $fb = new \Facebook\Facebook([
         'app_id' => '1886251131695070',
@@ -473,7 +472,6 @@ function get_fb_users_count( $user_id ){
                 }
 
                 if ( $error == '' && isset($count) ){
-                    update_user_meta( $user_id, 'fb_subscribers_count',$count );
                     return $count ;
                 }else
                     return false;
@@ -508,6 +506,8 @@ function update_audience(){
 
         $twitter        = get_post_meta( $resume_id, '"_twitter_link', true );
 
+        $fb             = get_post_meta( $resume_id, '"_facebook_link', true );
+
         $website        = get_post_meta( $resume_id, '_influencer_website', true );
 
         $monthly_visitors = intval( str_replace(array('.', ','), '' ,get_post_meta( $resume_id, '_estimated_monthly_visitors', true )) );
@@ -539,6 +539,12 @@ function update_audience(){
         if ( $twitter ){
             $count =  get_twitter_followers_count( $twitter );
             update_post_meta( $resume_id, '_tw_count', $count );
+            $audience    += $count;
+        }
+
+        if ( $fb ){
+            $count =  get_fb_users_count( $fb );
+            update_post_meta( $resume_id, '_fb_count', $count );
             $audience    += $count;
         }
 
@@ -576,7 +582,7 @@ function update_audience_for_user( $user_id ){
         'post_status'            => 'any',
         'posts_per_page'         => -1,
         'fields'                 => 'ids',
-         'author'                => $user_id
+        'author'                => $user_id
     );
 
     $result = new WP_Query( $query_args );
@@ -594,6 +600,8 @@ function update_audience_for_user( $user_id ){
         $newsletter_total = intval(get_post_meta( $resume_id, '_newsletter_total', true ));
 
         $twitter        = get_post_meta( $resume_id, '"_twitter_link', true );
+
+        $fb             = get_post_meta( $resume_id, '"_facebook_link', true );
 
         $website        = get_post_meta( $resume_id, '_influencer_website', true );
 
@@ -626,6 +634,12 @@ function update_audience_for_user( $user_id ){
         if ( $twitter ){
             $count =  get_twitter_followers_count( $twitter );
             update_post_meta( $resume_id, '_tw_count', $count );
+            $audience    += $count;
+        }
+
+        if ( $fb ){
+            $count =  get_fb_users_count( $fb );
+            update_post_meta( $resume_id, '_fb_count', $count );
             $audience    += $count;
         }
 
