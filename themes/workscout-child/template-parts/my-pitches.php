@@ -15,9 +15,8 @@
 				<?php foreach ($pitches as $pitch) : ?>
 					<?php $pitches_data = get_post_meta($pitch[0]->ID, '', true);
 					$date = $pitch['date'];
-          var_dump($pitch);
 					?>
-      <div class="table__row table__row_body">
+                    <div class="table__row table__row_body">
 						<div class="table__data"><i class="icon icon_calendar"></i>
 							<p class="table__data__date"><?php echo date("d", strtotime($date)) ?></p>
 							<p class="table__data__month"><?php echo date("F", strtotime($date)) ?></p>
@@ -40,7 +39,6 @@
 							<div class="table__buttons">
 								<div class="table__buttons">
 									<a href="<?= get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
-									<a href="<?= get_post_permalink($pitch['id']) ?>" class="button button_green">View Full Pitch</a>
 								</div>
 							</div>
 						</div>
@@ -145,7 +143,7 @@
 				<div class="table__body">
 					<div class="table__row table__row_body table__row_empty">
 						<div class="empty"><i class="icon icon_calendar"></i>
-							<p class="empty-text">There are no completed campaigns to show</p>
+							<p class="empty-text">There are no new campaigns to show</p>
 						</div>
 					</div>
 				</div>
@@ -189,7 +187,6 @@
 						<div class="table__data">
 							<div class="table__buttons">
 								<a href="<?= get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
-								<a href="<?= get_post_permalink($pitch['id']) ?>" class="button button_green">View Full Pitch</a>
 							</div>
 						</div>
 					</div>
@@ -212,8 +209,8 @@
 		</div>
 		<div class="table__body">
 			<?php
-			$pitches = get_pitched_campaigns($user->ID, 'hired');
-
+			$pitches = get_pitched_campaigns($user->ID, 'hired,in_review');
+            global $wp_post_statuses;
 			if ($pitches) : ?>
 				<?php foreach ($pitches as $pitch) : ?>
 					<?php $pitches_data = get_post_meta($pitch[0]->ID, '', true);
@@ -241,10 +238,42 @@
 						<div class="table__data">
 							<div class="table__buttons">
 								<a href="<?= get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
-								<a href="<?= get_post_permalink($pitch['id']) ?>" class="button button_green">View Full Pitch</a>
+
+                                <?php if( $pitch['status']=="hired" ){ ?>
+                                    <a href="#hire-dialod-<?php echo $pitch['id']?>" class="button button_green open-popup-hire">Submit for review</a>
+                                <?php }?>
 							</div>
 						</div>
+                        <?php if( $pitch['status']=="in_review"){ ?>
+                            <div class="table__data">
+                                <p class="table__text"><span class="person_status status_new">Pitch on Review</span><br>
+                                Review Message: <br>
+                                <?php echo get_post_meta($pitch['id'], '_review_msg', true); ?></p>
+                            </div>
+                        <?php } ?>
+
+                        <?php if($pitch['status']=="hired"){?>
+                            <div id = "hire-dialod-<?php echo $pitch['id'];?>" class="small-dialog zoom-anim-dialog mfp-hide apply-popup ">
+                                <div class="small-dialog-headline">
+                                    <h2>Send on Review</h2>
+                                </div>
+                                <div class="small-dialog-content">
+                                    <p>Would you like to send your pitch on Review?</p>
+                                    <form class="inline job-manager-application-review-form job-manager-form" method="post">
+                                        <p><?php _e( 'Review Message', 'wp-job-manager-applications' ); ?></p>
+                                        <textarea class="application-review-msg" name="application-review-msg"></textarea>
+                                        <input type="hidden" name="application_rating"/>
+                                        <input type="hidden" name="wp_job_manager_review_application"  value="1" />
+                                        <input type="hidden" name="application_status" value="in_review" />
+                                        <input type="hidden" name="application_id" value="<?php echo absint(  $pitch['id'] ); ?>" />
+                                        <?php wp_nonce_field( 'edit_job_application' ); ?>
+                                        <input class="button wp_job_manager_review_application" type="button" value="<?php esc_html_e( 'On Review', 'workscout' ); ?>" />
+                                    </form>
+                                </div>
+                            </div>
+                        <?php }?>
 					</div>
+
 				<?php endforeach; else: ?>
 				<div class="table__body">
 					<div class="table__row table__row_body table__row_empty">

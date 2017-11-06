@@ -723,7 +723,6 @@ function send_on_review (){
 }
 
 add_action('wp_ajax_send_on_review', 'send_on_review');
-add_action('wp_ajax_nopriv_send_on_review', 'send_on_review');
 
 add_action('init', 'paypal_request_payment');
 

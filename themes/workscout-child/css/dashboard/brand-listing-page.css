@@ -461,5 +461,13 @@
 .button.button_link{
     background: transparent;
 }
+.small-dialog-content, small-dialog-headline{
+    padding: 0;
+}
+.small-dialog-content p.rv_msg{
+
+    margin: 1vw 0;
+    text-transform: uppercase;
+}
 
 /*# sourceMappingURL=../../dist/css/pages/brand-listing-page.map */

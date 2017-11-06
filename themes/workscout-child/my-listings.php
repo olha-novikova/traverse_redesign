@@ -246,14 +246,18 @@ get_sidebar();
                                         </div>
                                         <div class="section__list_footer">
                                             <?php $user_id = get_post_meta( $application->ID , "_candidate_user_id", true); ?>
+
                                             <?php if($application->post_status=="new"){ ?>
-                                                <a href="#hire-dialod-<?php echo $job->ID;?>" class="button button_green open-popup-hire">Hire</a>
+                                                <a href="#hire-dialod-<?php echo $application->ID;?>" class="button button_green open-popup-hire">Hire</a>
+                                            <?php }elseif( $application->post_status=="in_review" ){
+                                                ?>
+                                                <a href="#review-<?php echo esc_attr( $application->ID );?>" title="<?php esc_html_e( 'Review and Approve', 'workscout' ); ?>" class="button button_green open-popup-hire"><?php esc_html_e( 'Review and Approve', 'workscout' ); ?></a>
                                             <?php } ?>
 
                                             <div class="openchat button button_orange" data-reciever-id="<?php echo $user_id;?>" data-job-id="<?php echo esc_attr( $job->ID )?>" data-job-name="<?php echo esc_html($job->post_title);?>">Message</div>
 
                                             <?php if( $application->post_status=="new"){ ?>
-                                                <div id = "hire-dialod-<?php echo $job->ID;?>" class="small-dialog zoom-anim-dialog mfp-hide apply-popup ">
+                                                <div id = "hire-dialod-<?php echo $application->ID;?>" class="small-dialog zoom-anim-dialog mfp-hide apply-popup ">
                                                     <div class="small-dialog-headline">
                                                         <h2>Pitch Status Change</h2>
                                                     </div>
@@ -274,11 +278,25 @@ get_sidebar();
                                                 </div>
                                             <?php }elseif( $application->post_status=="in_review" ){
                                                 ?>
-                                                <a href="#review-<?php echo esc_attr($application->ID );?>" title="<?php esc_html_e( 'Review and Approve', 'workscout' ); ?>" class="button gray app-link job-application-toggle-content"><i class="fa fa-plus-circle"></i> <?php esc_html_e( 'Review and Approve', 'workscout' ); ?></a>
-                                            <?php }elseif($application->post_status=="in_progress" ){
-                                                esc_html_e( 'In Progress', 'workscout' );
-                                            }
-                                            ?>
+                                                <div id = "review-<?php echo $application->ID;?>" class="small-dialog zoom-anim-dialog mfp-hide">
+                                                    <div class="small-dialog-headline">
+                                                        <h2>Review and Approve</h2>
+                                                    </div>
+                                                    <div class="small-dialog-content">
+                                                        <p>Please, review this Pitch</p>
+                                                        <p class="rv_msg"><?php echo get_post_meta($application->ID, '_review_msg', true); ?></p></p>
+
+                                                        <form class="inline job-manager-application-edit-form job-manager-form" method="post">
+                                                            <input type="hidden" name="application_rating"/>
+                                                            <input type="hidden" name="application_status" value="completed" />
+                                                            <input type="hidden" name="application_id" value="<?php echo absint( $application->ID ); ?>" />
+                                                            <?php wp_nonce_field( 'edit_job_application' ); ?>
+                                                            <input class="button" type="submit" name="wp_job_manager_edit_application" value="<?php esc_html_e( 'Approve', 'workscout' ); ?>" />
+                                                        </form>
+                                                        <div class="button button_orange mfp-close">Cancel</div>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                     <?php endforeach; ?>

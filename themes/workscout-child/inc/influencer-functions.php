@@ -18,6 +18,7 @@ function get_pitched_campaigns ($user_id, $status) {
 		$job_id = $application->post_parent;
 		$app_message = $application->post_content;
 		$app_date = $application->post_date;
+		$app_status = $application->post_status;
 
 		if ($resume_id == $resume[0]->ID) {
 			$job = get_posts( array(
@@ -28,6 +29,7 @@ function get_pitched_campaigns ($user_id, $status) {
 			$job['message'] = $app_message;
 			$job['id'] = $application->ID;
 			$job['date'] = $app_date;
+			$job['status'] = $app_status;
 			$pitched[] = $job;
 		}
 	}
