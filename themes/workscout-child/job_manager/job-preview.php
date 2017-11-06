@@ -11,7 +11,7 @@
 
     if ( in_array('facebook', $types) ){
         $meta_query[] = array(
-            'key'       => '_fb_link',
+            'key'       => '_facebook_link',
             'compare'   => 'EXISTS'
         );
         $meta_use = true;
