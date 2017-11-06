@@ -51,7 +51,6 @@ get_sidebar();?>
 								</div>
 							</div>
 							<div class="buttons">
-								<a href="/my-balance" class="button button_grey">View Payment History</a>
 								<button type="submit" class="button button_orange">Cash Me Out</button>
 							</div>
 						</form>

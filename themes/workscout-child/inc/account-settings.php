@@ -420,7 +420,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
 
         <div class="input__block full_width ">
-            <input class="form__input input-text <?php if (!empty($video)) echo 'has-value';?>" type="url" name="video" value="<?php echo esc_attr( $logo ); ?>"/>
+            <input class="form__input input-text <?php if (!empty($videos)) echo 'has-value';?>" type="url" name="video" value="<?php echo esc_attr( $videos ); ?>"/>
             <label class="form__input__label" for="video">Add a sample video (YouTube Embed Link): </label>
         </div>
 
