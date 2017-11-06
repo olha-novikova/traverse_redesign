@@ -342,27 +342,38 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label class="form__input__label" for="monthlyvisit">YOUR WEBSITE'S ESTIMATED NUMBER OF MONTHLY VISITS</label>
         </div>
 
-        <div class="input__block">
+        <div class="input__block newsletterr_block">
             <p>DOES YOUR WEBSITE HAVE A NEWSLETTER?</p>
-            <input type="radio" name="newsletter" value="yes" <?php if ( $newsletter == 'yes') echo 'checked = "checked"';?>> YES
-            <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
+            <label for="newsletter_yes"><input type="radio" id="newsletter_yes" name="newsletter" value="yes" <?php if ( $newsletter == 'yes') echo 'checked = "checked"';?>>
+                <span class="circle"></span>
+                <span class="check"></span>YES
+            </label>
+            <label for="newsletter_no"><input type="radio" id="newsletter_no" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>>
+                <span class="circle"></span>
+                <span class="check"></span>NO
+            </label>
         </div>
 
-        <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-
+        <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'invisible';?>" >
             <input class="input-text form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
             <label style="z-index: 99" class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
         </div>
 
-
-        <div id="logo_im" class="logo_im">
-            <?php if (!empty($logo)){?>
-                <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
-            <?php } ?>
+        <div class="input__block panel__search panel__search fieldset-header_image">
+            <input class="input-text panel__search__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo_img" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO </label>
+            <div class="upload-btn button_search"></div>
         </div>
-        <div class="input__block full_width">
-            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo" value="<?php echo esc_attr( $logo ); ?>"   />
-            <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
+
+        <div class="input__block">
+            <div id="logo_im" class="logo_im">
+                <?php
+                if (!empty($logo)){?>
+                    <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
+                <?php }else{ ?>
+                    <img class="user_logo" src="<?php echo get_template_directory_uri().'/images/candidate.png'?>" alt="Photo">
+                <?php } ?>
+            </div>
         </div>
         <?php
         $user_resumes = get_posts( array(
@@ -383,21 +394,34 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             }
         }
         ?>
+        <div class="input__block full_width">
+            <h5>
+                Add examples of your photo/video work to show brands what you are capable of
+            </h5>
+        </div>
+
+        <div class="full_width panel__search fieldset-header_image">
+            <input class="form__input input-text panel__search__input" type="file" name="samples[]" id="samples" multiple/>
+            <label class="panel__search__input panel__search__input__label" for="samples">Add photography samples: </label>
+            <div class="upload-btn button_search"></div>
+        </div>
 
         <div id="photos" class="photos">
-        <?php if ($photo_samples ){
-            $margin = 2;
-            $width = (100 - 2*$margin*count ($photo_samples))/count ($photo_samples);
-            foreach ($photo_samples as $photo_sample){?>
-                <div class="im_wr">
-                    <span class="remove exists" data-resume_id="<?php echo $user_resumes->ID; ?>">remove</span>
-                    <img src="<?php echo $photo_sample ?>" alt="Photo Sample" >
-                </div>
-        <?php }} ?>
+            <?php if ($photo_samples ){
+                $margin = 2;
+                $width = (100 - 2*$margin*count ($photo_samples))/count ($photo_samples);
+                foreach ($photo_samples as $photo_sample){?>
+                    <div class="im_wr">
+                        <span class="remove exists" data-resume_id="<?php echo $user_resumes->ID; ?>">remove</span>
+                        <img src="<?php echo $photo_sample ?>" alt="Photo Sample" >
+                    </div>
+                <?php }} ?>
         </div>
-        <div class="input__block full_width">
-            <input class="form__input input-text" type="file" name="samples[]" id="samples" multiple/>
-            <label class="form__input__label" for="samples">Add photography samples: </label>
+
+
+        <div class="input__block full_width ">
+            <input class="form__input input-text" type="url" name="video"/>
+            <label class="form__input__label" for="video">Add a sample video (YouTube Embed Link): </label>
         </div>
 
         <?php if ($video ){ ?>
@@ -407,11 +431,6 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                 </div>
             </div>
         <?php } ?>
-        <div class="input__block full_width">
-            <input class="form__input input-text" type="url" name="video"/>
-            <label class="form__input__label" for="video">Add a sample video(YouTube Embed Link): </label>
-        </div>
-
 
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
@@ -466,7 +485,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                     imagesPreview(this, 'div.photos');
                 });
 
-                $("#logo").change(function() {
+                $("#logo_img").change(function() {
                     $('.user_logo').remove();
                     imagesPreview(this, 'div.logo_im');
                 });
@@ -474,9 +493,9 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                 $('input[name="newsletter"]').on('change', function(){
                     var val = $(this).val();
                     if ( val == 'yes'){
-                        $('.newsletter_conditional').removeClass('hide');
+                        $('.newsletter_conditional').removeClass('invisible');
                     }else{
-                        $('.newsletter_conditional').addClass('hide');
+                        $('.newsletter_conditional').addClass('invisible');
                         $('input[name="newsletter_subscriber"]').val('');
                     }
                 });

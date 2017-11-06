@@ -141,16 +141,14 @@
                     <span class="company-name"><?php echo get_the_company_name($form->get_job_id()); ?></span> campaign <span class="company-campaign"> estimate</span>
                 </p>
                 <p>
-                    You find different performances based upon your targeted influencer categories, your budget, and more.
-                    We suggest packages to help make sure you get the performance you are looking for.
+                    Based on your budget, you’re able to choose the following number of influencers.
+                    After selecting the level you’d like and checking out, influencers in that category will start to apply to your opportunity.
                 </p>
               
                 <p id="selected_option" class="listing__view__header"><span class="company-name">Select one of the following:</span> <span class="company-campaign option"></span></p>
 
                 <div class="list__options">
                     <?php
-
-
                     $possible_products = array('pro_inf', 'growth_inf', 'micro_inf');
                     $text = "";
                     foreach( $possible_products as $possible_product){
@@ -163,10 +161,15 @@
                             if ( $possible_product == 'growth_inf' )    $can_growth = true;
                             if ( $possible_product == 'micro_inf' )     $can_micro = true;
                         }
+                        $nuber_infl = '';
+                        if ( $possible_product == 'pro_inf' )       $nuber_infl = ' (500k+ total followers)';
+                        if ( $possible_product == 'growth_inf' )    $nuber_infl = ' (~250k followers)';
+                        if ( $possible_product == 'micro_inf' )     $nuber_infl = ' (~50k followers)';
+
                         if ( floor( $budget/$price ) > 0){?>
-                            <input type="button" class="button button_orange add_prod_to_job" data-include = "<?php echo $possible_product; ?>" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                            <input type="button" class="button button_orange add_prod_to_job" data-include = "<?php echo $possible_product; ?>" data-prod_id = "<?php echo $product_id; ?>" data-prod_count = "<?php echo floor( $budget/$price );?>" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )).$nuber_infl , 'wp-job-manager' ); ?>" />
                         <?php }else{ ?>
-                            <input type="button" class="button button_white" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )) , 'wp-job-manager' ); ?>" />
+                            <input type="button" class="button button_white" value="<?php _e( floor( $budget/$price )." ".$product ->get_name(). _n(" influencer"," influencers",floor( $budget/$price )).$nuber_infl , 'wp-job-manager' ); ?>" />
                         <?php }
                     }
                     if ( !isset($can_pro) && isset($can_growth) && isset($can_micro))
@@ -324,4 +327,3 @@
 
     </script>
 </div>
-Please change “WARNING!” to “Whoops!” On pop up if you try to continue without a selection of influencer group
