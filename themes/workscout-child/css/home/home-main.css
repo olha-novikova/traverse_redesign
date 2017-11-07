@@ -202,9 +202,21 @@ button::-moz-focus-inner {
     line-height: 1.75rem;
 
 }
+.section_general_page{
+    background: url(../../img/bg.jpg) center center no-repeat;
+    background-size: cover;
+    padding: 5vw 0;
+    line-height: 1.75rem;
+}
 .section_about a, .section_about h1, .section_about h2, .section_about h3, .section_about h4, .section_about h5,.section_about  h6, .section_about p{
     color: #fff;
 }
+.container_content{
+    padding-top: 5rem;
+    display: -ms-flexbox;
+    display: flex
+}
+
 .container_firstscreen {
 	padding-top: 10.9375rem;
 	display: -ms-flexbox;
