@@ -62,7 +62,7 @@ function traverse_redirect_newhomepage(){ //add_action('wp_ajax_custom_redirect_
             }
 
             if ( !isset($_POST['agreement']) || $_POST['agreement']=='' ){
-                $error[] = __('You should agree to the Traverse Terms of Service');
+                $error[] = __('Please accept our Terms of Service');
             }
 
             if ( count($error ) == 0){

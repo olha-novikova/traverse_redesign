@@ -1370,11 +1370,11 @@ function aj_preview_estimate_summary(){
         endwhile;
     endif;
 
-    if ( $possible_reach != "0" ){
+    if ( $possible_reach != 0 ){
         $response['possible_reach'] = $possible_reach;
         $response['possible_engagement'] = (round($possible_reach*0.03)." - ".round($possible_reach*0.07));
     }else {
-        $response['no'];
+        $response['found'] = false;
     }
 
     echo json_encode($response);
