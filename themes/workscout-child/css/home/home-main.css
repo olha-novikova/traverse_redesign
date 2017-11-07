@@ -294,27 +294,19 @@ button::-moz-focus-inner {
 	border-bottom: 1px solid #e6ecf5;
 }
 
-.form__head__left__image-block {
+.form__head__login,
+.form__head__signup {
+	color: black;
 	display: block;
-	width: 3rem;
-	height: 50px;
+	width: 100%;
+	height: 100%;
+	padding: 10px 15px;
+	text-align: center;
+	font-weight: 300;
 }
 
-.form__head__right__image-block {
-	display: block;
-	width: 3rem;
-	height: 50px;
-}
-
-.form__head__image {
-	position: absolute;
-	transition: .4s;
-	z-index: 1
-}
-
-.form__head__image_active {
-	opacity: 0;
-	z-index: 2
+.form__head__active a {
+	color: #ff5e3a;
 }
 
 .form__head__right {
