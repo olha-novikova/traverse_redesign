@@ -28,7 +28,8 @@ get_sidebar();?>
 		<section class="section section_cash">
 		<?php $sum = 0;
 		foreach ($applications_list as $application) {
-      $sum += $application['job_price'];
+		  if ($application['application_status'] == 'hired') $sum += $application['job_price'] * HIRED_PERCENTAGE;
+      else if ($application['application_status'] != 'new') $sum += $application['job_price'] * INFLUENCER_CUT;
     }
 		?>
 
@@ -36,7 +37,7 @@ get_sidebar();?>
 				<div class="money">
 					<div class="money__balance">
 						<p class="money__balance__header">Account Balance</p>
-						<p class="money__balance__amount"><?php echo $operation['currency'].$sum;?></p>
+						<p class="money__balance__amount"><?php echo $currency.$sum;?></p>
 					</div>
 					<div class="money__available">
 						<p class="money__available__header">Available to Cash Out</p>
