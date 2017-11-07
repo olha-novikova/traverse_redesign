@@ -99,7 +99,8 @@ function dashboard_enqueue_styles() {
     if ( is_checkout() ){
 
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
-
+        
+        wp_enqueue_style('brand-dashboard', get_stylesheet_directory_uri().'/css/dashboard/brand-dashboard.css');
     }
 
 
