@@ -54,14 +54,14 @@
                                 </div>
                                 <div class="table__data">
                                     <div class="table__influencers">
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
+                                        <?php
+                                        $count = get_job_application_count( $job->ID );
+                                        for ( $i=1; $i<$count; $i++){
+                                            echo '<div class="table__influencer"></div>';
+                                        }
+                                        ?>
                                         <div class="table__influencer">
                                             <?php
-                                            $count = get_job_application_count( $job->ID );
                                             echo '<a href="'.home_url('/my-listings').'">';?>
                                             <div class="table__influencer__number">
                                                 <?php echo ( $count > 0 ? "+".$count: "0" ); ?>

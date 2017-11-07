@@ -40,7 +40,7 @@
                             <div class="table__buttons">
                                 <div class="table__buttons">
                                     <?php if ( $pitch[0]->post_status == 'publish') {?>
-                                        <a href="<?echo get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
+                                        <a href="<?php echo get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
 						<div class="table__data">
 							<div class="table__buttons">
                                 <?php if ( $pitch[0]->post_status == 'publish') {?>
-                                    <a href="<?echo get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
+                                    <a href="<?php echo get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
                                 <?php } ?>
 							</div>
 						</div>
@@ -147,7 +147,7 @@
 						<div class="table__data">
 							<div class="table__buttons">
                                 <?php if ( $pitch[0]->post_status == 'publish') {?>
-                                    <a href="<?echo get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
+                                    <a href="<?php echo get_post_permalink($pitch[0]->ID) ?>" class="button button_green">View Campaign Details</a>
                                 <?php } ?>
                                 <?php if( $pitch['status']=="hired" ){ ?>
                                     <a href="#hire-dialod-<?php echo $pitch['id']?>" class="button button_green open-popup-hire">Submit for review</a>

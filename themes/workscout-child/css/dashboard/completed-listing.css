@@ -407,7 +407,10 @@
 }
 
 .listing-view__image {
-    margin-bottom: 2.7vw
+    margin-bottom: 2.7vw;
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
 }
 
 .listing-view__text {

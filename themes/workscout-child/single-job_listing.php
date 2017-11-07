@@ -13,9 +13,8 @@ get_sidebar();?>
 <main class="main">
     <?php
     while ( have_posts() ) : the_post();
-        $header_image = get_post_meta($post->ID, '_header_image', TRUE);
-        $product_id = get_post_meta($post->ID, '_wcpl_jmfe_product_id',true);
-        $package = get_post( $product_id);
+        $header_image = get_post_meta( $post->ID, '_header_image', TRUE );
+        $spot =  ( get_post_meta($post->ID, '_applications_number', TRUE) ? get_post_meta($post->ID, '_applications_number', TRUE) : 1 );
         ?>
 
         <section class="section_profile section_profile-completed">
@@ -78,11 +77,11 @@ get_sidebar();?>
                                 <p class="listing-view__overview__item listing-view__overview__item_date"><?php echo date_i18n( get_option( 'date_format' ), strtotime( get_post_meta( $post->ID, '_job_expires', true ) ) ) ?></p>
                                 <div class="spots">
                                     <div class="table__influencers">
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
-                                        <div class="table__influencer"></div>
+                                        <?php
+                                        for ( $i=1; $i <= $spot; $i++){
+                                            echo '<div class="table__influencer"></div>';
+                                        }
+                                        ?>
                                     </div>
                                     <p class="spots__text">Spots available: <span><?php echo  get_job_application_count( $post->ID )  ?></span></p>
                                 </div>
@@ -102,16 +101,12 @@ get_sidebar();?>
                             </div>
                         </div>
                         <?php
-                        $assets_available_link  = get_post_meta($post->ID,'_asset_links', true);
                         $assets_available_files   = get_post_meta($post->ID,'_asset_upload', true);
 
-                        if ( $assets_available_files || $assets_available_link ){?>
+                        if ( $assets_available_files ){?>
                         <div class="listing__view__assets">
                             <p class="listing-view__assets__header">Example Assets</p>
                                 <?php
-
-                                if ( $assets_available_link ) echo "<span><a href=\"".$assets_available_link."\" target=\"_blank\">Example URL</a> </span>";
-
                                 if ( $assets_available_files ){ ?>
                                     <div class="assets">
                                         <?php
