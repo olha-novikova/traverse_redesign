@@ -108,7 +108,7 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                         </div>
                                         <div class="checkbox__block">
                                             <input id="terms" type="checkbox" name="agreement" class="form__checkbox"/>
-                                            <label for="terms" class="checkbox__label">I accept the <a href="#" class="checkbox__link"> Terms and Conditions </a> of the website</label>
+                                            <label for="terms" class="checkbox__label">I accept the <a target="_blank" href="<?php echo home_url('/terms-of-service');?>" class="checkbox__link"> Terms and Conditions </a> of the website</label>
                                         </div>
                                     </div>
                                     <div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php _e( 'Anti-spam', 'workscout' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
