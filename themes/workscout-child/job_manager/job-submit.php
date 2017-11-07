@@ -18,13 +18,28 @@ global $job_manager;
 
                     <?php foreach ( $job_fields as $key => $field ) :
 
-                        if ($key == 'job_description')  echo "<div class=\"inputs__more\"><div class=\"inputs__more__left\">";?>
+                        if ($key == 'job_description')  echo "<div class=\"inputs__more\"><div class=\"inputs__more__left\">";
 
-                        <div class="form input__block fieldset-<?php echo esc_attr( $key ); ?>">
-                            <?php  get_job_manager_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ); ?>
-                            <label class="form__input__label" for="<?php echo esc_attr( $key ); ?>"><?php echo $field['label'] . apply_filters( 'submit_job_form_required_label', $field['required'] ? '' : ' <small>' . esc_html__( '(optional)', 'workscout' ) . '</small>', $field ); ?></label>
-                        </div>
-                        <?php
+                        if ( $field['type']== "file" ){
+                            $classes            = array( 'input-text' );
+                            $allowed_mime_types = array_keys( ! empty( $field['allowed_mime_types'] ) ? $field['allowed_mime_types'] : get_allowed_mime_types() );
+                            $field_name         = isset( $field['name'] ) ? $field['name'] : $key;
+                            $field_name         .= ! empty( $field['multiple'] ) ? '[]' : '';
+                            $classes[] 			= 'file-' . esc_attr( $key );
+                            ?>
+                            <div class="form panel__search fieldset-<?php echo esc_attr( $key ); ?>">
+                                <input type="file" class="panel__search__input <?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-file_types="<?php echo esc_attr( implode( '|', $allowed_mime_types ) ); ?>" <?php if ( ! empty( $field['multiple'] ) ) echo 'multiple'; ?> name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?><?php if ( ! empty( $field['multiple'] ) ) echo '[]'; ?>" id="<?php echo esc_attr( $key ); ?>"  />
+                                <label for="<?php echo esc_attr( $key ); ?>" class="panel__search__input panel__search__input__label"><?php echo $field['label'] . apply_filters( 'submit_job_form_required_label', $field['required'] ? '' : ' <small>' . esc_html__( '(optional)', 'workscout' ) . '</small>', $field ); ?></label>
+                                <div class="upload-btn button_search"></div>
+                            </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="form input__block fieldset-<?php echo esc_attr( $key ); ?>">
+                                <?php  get_job_manager_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ); ?>
+                                <label class="form__input__label" for="<?php echo esc_attr( $key ); ?>"><?php echo $field['label'] . apply_filters( 'submit_job_form_required_label', $field['required'] ? '' : ' <small>' . esc_html__( '(optional)', 'workscout' ) . '</small>', $field ); ?></label>
+                            </div>
+                        <?php }
                         if ($key == 'job_description') echo "</div><div class=\"inputs__more__right\">";
                         if ($key == 'header_image') echo "</div></div>";?>
                     <?php endforeach; ?>
