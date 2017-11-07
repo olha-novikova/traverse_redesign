@@ -13,11 +13,7 @@ if ( in_array( 'candidate', (array) $user->roles ) || in_array( 'administrator',
     $available_cash = get_candidate_cash_out_sum($user->ID);
 
 endif;
-if ( in_array( 'employer', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ) ) :
-    $listings_list = get_paid_listings_employer_packages($user->ID);
-    $operations_list = get_employer_account_balance_info($user->ID);
-          // print_r($operations_list);
-endif;
+
 
 ?>
 <?php
@@ -245,67 +241,6 @@ $class = ($layout !="full-width") ? "eleven columns" : "sixteen columns"; ?>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    <?php endif;
-                    if ( in_array( 'employer', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ) ) :?>
-                        <h2 class="my-acc-h2">Listing Payment History</h2>
-                        <p>These are all of your purchased listings.</p>
-                        <div id="account-balance">
-                            <table class="resume-manager-resumes manage-table resumes responsive-table">
-                                <thead>
-                                <tr>
-
-                                    <th>Package Name</th>
-                                    <th>Package Price</th>
-                                    <th>Listing Name</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $sum = 0;
-                                foreach ($listings_list as $listing){
-                                    $listing_object = $listing['listing'][0];
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $listing['name']?></td>
-                                        <td><?php echo $listing['currency'].$listing['price'];?></td>
-                                        <td><?php if ($listing_object ) echo '<a href="'.get_permalink($listing_object->ID).'" >'.get_the_title($listing_object->ID).'</a>'; else echo "-";?></td>
-                                        <?php $sum += $listing['price'];?>
-                                    </tr>
-                                <?php }?>
-
-                                <tr style="background: #f6f6f6; padding: 25px 0;"><th colspan="2">Sum</th><th><?php echo $listing['currency'].$sum;?></th></tr>
-                                </tbody>
-                            </table>
-                            <br>
-                        </div>
-                        <h2 class="my-acc-h2">Influencer Payment History</h2>
-                        <p>This is a list of all of the payments you have made to influencers.</p>
-                        <div id="account-balance">
-                            <table class="resume-manager-resumes manage-table resumes responsive-table">
-                                <thead>
-                                <tr>
-                                    <th>Listing Name</th>
-                                    <th>Status</th>
-                                    <th>Paid</th>
-                                    <th>Influencer</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $sum = 0;
-                                foreach ($operations_list as $operation){ ?>
-                                    <tr>
-                                        <td><?php echo $operation['job_title']?></td>
-                                        <td><?php echo $operation['application_status']?></td>
-                                        <td><?php echo $operation['currency'].$operation['job_price']?></td>
-                                        <td><?php echo '<a href="'.get_permalink($operation['influencer_id']).'">'.get_the_title($operation['influencer_id']).'</a>'?></td>
-                                        <?php $sum += $operation['job_price'];?>
-                                    </tr>
-                                <?php }?>
-
-                                <tr style="background: #f6f6f6; padding: 25px 0;"><th colspan="2">Sum</th><th><?php echo $operation['currency'].$sum;?></th></tr>
-                                </tbody>
-                            </table>
-                            <br>
                         </div>
                     <?php endif;
                     ?>
