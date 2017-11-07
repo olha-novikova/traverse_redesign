@@ -95,8 +95,7 @@
         'ignore_sticky_posts' => 1,
         'orderby'             => 'ASC',
         'order'               => 'date',
-        'posts_per_page'      => -1,
-        'fields'              => 'ids'
+        'posts_per_page'      => -1
     );
 
     if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
@@ -116,17 +115,18 @@
         $args['meta_query'] = $meta_query;
     }
 
-    $resumes_query = new WP_Query($args);
-    $resumes = $resumes_query->posts;
+    $resumes = new WP_Query($args);
 
     $possible_reach = 0;
 
-    if ( $resumes ) :?>
-        <?php foreach ($resumes as $resume_id ): ?>
+    if ( $resumes->have_posts() ) :?>
+
+        <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
             <?php
+            $resume_id = get_the_ID();
             $possible_reach += get_influencer_audience($resume_id);
             ?>
-        <?php endforeach; wp_reset_postdata();?>
+        <?php endwhile; wp_reset_postdata();?>
     <?php endif; ?>
     <section class="section section_listing">
         <form method="post" id="job_preview" action="<?php echo esc_url( $form->get_action() ); ?>" class="section__container form form_listing">
@@ -134,7 +134,8 @@
                 <?php global   $redux_demo; ?>
                 <p class="section__header section__header_listing">Create Listing</p>
                 <?php
-                    $budget = get_post_meta($form->get_job_id(), '_targeted_budget', true);
+                $budget = get_post_meta($form->get_job_id(), '_targeted_budget', true);
+
                 ?>
                 <p class="listing__view__header">
                     <span class="company-name"><?php echo get_the_company_name($form->get_job_id()); ?></span> campaign <span class="company-campaign"> estimate</span>
@@ -215,6 +216,22 @@
 
     </section>
 
+    <section class="section section_browse">
+        <div class="listing__wrapper">
+            <p class="list__number"><span>Here are some possible influencers that match your campaign: </span></p>
+        </div>
+        <div class="section__container">
+            <div class="carousel">
+                <?php
+                if ( $resumes->have_posts() ) :?>
+                    <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
+                        <?php get_template_part('template-parts/content', 'influencer')?>
+                    <?php endwhile; wp_reset_postdata();?>
+
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
     <script>
         ( function( $ ) {
             $(document).ready(function () {
@@ -273,7 +290,7 @@
                         }
                     });
 
-                  /*   $.ajax({
+                     $.ajax({
                         url: ws.ajaxurl,
                         type: 'POST',
                         data: base + '&action=aj_preview_estimate_influencers',
@@ -284,7 +301,7 @@
                             $('.carousel').slick({dots: !0, arrows: !1, infinite: !0, speed: 500, slidesToShow: 4, slidesToScroll: 4, autoplay: !1, autoplaySpeed: 7500});
 
                         }
-                    });*/
+                    });
 
                 });
 
