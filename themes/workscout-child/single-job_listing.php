@@ -15,6 +15,7 @@ get_sidebar();?>
     while ( have_posts() ) : the_post();
         $header_image = get_post_meta( $post->ID, '_header_image', TRUE );
         $spot =  ( get_post_meta($post->ID, '_applications_number', TRUE) ? get_post_meta($post->ID, '_applications_number', TRUE) : 1 );
+        $website = ( get_post_meta( $post->ID, '_website', TRUE )) ? ( get_post_meta( $post->ID, '_website', TRUE )) : "#";
         ?>
 
         <section class="section_profile section_profile-completed">
@@ -25,7 +26,7 @@ get_sidebar();?>
             </div>
             <div class="profile__action">
                 <ul class="profile__links">
-                    <li class="profile__link profile__link_brand"><a href="#" class="profile__brandname"><?php the_company_name(); ?></a></li>
+                    <li class="profile__link profile__link_brand"><a href="<?php echo $website;?>" class="profile__brandname"><?php the_company_name(); ?></a></li>
                 </ul>
             </div>
         </section>
@@ -83,7 +84,7 @@ get_sidebar();?>
                                         }
                                         ?>
                                     </div>
-                                    <p class="spots__text">Spots available: <span><?php echo  get_job_application_count( $post->ID )  ?></span></p>
+                                    <p class="spots__text">Spots available: <span><?php echo $spot;  ?></span></p>
                                 </div>
                                 <?php $target_socials      = get_post_meta($post->ID,'_target_social', true);
                                 if ( $target_socials ){?>
@@ -110,9 +111,23 @@ get_sidebar();?>
                                 if ( $assets_available_files ){ ?>
                                     <div class="assets">
                                         <?php
-                                        foreach ($assets_available_files as $assets_available_file){?>
-                                            <img src="#" alt="" class="asset"/>
-                                        <?php } ?>
+                                        foreach ($assets_available_files as $assets_available_file){
+                                            $path_parts = pathinfo($assets_available_file);
+                                            $extension = $path_parts['extension'];
+                                            ?>
+                                            <a href="<?php echo $assets_available_file; ?>" download>
+                                                <?php
+                                                if( in_array($extension,array("jpeg","jpg","png","gif")) ){?>
+                                                    <img src="<?php echo $assets_available_file; ?>" alt="Download File" class="asset"/>
+                                                <?php } elseif( in_array($extension,array("pdf")) ){?>
+                                                   <img src="<?php echo get_stylesheet_directory_uri();?>/img/pdf-download-icon.png" alt="Download File" class="asset"/>
+                                                <?php }elseif( in_array( $extension,array("doc","docx") ) ){?>
+                                                   <img src="<?php echo get_stylesheet_directory_uri();?>/img/word-download-icon.png" alt="Download File" class="asset"/>
+                                                <?php } else{?>
+                                                    <img src="<?php echo get_stylesheet_directory_uri();?>/img/file-downloads-icon.png" alt="Download File" class="asset"/>
+                                                <?php } ?>
+                                            </a> <?php
+                                        } ?>
                                     </div>
                                 <?php }
                                 ?>
