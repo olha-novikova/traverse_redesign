@@ -1,6 +1,7 @@
 <section class="section_profile">
 	<div class="profile__background">
-		<div style="overflow: hidden" class="profile__button profile__button_add"><?php the_candidate_photo('workscout-resume', get_template_directory_uri().'/images/candidate.png'); ?></div>
+		<div style="overflow: hidden" class="profile__button profile__button_add">
+            <?php the_candidate_photo('full', get_template_directory_uri().'/images/candidate.png'); ?></div>
 		<div class="profile__data">
 			<?php 	
 				$candidate_name = get_post_meta($post->ID, '_candidate_name', true); 
@@ -24,6 +25,7 @@
 					echo '</option>';
 					
 				}
+                wp_reset_postdata();
 				?>
 			</div>
 		</div>

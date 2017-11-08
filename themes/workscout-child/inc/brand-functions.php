@@ -66,7 +66,9 @@ function output_candidate_audience( $resume ){
     if ( !$post || $post->post_type !== 'resume' )
         return;
 
-    return get_post_meta( $resume, '_audience', true);
+    if ( get_post_meta( $resume, '_audience', true) )  return get_post_meta( $resume, '_audience', true);
+
+    else return 0;
 
 }
 
@@ -77,7 +79,8 @@ function output_candidate_campaigns_count( $resume ){
     if ( !$post || $post->post_type !== 'resume' )
         return;
 
-    return get_post_meta( $resume, '_finished_companies', true);
+    if ( get_post_meta( $resume, '_finished_companies', true) )  return get_post_meta( $resume, '_finished_companies', true);
+    else return 0;
 
 }
 
@@ -100,12 +103,12 @@ function get_main_image( $user_id = null ){
     endif;
 
     if( $logo ) {
-        $dir = wp_get_upload_dir();
-        return $dir['baseurl'].'/users/'.$logo;
+        return $logo;
     }
     return false;
 
 }
+
 
 add_action( 'wp_ajax_nopriv_resume_manager_get_influencers', 'get_influencers'  );
 add_action( 'wp_ajax_resume_manager_get_influencers',  'get_influencers'  );

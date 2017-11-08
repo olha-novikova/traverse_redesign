@@ -453,7 +453,9 @@
     border-color: #ff5e3a;
 }
 
-.input__block.has-value .form__input__label, .input-text:focus + .form__input__label {
+.input-text.has-value ~ .form__input__label,
+.input__block.has-value .form__input__label,
+.input-text:focus + .form__input__label {
     font-size: 0.52vw;
     transform: translateY(-5px);
 }
@@ -480,7 +482,9 @@ form .panel__search {
     border: 1px solid #e8eaf0;
     border-radius: .375rem
 }
-
+.ui-datepicker.ui-widget.ui-widget-content{
+    z-index: 10!important;
+}
 form .panel__search__input {
     width: 100%;
     width: .1px;
@@ -796,7 +800,7 @@ form .button_search:before {
 
 .list__options .button {
     display: inline-block;
-    font-size: 1.04vw;
+    font-size: 0.75vw;
     width: 25%;
     margin-right:3vw;
     margin-left:3vw;

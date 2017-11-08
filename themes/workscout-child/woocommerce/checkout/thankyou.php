@@ -10,7 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-
+get_template_part('template-parts/page-header');
 if ( $order ) : ?>
 
 	<?php if ( $order->has_status( 'failed' ) ) : ?>
@@ -34,37 +34,129 @@ if ( $order ) : ?>
 
 
 	<?php else : ?>
-		<div class="notification closeable success">
-			<p><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your listing has been submitted, you will receive pitches from awesome influencers soon!', 'workscout' ), $order ); ?></p>
-		</div>
-        <div class="button_summary">
-            <?php
-            $employer_dashboard_page_id = get_option( 'job_manager_job_dashboard_page_id' );
-            $submit_job_page = get_option('job_manager_submit_job_form_page_id');
-            $resume_page = get_option('resume_manager_resumes_page_id');
+        <section class="section section_browse">
+            <div class="section__container">
+                <div class="notification closeable success">
+                    <p><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your listing has been submitted, you will receive pitches from awesome influencers soon!', 'workscout' ), $order ); ?></p>
+                </div>
+                <p class="section__header section__header_browse">Influencers You Can Invite to Campaign</p>
 
-            if (!empty($employer_dashboard_page_id)) {?>
-                <a class="button button_grey" href="<?php echo get_permalink($employer_dashboard_page_id); ?>" >My Listings</a>
-            <?php }
+                <?php
 
-            if (!empty($resume_page)) {?>
-                <a class = "button button_orange" href="<?php echo get_permalink($resume_page); ?>" >Browse Influencers</a>
-            <?php
-            }
+                foreach ( $order->get_items() as $item_id => $item ) {
+                    $job_id = wc_get_order_item_meta($item_id, '_job_id', true);
 
-            if (!empty($submit_job_page)) {  ?>
-                <a href="<?php echo get_permalink($submit_job_page) ?>" class="button"><?php esc_html_e('Create Another Listing','workscout'); ?></a>
-            <?php
+                    $product = apply_filters( 'woocommerce_order_item_product', $item->get_product(), $item );
+                    $_sku = $sku = $product->get_sku();
 
-            }
-            ?>
+                }
 
-        </div>
+                $categories = wp_get_post_terms($job_id, 'job_listing_category', array("fields" => "id=>slug"));
+                $types  = wp_get_post_terms($job_id, 'job_listing_type', array("fields" => "id=>slug"));
 
-		<div class="clear"></div>
+                $meta_query = array('relation' => 'AND');
 
+                $meta_use = false;
+
+                if ( in_array('facebook', $types) ){
+                    $meta_query[] = array(
+                        'key'       => '_facebook_link',
+                        'compare'   => 'EXISTS'
+                    );
+                    $meta_use = true;
+                }
+
+                if ( in_array('instagram', $types) ){
+                    $meta_query[] = array(
+                        'key'       => '_instagram_link',
+                        'compare'   => 'EXISTS'
+                    );
+                    $meta_use = true;
+                }
+
+                if ( in_array('youtube', $types) ){
+                    $meta_query[] = array(
+                        'key'       => '_youtube_link',
+                        'compare'   => 'EXISTS'
+                    );
+                    $meta_use = true;
+                }
+
+                if ( in_array('twitter', $types) ){
+                    $meta_query[] = array(
+                        'key'       => '_twitter_link',
+                        'compare'   => 'EXISTS'
+                    );
+                    $meta_use = true;
+                }
+
+                if ( $_sku == 'pro_inf' ){
+                    $meta_query[] = array(
+                        'key'       => '_audience',
+                        'compare'   => '<',
+                        'value'     => '500000',
+                        'type'      => 'NUMERIC'
+                    );
+                    $meta_use = true;
+                }elseif ( $_sku == 'growth_inf' ){
+                    $meta_query[] = array(
+                        'key'       => '_audience',
+                        'compare'   => '<',
+                        'value'     => '500000',
+                        'type'      => 'NUMERIC'
+                    );
+                    $meta_use = true;
+                }elseif ( $_sku == 'micro_inf' ){
+                    $meta_query[] = array(
+                        'key'       => '_audience',
+                        'compare'   => '<',
+                        'value'     => '50000',
+                        'type'      => 'NUMERIC'
+                    );
+                    $meta_use = true;
+                }
+
+                $args = array(
+                    'post_type'           => 'resume',
+                    'post_status'         => array( 'publish'),
+                    'ignore_sticky_posts' => 1,
+                    'orderby'             => 'ASC',
+                    'order'               => 'date',
+                    'posts_per_page'      => -1
+                );
+
+                if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
+                    $categories = $_POST['traveler_type'];
+
+                if ( $categories ){
+                    $args['tax_query'][] = array(
+                        'taxonomy'         => 'resume_category',
+                        'field'            => 'slug',
+                        'terms'            => array_values( $categories ),
+                        'include_children' => false,
+                        'operator'         => 'IN'
+                    );
+                }
+
+                if ( $meta_use ) {
+                    $args['meta_query'] = $meta_query;
+                }
+
+                $resumes = new WP_Query($args);
+
+                if ( $resumes->have_posts() ) :?>
+
+                <div class="carousel">
+                    <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
+
+                        <?php get_template_part('template-parts/content', 'influencer')?>
+
+                    <?php endwhile; ?>
+                </div>
+            <?php endif; ?>
+            </div>
+        </section>
 	<?php endif; ?>
-
 <?php else : ?>
 
 	<p><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your order has been received.', 'workscout' ), null ); ?></p>

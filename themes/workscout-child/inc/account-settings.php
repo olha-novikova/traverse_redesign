@@ -62,7 +62,7 @@ function traverse_redirect_newhomepage(){ //add_action('wp_ajax_custom_redirect_
             }
 
             if ( !isset($_POST['agreement']) || $_POST['agreement']=='' ){
-                $error[] = __('You should agree to the Traverse Terms of Service');
+                $error[] = __('Please accept our Terms of Service');
             }
 
             if ( count($error ) == 0){
@@ -209,7 +209,7 @@ function traverse_process_login() { //add_action( 'wp_loaded',  'traverse_proces
                      * block update _audience and social links
                      */
                     @update_audience_for_user($user->ID);
-
+                    @update_finished_companies_for_user( $user->ID );
 
                     if(get_option( 'resume_manager_candidate_dashboard_page_id')) {
                         $redirect = get_permalink(get_option( 'resume_manager_candidate_dashboard_page_id'));
@@ -314,7 +314,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
         <div class="input__block">
             <input class="form__input input-text <?php if (!empty($fb)) echo 'has-value';?>"    type="text"  name="fb" id = "fb_link" value="<?php echo esc_attr( $fb ); ?>"   />
-            <label class="form__input__label" for="fb">YOUR FACEBOOK URL</label>
+            <label class="form__input__label" for="fb">YOUR FACEBOOK URL<span id="face_book_login"></span></label>
         </div>
 
         <div class="input__block">
@@ -342,27 +342,38 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label class="form__input__label" for="monthlyvisit">YOUR WEBSITE'S ESTIMATED NUMBER OF MONTHLY VISITS</label>
         </div>
 
-        <div class="input__block">
+        <div class="input__block newsletterr_block">
             <p>DOES YOUR WEBSITE HAVE A NEWSLETTER?</p>
-            <input type="radio" name="newsletter" value="yes" <?php if ( $newsletter == 'yes') echo 'checked = "checked"';?>> YES
-            <input type="radio" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>> NO
+            <label for="newsletter_yes"><input type="radio" id="newsletter_yes" name="newsletter" value="yes" <?php if ( $newsletter == 'yes') echo 'checked = "checked"';?>>
+                <span class="circle"></span>
+                <span class="check"></span>YES
+            </label>
+            <label for="newsletter_no"><input type="radio" id="newsletter_no" name="newsletter" value="no" <?php if ($newsletter == 'no') echo 'checked = "checked"';?>>
+                <span class="circle"></span>
+                <span class="check"></span>NO
+            </label>
         </div>
 
-        <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'hide';?>" >
-
+        <div class="input__block newsletter_conditional <?php if ($newsletter != 'yes') echo 'invisible';?>" >
             <input class="input-text form__input <?php if (!empty($newsletter_subscriber_count)) echo 'has-value';?>"    type="text" name="newsletter_subscriber" value="<?php echo esc_attr( $newsletter_subscriber_count ); ?>"   />
             <label style="z-index: 99" class="form__input__label" for="newsletter_subscriber">IF YES, HOW MANY SUBSCRIBERS?</label>
         </div>
 
-
-        <div id="logo_im" class="logo_im">
-            <?php if (!empty($logo)){?>
-                <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
-            <?php } ?>
+        <div class="input__block panel__search panel__search fieldset-header_image">
+            <input class="input-text panel__search__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo_img" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO </label>
+            <div class="upload-btn button_search"></div>
         </div>
-        <div class="input__block full_width">
-            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo" value="<?php echo esc_attr( $logo ); ?>"   />
-            <label class="form__input__label" for="logo">YOUR PROFILE PHOTO</label>
+
+        <div class="input__block">
+            <div id="logo_im" class="logo_im">
+                <?php
+                if (!empty($logo)){?>
+                    <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
+                <?php }else{ ?>
+                    <img class="user_logo" src="<?php echo get_template_directory_uri().'/images/candidate.png'?>" alt="Photo">
+                <?php } ?>
+            </div>
         </div>
         <?php
         $user_resumes = get_posts( array(
@@ -383,35 +394,43 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             }
         }
         ?>
+        <div class="input__block full_width">
+            <h5>
+                Add examples of your photo/video work to show brands what you are capable of
+            </h5>
+        </div>
+
+        <div class="full_width panel__search fieldset-header_image">
+            <input class="form__input input-text panel__search__input" type="file" name="samples[]" id="samples" multiple/>
+            <label class="panel__search__input panel__search__input__label" for="samples">Add photography samples: </label>
+            <div class="upload-btn button_search"></div>
+        </div>
 
         <div id="photos" class="photos">
-        <?php if ($photo_samples ){
-            $margin = 2;
-            $width = (100 - 2*$margin*count ($photo_samples))/count ($photo_samples);
-            foreach ($photo_samples as $photo_sample){?>
-                <div class="im_wr">
-                    <span class="remove exists" data-resume_id="<?php echo $user_resumes->ID; ?>">remove</span>
-                    <img src="<?php echo $photo_sample ?>" alt="Photo Sample" >
-                </div>
-        <?php }} ?>
-        </div>
-        <div class="input__block full_width">
-            <input class="form__input input-text" type="file" name="samples[]" id="samples" multiple/>
-            <label class="form__input__label" for="samples">Add photography samples: </label>
+            <?php if ($photo_samples ){
+                $margin = 2;
+                $width = (100 - 2*$margin*count ($photo_samples))/count ($photo_samples);
+                foreach ($photo_samples as $photo_sample){?>
+                    <div class="im_wr">
+                        <span class="remove exists" data-resume_id="<?php echo $user_resumes->ID; ?>">remove</span>
+                        <img src="<?php echo $photo_sample ?>" alt="Photo Sample" >
+                    </div>
+                <?php }} ?>
         </div>
 
-        <?php if ($video ){ ?>
+
+        <div class="input__block full_width ">
+            <input class="form__input input-text <?php if (!empty($videos)) echo 'has-value';?>" type="url" name="video" value="<?php echo esc_attr( $videos ); ?>"/>
+            <label class="form__input__label" for="video">Add a sample video (YouTube Embed Link): </label>
+        </div>
+
+        <?php if ( $video ){ ?>
             <div class="video">
                 <div data-embed="<?= $video[0] ?>" class="youtube">
                     <div class="play-button video__play-button"></div>
                 </div>
             </div>
         <?php } ?>
-        <div class="input__block full_width">
-            <input class="form__input input-text" type="url" name="video"/>
-            <label class="form__input__label" for="video">Add a sample video(YouTube Embed Link): </label>
-        </div>
-
 
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
@@ -466,7 +485,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                     imagesPreview(this, 'div.photos');
                 });
 
-                $("#logo").change(function() {
+                $("#logo_img").change(function() {
                     $('.user_logo').remove();
                     imagesPreview(this, 'div.logo_im');
                 });
@@ -474,9 +493,9 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                 $('input[name="newsletter"]').on('change', function(){
                     var val = $(this).val();
                     if ( val == 'yes'){
-                        $('.newsletter_conditional').removeClass('hide');
+                        $('.newsletter_conditional').removeClass('invisible');
                     }else{
-                        $('.newsletter_conditional').addClass('hide');
+                        $('.newsletter_conditional').addClass('invisible');
                         $('input[name="newsletter_subscriber"]').val('');
                     }
                 });
@@ -518,14 +537,10 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label class="form__input__label" for="birthdate">SHORT BIO</label>
         </div>
 
-        <div class="input__block">
-            <?php if( $logo ) {
-                $dir = wp_get_upload_dir();?>
-                <img class="img-responsive" src="<?php echo $dir['baseurl'].'/users/'.$logo; ?>" />
-            <?php } ?>
-
-            <input class="form__input input-text <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo" value="<?php echo esc_attr( $logo ); ?>"   />
-            <label class="form__input__label" for="logo">LOGO</label>
+        <div class="input__block panel__search panel__search fieldset-header_image">
+            <input class="input-text panel__search__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo_img" value="<?php echo esc_attr( $logo ); ?>"   />
+            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO </label>
+            <div class="upload-btn button_search"></div>
         </div>
 
         <div class="input__block">
@@ -534,6 +549,52 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
             <label class="form__input__label" for="website">WEBSITE</label>
         </div>
 
+        <div class="input__block">
+            <div id="logo_im" class="logo_im">
+                <?php
+                if (!empty($logo)){?>
+                    <img class="user_logo" src="<?php echo $logo ?>" alt="Photo">
+                <?php }else{ ?>
+                    <img class="user_logo" src="<?php echo get_template_directory_uri().'/images/candidate.png'?>" alt="Photo">
+                <?php } ?>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+
+                var imagesPreview = function(input, placeToInsertImagePreview) {
+                    if (input.files) {
+                        var filesAmount = input.files.length;
+                        for (var i = 0; i < filesAmount; i++) {
+                            var reader = new FileReader();
+                            reader.onload = function(event) {
+                                var file = event.target;
+                                var item = "<div class=\"im_wr\"><span class=\"remove\">remove</span>" +
+                                    "<img src=\"" + event.target.result + "\" title=\"" + file.name + "\"/>"+
+                                    "</div>";
+
+                                $(placeToInsertImagePreview).append(item);
+
+                                $(".remove").click(function(){
+                                    $(this).parent(".im_wr").remove();
+                                });
+
+                            }
+                            reader.readAsDataURL(input.files[i]);
+                        }
+                    }
+                };
+
+
+                $("#logo_img").change(function() {
+                    $('.user_logo').remove();
+                    imagesPreview(this, 'div.logo_im');
+                });
+
+            });
+        </script>
     <?php
     }
 } // end func
@@ -649,12 +710,12 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                 }
 
             }
-        }echo "<pre>";
+        }
 
 
         foreach ( $_POST as $key => $value ){
             if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
-                update_user_meta( $user_id, '_'.$key, htmlentities( $_POST[ $key ] ) );
+                update_user_meta( $user_id, $key, htmlentities( $_POST[ $key ] ) );
             elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ])){
                 delete_user_meta( $user_id, $key);
             }
@@ -769,13 +830,14 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                     delete_post_meta( $user_resumes->ID, '_video_sample_embed' );
 
 
+
                 if ( sizeof( $samples ) ) {
 
-                    $current_samples = get_post_meta( $user_resumes->ID, 'photo_sample', true);
+                    $current_samples = get_post_meta( $user_resumes->ID, '_photo_sample', true);
 
-                    $new = array_merge( $current_samples, $samples);
+                    if ( $current_samples ) $samples = array_merge( $current_samples, $samples);
 
-                    update_post_meta( $user_resumes->ID, '_photo_sample', $new );
+                    update_post_meta( $user_resumes->ID, '_photo_sample', $samples );
                 }
 
                 if ( $user_resumes -> post_status == 'preview'){
@@ -788,6 +850,7 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
                 }
 
                 @update_audience_for_user( $user_id );
+                @update_finished_companies_for_user( $user_id );
 
             }
         }
@@ -795,6 +858,7 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
     }
 
     if( $str->roles[0] == "employer" || $str->roles[0] == "administrator" ) {
+
         if(isset($_FILES['logo']['name']) && !empty($_FILES['logo']['name'])){
             $errors= array();
             $file_name = $_FILES['logo']['name'];
@@ -831,9 +895,9 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
 
         foreach ( $_POST as $key => $value ){
             if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
-                update_user_meta( $user_id, '_'.$key, htmlentities( $_POST[ $key ] ) );
+                update_user_meta( $user_id, $key, htmlentities( $_POST[ $key ] ) );
             elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ]))
-                delete_user_meta( $user_id, '_'.$key);
+                delete_user_meta( $user_id, $key);
         }
 
     }

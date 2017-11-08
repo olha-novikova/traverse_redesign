@@ -25,17 +25,11 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                 <div class="firstscreen__form form">
                     <div class="form__head">
                         <div class="form__head__left form__head__active">
-                            <div class="form__head__left__image-block">
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus.png" alt="" class="form__head__image"/>
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/minus-active.png" alt="" class="form__head__image form__head__image_active opacity1"/>
-                            </div>
-                        </div>
-                        <div class="form__head__right">
-                            <div class="form__head__right__image-block">
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus-inactive.png" alt="" class="form__head__image"/>
-                                <img src="<?php echo get_stylesheet_directory_uri();?>/img/plus.png" alt="" class="form__head__image form__head__image_active"/>
-                            </div>
-                        </div>
+                              <a class="form__head__login"/>Login</a>
+                         </div>
+                          <div class="form__head__right">
+                              <a class="form__head__signup"/>Sign Up</a>
+                          </div>
                     </div>
                     <div class="form__main">
                         <div class="login">
@@ -114,7 +108,7 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                         </div>
                                         <div class="checkbox__block">
                                             <input id="terms" type="checkbox" name="agreement" class="form__checkbox"/>
-                                            <label for="terms" class="checkbox__label">I accept the <a href="#" class="checkbox__link"> Terms and Conditions </a> of the website</label>
+                                            <label for="terms" class="checkbox__label">I accept the <a target="_blank" href="<?php echo home_url('/terms-of-service');?>" class="checkbox__link"> Terms and Conditions </a> of the website</label>
                                         </div>
                                     </div>
                                     <div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php _e( 'Anti-spam', 'workscout' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
@@ -154,7 +148,7 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                     <p class="video__header">ALOFT HOTELS</p>
                     <p class="video__descrtiption">30 Second Video with an Influencer to uniquely show things to do in their hotel, especially if it rains.</p>
                     <div class="wrapper_youtube">
-                        <div data-embed="ydhUu736ZcE" class="youtube">
+                        <div data-embed="rQylzGaW0Zk" class="youtube">
                             <div class="play-button"></div>
                         </div>
                     </div>

@@ -51,25 +51,16 @@
 
         $user_img = get_user_meta( $user->ID, 'logo', true );
 
-        if( $user_img ) {
-            $dir = wp_get_upload_dir();
-            $link = $dir['baseurl'].'/users/'.$user_img;
-        }
     }elseif(in_array( 'candidate', (array) $user->roles ) ){
         $pagename = get_user_meta($user->ID, 'first_name', true )." ".get_user_meta($user->ID, 'last_name', true );
         if ( $pagename == '' ) $pagename = $user->display_name;
 
         $user_img = get_user_meta( $user->ID, 'photo', true );
 
-        if( $user_img ) {
-            $dir = wp_get_upload_dir();
-            $link = $dir['baseurl'].'/users/'.$user_img;
-        }
-
     }
     ?>
     <div class="profile">
-        <div class="profile__logo"><img src="<?php if ( $link) echo $link; ?>" alt="" class="profile__image"/>
+        <div class="profile__logo"><img src="<?php if ( $user_img) echo $user_img; ?>" alt="" class="profile__image"/>
             <div class="profile__backup__logo"></div>
         </div>
         <p class="profile__name">

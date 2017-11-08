@@ -35,7 +35,7 @@ do_action( 'woocommerce_before_account_navigation' );
         <?php }
         if ( $endpoint == 'edit-account') { ?>
             <li class="settings__menu__list-item">
-                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">Account Settings</a>
+                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">Edit Options</a>
             </li>
             <li class="settings__menu__list-item">
                 <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ).'?password=change'; ?>"><?php echo esc_html( ucwords('Change Password') ); ?></a>

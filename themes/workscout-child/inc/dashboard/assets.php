@@ -44,7 +44,7 @@ function dashboard_enqueue_styles() {
 
 
 
-    if ( is_front_page() ){
+    if ( is_front_page() || is_page_template('template-about.php') || is_page_template('template-general-page.php')){
 
         wp_dequeue_style('main-style');
 
@@ -99,7 +99,8 @@ function dashboard_enqueue_styles() {
     if ( is_checkout() ){
 
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
-
+        
+        wp_enqueue_style('brand-dashboard', get_stylesheet_directory_uri().'/css/dashboard/brand-dashboard.css');
     }
 
 
@@ -125,7 +126,6 @@ function dashboard_child_scripts(){
 	wp_enqueue_script( 'dashboard-ajax', get_stylesheet_directory_uri() . '/js/influencer-ajax.js', array('jquery'), '20150705', true );
 
 
-
 	if (is_singular('resume')) {
 
 		wp_enqueue_script( 'single-grid-js', get_stylesheet_directory_uri() . '/js/images-grid.js', array('jquery'), '', true);
@@ -133,13 +133,17 @@ function dashboard_child_scripts(){
 	}
 
 
-
-    if( is_page_template('my-listings.php')){
+    if( is_page_template('my-listings.php')  ){
 
         wp_enqueue_script( 'tabs', get_stylesheet_directory_uri() . '/js/tabs.js', array('jquery'), '20150705', true );
 
     }
 
+    if( is_page_template('influencer-pitches.php') ){
+
+        wp_enqueue_script( 'pitch-status', get_stylesheet_directory_uri() . '/js/pitch-status.js', array('jquery'), '20150705', true );
+
+    }
 
 
     if (is_singular('job_listing')){
@@ -147,7 +151,6 @@ function dashboard_child_scripts(){
         wp_enqueue_script( 'single-listing', get_stylesheet_directory_uri() . '/js/single-listing.js', array('jquery'), '20150705', true );
 
     }
-
 
 
     if ( is_account_page() ){

@@ -13,14 +13,14 @@ get_sidebar();
 while ( have_posts() ) : the_post();
 ?>
 	<main class="main">
-    <?php get_template_part('template-parts/single-influencer-header')?>
+    <?php get_template_part('template-parts/single-influencer-header');?>
 		<div class="content">
 			<section class="section section_overview">
 				<div class="section__container">
 					<div class="section__top">
 						<p class="section__header">Influencer Overview</p>
 						<div class="influencer__tags">
-							<?php $tags = explode(', ', get_the_resume_category($post)); ?>
+							<?php   $tags = explode(', ', get_the_resume_category($post)); ?>
 							<?php foreach($tags as $tag) : if ( $tag ):?>
 							<p class="influencer__tag influencer__tag_blue"><?php esc_html_e($tag) ?></p>
 							<?php endif; endforeach; ?>
@@ -102,12 +102,12 @@ while ( have_posts() ) : the_post();
                 }
                 }
 
-                if ( $facebook_subscriber_count = get_post_meta( $post->ID, 'fb_subscribers_count', true ) ) {
+                if ( $facebook_subscriber_count = get_post_meta( $post->ID, '_fb_count', true ) ) {
 
                     if ( $facebook_subscriber_count > 0 ) {
                         echo '
                     <p class="section__block__text section__block__text_media">
-                    <i class="fa facebook-square"></i>'.$facebook_subscriber_count.' subscribers
+                    <i class="fa fa-facebook-official"></i>'.$facebook_subscriber_count.' subscribers
                      </p>';
                     }
                 }

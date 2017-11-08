@@ -522,35 +522,38 @@ function get_candidate_cash_out_sum($user_id){
 
     $args = apply_filters( 'job_manager_job_applications_past_args', array(
         'post_type'           => 'job_application',
-        'post_status'         => 'completed',
+        'post_status'         => array('hired','in_review','completed'),
         'posts_per_page'      => -1,
         'ignore_sticky_posts' => 1,
         'meta_key'            => '_candidate_user_id',
         'meta_value'          => $user_id,
     ) );
 
-    $applications_list = array();
     $applications = new WP_Query( $args );
     $available_cash = 0;
     if ( $applications ->have_posts()){
         while ( $applications ->have_posts() ) {
             $applications -> the_post();
 
-            $application_id     = $applications->post ->ID;
-
+            $application_id     = get_the_ID();
+            $application        = get_post( $application_id );
+	          $application_status = $application->post_status;
             $job_id             = wp_get_post_parent_id( $application_id );
-
             $job                = get_post( $job_id );
 
-            if ( !$job ) return false;
-
-
-            $job_price          = get_post_meta( $job_id, '_targeted_budget', true );
+            //if ( !$job ) return false;
+            $job_price                    = get_post_meta( $job_id, '_targeted_budget', true );
             if ( !$job_price ) $job_price = get_post_meta($job_id, 'Budget_for_the_influencer', true );
 
-            $available_cash += $job_price;
+            if ($application_status != 'completed') {
+	            $available_cash += $job_price * HIRED_PERCENTAGE;
+            } else {
+	            $available_cash += $job_price * INFLUENCER_CUT;
+            }
+
         }
         wp_reset_postdata();
+
     }
 
     update_user_meta( $user_id, '_available_money', $available_cash );
@@ -723,7 +726,6 @@ function send_on_review (){
 }
 
 add_action('wp_ajax_send_on_review', 'send_on_review');
-add_action('wp_ajax_nopriv_send_on_review', 'send_on_review');
 
 add_action('init', 'paypal_request_payment');
 
@@ -1368,11 +1370,11 @@ function aj_preview_estimate_summary(){
         endwhile;
     endif;
 
-    if ( $possible_reach != "0" ){
+    if ( $possible_reach != 0 ){
         $response['possible_reach'] = $possible_reach;
         $response['possible_engagement'] = (round($possible_reach*0.03)." - ".round($possible_reach*0.07));
     }else {
-        $response['no'];
+        $response['found'] = false;
     }
 
     echo json_encode($response);
@@ -1403,3 +1405,5 @@ function scrape_insta($username) {
 	return array_slice($data, 0, 20) ;
 
 }
+
+require_once 'settings.php';
