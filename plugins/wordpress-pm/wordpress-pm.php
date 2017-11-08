@@ -139,3 +139,34 @@
 	include("shortcode.php");
 	
 	new PrivateMessagesAjax;
+	
+	add_action( 'new_job_application', 'range_new_job_application' );
+	
+	function range_new_job_application($application_id) 
+	{
+		global $wpdb;
+		
+		$application = get_post($application_id);
+		$application_author = get_current_user_id();
+		$job_id = $application->post_parent;
+		$job = get_post($job_id);
+		$job_author = $job->post_author;
+	
+		$conversation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_conversation WHERE ((sender = %d AND reciever = %d) OR (sender = %d AND reciever = %d)) AND job = %d AND delete_status != 1 ORDER BY created_at DESC", $application_author, $job_author, $job_author, $application_author, $job_id), ARRAY_A );
+		
+		
+		if( !empty($conversation) )
+		{
+			$message_arr = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."pm_messages WHERE conv_id = %d AND delete_status != 1 ORDER BY id ASC", $conversation['id'] ), ARRAY_A );
+			$message = encrypt_decrypt($message_arr['message'], $message_arr['sender_id'], 'decrypt');
+			if (isset($message_arr) && (strpos($message, 'To pitch this campaign click here') !== false))
+			{
+				$message = preg_replace("/To pitch this campaign click here: <a href=.*?>(.*?)<\/a>/","", $message);
+				$message = strip_tags($message);
+				$message = encrypt_decrypt($message, $message_arr['sender_id']);
+				$wpdb->query(
+					$wpdb->prepare( "UPDATE ".$wpdb->prefix."pm_messages SET message = %s WHERE id = %d", $message, $message_arr['id'] ) 
+				);
+			}
+		}
+	}
