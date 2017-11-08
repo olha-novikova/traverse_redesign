@@ -99,7 +99,7 @@ function dashboard_enqueue_styles() {
     if ( is_checkout() ){
 
         wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
-        
+
         wp_enqueue_style('brand-dashboard', get_stylesheet_directory_uri().'/css/dashboard/brand-dashboard.css');
     }
 
@@ -125,6 +125,7 @@ function dashboard_child_scripts(){
 
 	wp_enqueue_script( 'dashboard-ajax', get_stylesheet_directory_uri() . '/js/influencer-ajax.js', array('jquery'), '20150705', true );
 
+    wp_register_script('job-file-upload', get_stylesheet_directory_uri() . '/js/job-file-upload.js', array('jquery'), '', true);
 
 	if (is_singular('resume')) {
 

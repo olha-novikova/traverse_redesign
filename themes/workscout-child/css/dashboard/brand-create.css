@@ -5,7 +5,8 @@
 .button_search:before, .switchery small:before, [class*=icon_]:before {
     font-style: normal;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale
+    -moz-osx-font-smoothing: grayscale;
+    text-transform: none;
 }
 
 @font-face {
@@ -13,14 +14,15 @@
     src: url(../fonts/Traverse.eot);
     src: url(../fonts/Traverse.eot?#iefix) format("embedded-opentype"), url(../fonts/Traverse.woff) format("woff"), url(../fonts/Traverse.ttf) format("truetype"), url(../fonts/Traverse.svg#Traverse) format("svg");
     font-weight: 400;
-    font-style: normal
+    font-style: normal;
 }
 
 [class*=icon_]:before {
     display: inline-block;
     font-family: Traverse;
     font-weight: 400;
-    line-height: 1
+    line-height: 1;
+    text-transform: none;
 }
 
 .panel__influencers__text, .panel__sort__label {
@@ -153,11 +155,11 @@
     font-weight: 400;
     line-height: 1;
     color: #fff;
-    font-size: 1.09vw
+    font-size: 1.09vw;
+    text-transform: none;
 }
 
 .block__description, .block__header, .inputs__more__right .panel__search__input__label, .panel__sort.input__block .panel__sort__input, .section__header_listing {
-    font-family: Roboto, sans-serif;
     font-weight: 400
 }
 
@@ -211,6 +213,7 @@
     width: 1.3vw;
     padding-bottom: 0.364vw;
     background: url("../../img/check.png") no-repeat center center;
+    text-transform: none;
 }
 .fieldset-application{
     display: none;
@@ -459,6 +462,47 @@
     font-size: 0.52vw;
     transform: translateY(-5px);
 }
+li.file-name{
+    background-color: #ff5e3a;
+    border-radius: 3px;
+    font-weight: 500;
+    margin: 2px 4px 2px 0;
+    max-width: 100%;
+    padding: 2px 22px 2px 8px;
+    position: relative;
+    display: inline-block;
+}
+li.file-name span{
+    color: #fff;
+}
+.panel__search__input ul  {
+    display: inline-block;
+    padding-right: 20px;
+    position: relative;
+}
+.panel__search__input ul li.search-choice-close {
+    display: block;
+    position: absolute;
+    right: 7px;
+    top: -2px;
+}
+.panel__search__input ul li.search-choice-close::before {
+    color: #ff5e3a;
+    content: "";
+    display: inline-block;
+    float: right;
+    font-family: "FontAwesome";
+    font-size: 13px;
+    font-weight: normal;
+    height: 5px;
+    position: relative;
+    top: 4px;
+    width: 11px;
+}
+
+.panel__search__input.has-value ~ .panel__search__input__label .button_search:before {
+    content: '\0064';
+}
 
 .input__block textarea.input-text {
     height: 8.07vw
@@ -503,10 +547,9 @@ form .panel__search__input__label {
     z-index: 1;
     border: none;
     margin-bottom: 0;
-    color: #9a9fbf;
-    font-size: .72vw;
+    color: #333;
     padding-top: 1vw;
-    padding-bottom: 1vw
+    padding-bottom: 1vw;
 }
 
 form .button_search {
@@ -514,6 +557,9 @@ form .button_search {
     border-left: 1px solid #e8eaf0;
     width: 3.125vw;
     margin-right: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 form .button_search:before {

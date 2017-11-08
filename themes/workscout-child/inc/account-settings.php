@@ -462,9 +462,10 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                     if (input.files) {
                         var filesAmount = input.files.length;
                         for (var i = 0; i < filesAmount; i++) {
+                            var file = input.files[i];
                             var reader = new FileReader();
                             reader.onload = function(event) {
-                                var file = event.target;
+
                                 var item = "<div class=\"im_wr\"><span class=\"remove\">remove</span>" +
                                     "<img src=\"" + event.target.result + "\" title=\"" + file.name + "\"/>"+
                                     "</div>";
@@ -568,9 +569,10 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
                     if (input.files) {
                         var filesAmount = input.files.length;
                         for (var i = 0; i < filesAmount; i++) {
+                            var file = input.files[i];
                             var reader = new FileReader();
                             reader.onload = function(event) {
-                                var file = event.target;
+
                                 var item = "<div class=\"im_wr\"><span class=\"remove\">remove</span>" +
                                     "<img src=\"" + event.target.result + "\" title=\"" + file.name + "\"/>"+
                                     "</div>";
