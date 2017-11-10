@@ -20,15 +20,9 @@ function workscout_child_scripts(){
 
     wp_localize_script( 'workscout-custom-child', 'ws',
         array(
-            'logo'				=> Kirki::get_option( 'workscout','pp_logo_upload', ''),
-            'retinalogo'		=> Kirki::get_option( 'workscout','pp_retina_logo_upload',''),
-            'transparentlogo'			=> Kirki::get_option( 'workscout','pp_transparent_logo_upload', ''),
-            'transparentretinalogo'		=> Kirki::get_option( 'workscout','pp_transparent_retina_logo_upload',''),
             'ajaxurl' 			=> $ajax_url,
-            'theme_color' 		=> Kirki::get_option( 'workscout', 'pp_main_color' ),
             'woo_account_page'	=> get_permalink(get_option('woocommerce_myaccount_page_id')),
             'theme_url'			=> get_template_directory_uri(),
-
         )
     );
 

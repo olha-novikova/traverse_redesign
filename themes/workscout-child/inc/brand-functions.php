@@ -201,7 +201,7 @@ function add_meta_filter( $query_args, $args ){
 
 }
 
-function get_total_count_applications( ) {
+function get_total_count_applications( array $status_application ) {
 
     $args     = apply_filters( 'job_manager_get_dashboard_jobs_args', array(
         'post_type'           => 'job_listing',
@@ -226,7 +226,7 @@ function get_total_count_applications( ) {
 
     $args = apply_filters( 'job_manager_job_applications_args', array(
         'post_type'           => 'job_application',
-        'post_status'         => array_diff( array_merge( array_keys( get_job_application_statuses() ), array( 'publish' ) ), array( 'archived' ) ),
+        'post_status'         => $status_application,
         'ignore_sticky_posts' => 1,
         'posts_per_page'      => -1,
         'offset'              => '',
@@ -238,11 +238,30 @@ function get_total_count_applications( ) {
     return $jobs_query->post_count;
 }
 
-function get_applications( ) {
+
+function get_job_application_count_with_status( $job_id, array $pitch_status ) {
+
+    $status = implode(",", $pitch_status);
+
+    return sizeof( get_posts( array(
+        'post_type'      => 'job_application',
+        'post_status'    => $status,
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'post_parent'    => $job_id
+    ) ) );
+
+}
+
+
+function get_applications( array $application_status ) {
+/*
+ *  $application_statuses : new, hired, completed, in_review
+ */
 
     $args     = apply_filters( 'job_manager_get_dashboard_jobs_args', array(
         'post_type'           => 'job_listing',
-        'post_status'         => array( 'publish', 'expired', 'pending' ),
+        'post_status'         => array( 'publish', 'expired' ),
         'ignore_sticky_posts' => 1,
         'posts_per_page'      => -1,
         'orderby'             => 'date',
@@ -258,12 +277,12 @@ function get_applications( ) {
     $applications_with_job = array();
 
     foreach ( $jobs as $key => $job){
-        if ( !get_job_application_count($job) ){
+        if ( !get_job_application_count_with_status($job, $application_status) ){
             unset ($jobs[$key]);
         }else{
             $args = apply_filters( 'job_manager_job_applications_args', array(
                 'post_type'           => 'job_application',
-                'post_status'         => array_diff( array_merge( array_keys( get_job_application_statuses() ), array( 'publish' ) ), array( 'archived' ) ),
+                'post_status'         => $application_status,
                 'ignore_sticky_posts' => 1,
                 'posts_per_page'      => -1,
                 'offset'              => '',
@@ -350,11 +369,11 @@ function get_influencer_audience( $resume_id = null){
 
 }
 
-function get_job_listings_list(){
+function get_job_listings_list( $status = 'publish' ){
 
     $args     =  array(
         'post_type'           => 'job_listing',
-        'post_status'         => array( 'publish', 'expired', 'pending' ),
+        'post_status'         => $status,
         'ignore_sticky_posts' => 1,
         'posts_per_page'      => -1,
         'orderby'             => 'date',

@@ -251,10 +251,17 @@
     margin-left: 0;
 }
 .inputs_listing .input__block.fieldset-assets_header{
-    width: 39%;
+    width: 100%;
 }
 .inputs_listing .panel__search.fieldset-asset_upload{
-    width: 49%;
+    width: 100%;
+}
+.job-uploaded-files {
+    display: flex;
+    width: 100%;
+}
+.job-uploaded-files .job-manager-uploaded-file-preview{
+    margin: 15px;
 }
 .inputs_listing .input__block.fieldset-job_category{
     width: 100%;

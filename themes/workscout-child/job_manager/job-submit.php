@@ -28,18 +28,9 @@ global $job_manager;
                             $field_name         .= ! empty( $field['multiple'] ) ? '[]' : '';
                             wp_enqueue_script( 'job-file-upload' );
                             ?>
+
                             <div class="form panel__search fieldset-<?php echo esc_attr( $key ); ?>">
-                                <div class="job-uploaded-files">
-                                    <?php if ( ! empty( $field['value'] ) ) : ?>
-                                        <?php if ( is_array( $field['value'] ) ) : ?>
-                                            <?php foreach ( $field['value'] as $value ) : ?>
-                                                <?php get_job_manager_template( 'form-fields/uploaded-file-html.php', array( 'key' => $key, 'name' => 'current_' . $field_name, 'value' => $value, 'field' => $field ) ); ?>
-                                            <?php endforeach; ?>
-                                        <?php elseif ( $value = $field['value'] ) : ?>
-                                            <?php get_job_manager_template( 'form-fields/uploaded-file-html.php', array( 'key' => $key, 'name' => 'current_' . $field_name, 'value' => $value, 'field' => $field ) ); ?>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                                </div>
+
                                 <input type="file" class="panel__search__input <?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-file_types="<?php echo esc_attr( implode( '|', $allowed_mime_types ) ); ?>" <?php if ( ! empty( $field['multiple'] ) ) echo 'multiple'; ?> name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?><?php if ( ! empty( $field['multiple'] ) ) echo '[]'; ?>" id="<?php echo esc_attr( $key ); ?>" placeholder="<?php echo empty( $field['placeholder'] ) ? '' : esc_attr( $field['placeholder'] ); ?>" />
                                 <label class="panel__search__input panel__search__input__label" for="<?php echo esc_attr( $key ); ?>">
                                     <div class="label-text">
@@ -48,6 +39,7 @@ global $job_manager;
                                     <div class="upload-btn button_search"></div>
                                 </label>
                             </div>
+
                             <?php } else {
                             ?>
                             <div class="form input__block fieldset-<?php echo esc_attr( $key ); ?>">
@@ -56,8 +48,21 @@ global $job_manager;
                             </div>
                         <?php }
                         if ($key == 'job_description') echo "</div><div class=\"inputs__more__right\">";
-                        if ($key == 'header_image') echo "</div></div>";?>
-                    <?php endforeach; ?>
+                        if ($key == 'header_image') echo "</div></div>";
+                        if ( $field['type']== "file" ){ ?>
+
+                        <div class="job-uploaded-files">
+                            <?php if ( ! empty( $field['value'] ) ) : ?>
+                                <?php if ( is_array( $field['value'] ) ) : ?>
+                                    <?php foreach ( $field['value'] as $value ) : ?>
+                                        <?php get_job_manager_template( 'form-fields/uploaded-file-html.php', array( 'key' => $key, 'name' => 'current_' . $field_name, 'value' => $value, 'field' => $field ) ); ?>
+                                    <?php endforeach; ?>
+                                <?php elseif ( $value = $field['value'] ) : ?>
+                                    <?php get_job_manager_template( 'form-fields/uploaded-file-html.php', array( 'key' => $key, 'name' => 'current_' . $field_name, 'value' => $value, 'field' => $field ) ); ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                     <?php } endforeach; ?>
 
                     <?php do_action( 'submit_job_form_job_fields_end' ); ?>
 

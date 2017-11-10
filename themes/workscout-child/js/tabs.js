@@ -27,12 +27,12 @@
             var a = $(this).attr("href");
 
             if($(this).hasClass('opened')) {
-                $(this).parents('#pitches').find(a).slideUp('fast');
+                $(this).parents('.app-tab-content').find(a).slideUp('fast');
                 $(this).removeClass('opened');
             } else {
-                $(this).parents('#pitches').find(".section__pitches .section__persons").not(a).slideUp('fast');
-                $(this).parents('#pitches').find(a).slideDown('fast');
-                $(this).parents('#pitches').find(".pitches_toggle").removeClass('opened');
+                $(this).parents('.app-tab-content').find(".section__pitches .section__persons").not(a).slideUp('fast');
+                $(this).parents('.app-tab-content').find(a).slideDown('fast');
+                $(this).parents('.app-tab-content').find(".pitches_toggle").removeClass('opened');
                 $(this).addClass('opened');
 
             }

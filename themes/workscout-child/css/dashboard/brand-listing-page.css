@@ -469,5 +469,7 @@
     margin: 1vw 0;
     text-transform: uppercase;
 }
-
+.table__body .table__row p.single_text{
+    margin: 0 1.8vw;
+}
 /*# sourceMappingURL=../../dist/css/pages/brand-listing-page.map */
