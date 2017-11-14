@@ -679,7 +679,7 @@ if ( ! function_exists( 'get_brand_listings_list' ) ) {
     }
 }
 
-include_once 'socilal-apis.php';
+include_once get_stylesheet_directory() . '/inc/socilal-apis.php';
 include_once get_stylesheet_directory() . '/inc/job-listing-handler.php';
 include_once get_stylesheet_directory() . '/inc/account-settings.php';
 

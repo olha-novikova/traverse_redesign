@@ -1,12 +1,89 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: olga
- * Date: 18.08.17
- * Time: 12:01
- * To change this template use File | Settings | File Templates.
- */
+/*  Social Apis Keys Here */
+
 define('YOUTUBE_API_KEY', 'AIzaSyDfc0jxIEzPps2mbQ3syyuKPSeQy9i5Fc8');
+
+define('TW_OAUTH_ACCESS_TOKEN', '898482885883310080-jfdF2UYfYMR6LtKSSud3QLf793PEuDr');
+define('TW_OAUTH_ACCESS_SECRET', 'uDlPXp96xtGAD8fdD6E8vPqSzPawf4hbnqGOSgD417IT7');
+define('TW_CONSUMER_KEY', '7MQ3H13Jy3HGjHYrXk2y9LOxd');
+define('TW_CONSUMER_SECRET', 'gMH8PbRSLOguGVkIlP1jLLRNDDIsqVDWpdcqRsXVbFzkQ77TRj');
+define('TW_REDIRECT', home_url());
+
+define('FB_APP_ID', '1886251131695070');
+define('FB_APP_SECRET', 'ce6870de776471f567948f762c9be157');
+
+function aj_fb_login(){
+
+    check_ajax_referer( 'ajax-login-nonce', 'security' );
+
+    $email = $_POST['email'];
+
+    if ( is_email( $email ) ) {
+
+        $user = get_user_by( 'email', $email );
+
+        if( $user ) {
+
+            wp_set_current_user( $user->ID, $user->user_login );
+
+            wp_set_auth_cookie( $user->ID );
+
+            $role = $user->roles[0];
+
+            $myaccount = get_permalink( wc_get_page_id( 'myaccount' ) );
+
+            if( $role == 'employer' || $role == 'administrator' ) {
+
+                if(get_option( 'job_manager_job_dashboard_page_id')) {
+
+                    $redirect = home_url().'/job-dashboard';
+
+                } else {
+
+                    $redirect= home_url();
+
+                };
+
+            } elseif ( $role == 'candidate' ) {
+
+                @update_audience_for_user($user->ID);
+
+                @update_finished_companies_for_user( $user->ID );
+
+                $redirect =  home_url().'/candidate-dashboard';
+
+
+            } elseif ( $role == 'customer' || $role == 'subscriber' ) {
+
+                $redirect = $myaccount;
+
+            } else {
+
+                $redirect = wp_get_referer() ? wp_get_referer() : home_url();
+
+            }
+
+            echo json_encode( array('loggedin'=>true, 'redirect'=>$redirect) );
+
+        }else{
+            echo json_encode( array('loggedin'=>false, 'redirect'=>false) );
+        }
+
+    }
+
+    die();
+}
+
+
+function ajax_login_init(){
+    add_action( 'wp_ajax_nopriv_aj_fb_login', 'aj_fb_login' );
+}
+
+
+if (!is_user_logged_in()) {
+    add_action('init', 'ajax_login_init');
+}
+
 
 /*                    YOUTUBE                             */
 function is_youtube($url){
@@ -240,6 +317,144 @@ function get_twitter_username( $url ){
 }
 require_once('TwitterAPIExchange.php');
 
+function twitter_create(){
+
+    if ( ( isset($_GET['twitter']) && $_GET['twitter'] == 'true') || ( isset($_REQUEST['oauth_token']) && $_REQUEST['oauth_token'])) {
+
+        if (!is_user_logged_in()) {
+
+            if (!isset($_SESSION['access_token']) && !isset($_REQUEST['oauth_token'])) {
+
+                require_once('twitteroauth.php');
+
+                $connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
+
+                $request_token = $connection->getRequestToken(TW_REDIRECT);
+
+                $_SESSION['oauth_token'] = $token = $request_token['oauth_token'];
+                $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
+
+                switch ($connection->http_code){
+                    case 200:
+                        $url = $connection->getAuthorizeURL($token);
+                        wp_redirect($url);
+                        exit;
+                        break;
+
+                    default:
+                        echo 'Could not connect to Twitter. Refresh the page or try again later.';
+                }
+
+            }
+
+            if (isset($_SESSION['access_token'])){
+
+                require_once('twitteroauth.php');
+
+                $connection = new TwitterOAuth( TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $_SESSION['access_token'], $_SESSION['access_secret']);
+
+                if (!$connection)
+                    echo "No connection";
+
+                $params = array('include_email' => 'true', 'include_entities' => 'false', 'skip_status' => 'true');
+
+                $content = $connection->get('account/verify_credentials', $params);
+
+                $email = $content -> email;
+
+                if ( is_email( $email ) ) {
+
+                    $user = get_user_by( 'email', $email );
+
+                    if( $user ) {
+
+                        wp_set_current_user( $user->ID, $user->user_login );
+
+                        wp_set_auth_cookie( $user->ID );
+
+                        $role = $user->roles[0];
+
+                        $myaccount = get_permalink( wc_get_page_id( 'myaccount' ) );
+
+                        if( $role == 'employer' || $role == 'administrator' ) {
+
+                            if(get_option( 'job_manager_job_dashboard_page_id')) {
+
+                                $redirect = home_url().'/job-dashboard';
+
+                            } else {
+
+                                $redirect= home_url();
+
+                            };
+
+                        } elseif ( $role == 'candidate' ) {
+
+                            @update_audience_for_user($user->ID);
+
+                            @update_finished_companies_for_user( $user->ID );
+
+                            $redirect =  home_url().'/candidate-dashboard';
+
+
+                        } elseif ( $role == 'customer' || $role == 'subscriber' ) {
+
+                            $redirect = $myaccount;
+
+                        } else {
+
+                            $redirect = wp_get_referer() ? wp_get_referer() : home_url();
+
+                        }
+
+                        ?>
+                        <script>
+
+                            window.close();
+                            window.opener.location.href = '<?php echo $redirect;?>';
+
+                        </script>
+                    <?php
+                    }
+                }else{
+                    echo '<h3>Twitter API -- Rate limit exceeded</h3>';
+                }?>
+            <?php
+            }
+
+            if (isset($_REQUEST['oauth_token']) && isset($_SESSION['oauth_token'])){
+
+                require_once('twitteroauth.php');
+
+                $connection = new TwitterOAuth( TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
+
+                $access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
+
+                $_SESSION['access_token'] = $access_token['oauth_token'];
+                $_SESSION['access_secret'] = $access_token['oauth_token_secret'];
+
+                unset($_SESSION['oauth_token']);
+                unset($_SESSION['oauth_token_secret']);
+
+                if (200 == $connection->http_code){
+                    $_SESSION['status'] = 'verified';
+                    echo '<script>window.location.reload();</script>';
+                }
+                else{
+                    echo "Enter valid API Key and API Secret";
+                }
+            }
+        }
+    }
+
+    add_action('wp_logout', 'logout_session_twitter');
+
+    function logout_session_twitter(){
+        session_destroy();
+    }
+}
+
+add_action('init', 'twitter_create');
 
 function get_twitter_followers_count( $url = null ){
 
@@ -250,10 +465,10 @@ function get_twitter_followers_count( $url = null ){
     if ( !$username = get_twitter_username( $url )) return false;
 
     $settings = array(
-        'oauth_access_token' => "898482885883310080-jfdF2UYfYMR6LtKSSud3QLf793PEuDr",
-        'oauth_access_token_secret' => "uDlPXp96xtGAD8fdD6E8vPqSzPawf4hbnqGOSgD417IT7",
-        'consumer_key' => "7MQ3H13Jy3HGjHYrXk2y9LOxd",
-        'consumer_secret' => "gMH8PbRSLOguGVkIlP1jLLRNDDIsqVDWpdcqRsXVbFzkQ77TRj"
+        'oauth_access_token' => TW_OAUTH_ACCESS_TOKEN,
+        'oauth_access_token_secret' => TW_OAUTH_ACCESS_SECRET,
+        'consumer_key' => TW_CONSUMER_KEY,
+        'consumer_secret' => TW_CONSUMER_SECRET
     );
 
     $url = 'https://api.twitter.com/1.1/users/show.json';
@@ -293,7 +508,7 @@ add_action('wp_ajax_nopriv_aj_get_twitter_followers_count', 'aj_get_twitter_foll
 
 /*               FaceBook                   */
 
-require_once __DIR__ . '/inc/Facebook/autoload.php';
+require_once __DIR__ . '/Facebook/autoload.php';
 
 add_action('wp_ajax_aj_get_fb_users_count', 'aj_get_fb_users_count');
 
@@ -307,8 +522,8 @@ function aj_get_fb_users_count(){
     $url = esc_url_raw( $_POST['link'] );
 
     $fb = new \Facebook\Facebook([
-        'app_id' => '1886251131695070',
-        'app_secret' => 'ce6870de776471f567948f762c9be157',
+        'app_id' => FB_APP_ID,
+        'app_secret' => FB_APP_SECRET,
         'default_graph_version' => 'v2.10',
     ]);
 
@@ -404,96 +619,6 @@ function aj_get_fb_users_count(){
     }
     wp_die();
 }
-
-
-/*function get_fb_users_count( $url ){
-
-    $fb = new \Facebook\Facebook([
-        'app_id' => '1886251131695070',
-        'app_secret' => 'ce6870de776471f567948f762c9be157',
-        'default_graph_version' => 'v2.10',
-    ]);
-
-    $helper = $fb->getJavaScriptHelper();
-    $error = '';
-
-    try {
-        $accessToken = $helper->getAccessToken();
-    } catch(Facebook\Exceptions\FacebookResponseException $e) {
-        $error .= 'Graph returned an error: ' ;
-    } catch(Facebook\Exceptions\FacebookSDKException $e) {
-        $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
-    }
-
-    if ( $accessToken) {
-        try {
-            $response_id = $fb->get('/'.$url, $accessToken);
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-            $error .= 'Graph returned an error: ' . $e->getMessage();
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-            $error .= 'Facebook SDK returned an error: ' . $e->getMessage() ;
-        }
-
-        if ( $response_id -> isError() ) {
-            $e = $response_id ->getThrownException();
-            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
-        } else {
-            $body = $response_id -> getDecodedBody();
-            $id = $body['id'];
-
-            try {
-                $response = $fb->get('/'.$id.'?metadata=1', $accessToken);
-            } catch(Facebook\Exceptions\FacebookResponseException $e) {
-                $error .= 'Graph returned an error: ' . $e->getMessage();
-            } catch(Facebook\Exceptions\FacebookSDKException $e) {
-                $error .= 'Facebook SDK returned an error: ' . $e->getMessage();
-            }
-
-            if ( $response-> isError() ) {
-                $e = $response_id ->getThrownException();
-                $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
-            } else {
-                $body = $response -> getDecodedBody();
-                $type = $body['metadata']['type'];
-
-                switch ( $type ) {
-                    case 'page':
-                        $response_users = $fb->get('/'.$id.'?fields=fan_count', $accessToken);
-
-                        if ( $response_users -> isError() ) {
-                            $e = $response_id ->getThrownException();
-                            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
-                        } else {
-                            $body = $response_users -> getDecodedBody();
-                            $count = $body['fan_count'];
-                        }
-                        break;
-
-                    case 'user':
-                        $response_users = $fb->get('/'.$id.'/friends', $accessToken);
-
-                        if ( $response_users -> isError() ) {
-                            $e = $response_id ->getThrownException();
-                            $error .= 'Error! Facebook SDK Said: ' . $e->getMessage();
-                            exit;
-                        } else {
-                            $body = $response_users -> getDecodedBody();
-                            $count = $body['summary']['total_count'];
-                        }
-                        break;
-                }
-
-                if ( $error == '' && isset($count) ){
-                    return $count ;
-                }else
-                    return false;
-            }
-        }
-    }
-    return false;
-
-}*/
-
 
 function update_audience(){
 

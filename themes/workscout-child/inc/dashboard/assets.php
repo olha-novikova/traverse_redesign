@@ -168,6 +168,9 @@ function dashboard_child_scripts(){
 
         wp_enqueue_script( 'home-main', get_stylesheet_directory_uri() . '/js/home/main.js', array('jquery'), '20150705', true );
 
+        wp_enqueue_script( 'social-login', get_stylesheet_directory_uri() . '/js/home/social-login.js', array('jquery'), '20150705', true );
+
+
     }
 
 }

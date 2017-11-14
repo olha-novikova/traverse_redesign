@@ -60,7 +60,10 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                             <div class="devider__block"></div>
                                             <p class="form__devider__text">or</p>
                                             <div class="devider__block"></div>
-                                        </div><a href="#" class="form__button form__button_facebook">Login with Facebook</a><a href="#" class="form__button form__button_twitter">Login with Twitter</a>
+                                        </div>
+                                        <a href="#" class="form__button form__button_facebook" id ="fb-login-button">Login with Facebook</a>
+                                        <a href="#" onclick="Popup = window.open('?twitter=true','Popup','status=no,width=600,height=300,left=430,top=3'); return false;" class="form__button form__button_twitter" id ="twitter-login-button">Login with Twitter</a>
+                                        <?php wp_nonce_field( 'ajax-login-nonce', 'security' ); ?>
                                         <p class="register-text">Don’t you have an account? <a href="#" class="checkbox__link toggle__link">Register Now!</a> It’s really simple and you can start enjoing all the benefits!</p>
                                     </div>
                                     <?php do_action( 'woocommerce_login_form_end' ); ?>

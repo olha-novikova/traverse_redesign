@@ -38,15 +38,22 @@ get_sidebar();?>
 
                         <?php do_action( 'single_job_listing_meta_after' ); ?>
 
-                        <?php if ( candidates_can_apply() &&  !user_has_applied_for_job( get_current_user_id(), $post->ID )) : ?>
+                        <?php if ( candidates_have_active_resume(get_current_user_id()) && candidates_can_apply() &&  !user_has_applied_for_job( get_current_user_id(), $post->ID )) : ?>
                             <?php
                             get_job_manager_template( 'job-application.php' );
                             ?>
+                        <?php elseif( !candidates_have_active_resume( get_current_user_id()) ):?>
+                            <div class="job-manager-applications-applied-notice"> You account is not active yet. Please add more information about yourself</div>
+                        <?php elseif( !candidates_can_apply() ):?>
+                            <div class="job-manager-applications-applied-notice"> This job has expired or has filled already</div>
+                        <?php elseif( !user_has_applied_for_job(get_current_user_id(), $post->ID) ):?>
+                            <div class="job-manager-applications-applied-notice"> You have already applied for this job.</div>
                         <?php endif; ?>
-<!--                        -->
                     </div>
                     <div class="section__body">
+                        <?php if ($header_image ){?>
                         <img src="<?php echo $header_image;?>" alt="" class="listing-view__image"/>
+                        <?php }?>
                         <div class="listing-view__text">
                             <div class="listing-view__description">
                                 <p class="listing__view__header">
