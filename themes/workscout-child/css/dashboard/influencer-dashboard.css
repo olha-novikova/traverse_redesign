@@ -50,12 +50,13 @@
 }
 
 .table__text {
-    text-transform: uppercase;
     font-size: .9vw;
     color: #515365;
     font-weight: 400
 }
-
+.table__header .table__text {
+    text-transform: uppercase;
+}
 .table__header:first-child {
     width: 10.6vw;
     margin-left: 1.8vw

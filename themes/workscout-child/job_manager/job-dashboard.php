@@ -1,7 +1,8 @@
 <div class="content">
     <?php // get_template_part('template-parts/estimator-module');  /* Turn Off  for now* /?>
-    <section class="section section_campaigns" id="job-manager-job-dashboard">
-        <div class="section__container">
+    <div class="section__container">
+        <section class="section section_campaigns" id="job-manager-job-dashboard">
+
             <?php if ( ! $jobs ) :
                 $submit_job_page = get_option('job_manager_submit_job_form_page_id'); ?>
                 <p style="padding: 1.45vw;"><?php esc_html_e( 'You’ll need to add a listing before you add influencers!', 'workscout' ); ?> </p>
@@ -90,75 +91,77 @@
                     <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green large_text">View All Campaigns</a>
                 </div>
             <?php endif; ?>
+        </section>
 
-        </div>
-    </section>
-    <section class="section section_browse">
-        <div class="section__container">
-            <p class="section__header section__header_browse">Browse Influencers</p>
-            <div class="carousel">
-                <?php
-                $influencers = get_option('resume_manager_resumes_page_id');
+        <section class="section section_browse">
+            <div class="section__container">
+                <p class="section__header section__header_browse">Browse Influencers</p>
+                <div class="carousel-wrap">
+                    <div class="carousel">
+                        <?php
+                        $influencers = get_option('resume_manager_resumes_page_id');
 
-                $args = array(
-                    'orderby'           => 'ASC',
-                    'order'             => 'date',
-                    'posts_per_page'    => '12'
-                );
+                        $args = array(
+                            'orderby'           => 'ASC',
+                            'order'             => 'date',
+                            'posts_per_page'    => '12'
+                        );
 
-                $resumes = get_resumes( apply_filters( 'resume_manager_get_resumes_args', $args ) );
+                        $resumes = get_resumes( apply_filters( 'resume_manager_get_resumes_args', $args ) );
 
-                if ( $resumes->have_posts() ) :?>
+                        if ( $resumes->have_posts() ) :?>
 
-                    <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
+                            <?php while ( $resumes->have_posts() ) : $resumes->the_post(); ?>
 
-                        <?php get_template_part('template-parts/content', 'influencer')?>
+                                <?php get_template_part('template-parts/content', 'influencer')?>
 
-                    <?php endwhile; ?>
+                            <?php endwhile; ?>
 
-                <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="after-table">
+                    <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green">View All Influencers</a>
+                </div>
             </div>
-            <div class="after-table">
-                <a  href="<?php echo  home_url('/my-listings'); ?>" class="button button_green">View All Influencers</a>
-            </div>
-        </div>
-    </section>
-<script>
-    ( function( $ ) {
-        $(document).ready(function () {
-            $('#do_esimate').click(function(e){
+        </section>
+    <script>
+        ( function( $ ) {
+            $(document).ready(function () {
+                $('#do_esimate').click(function(e){
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                var base = $('form#estimator_module').serialize();
-                var button = $(this).find( 'input[type=submit]' );
+                    var base = $('form#estimator_module').serialize();
+                    var button = $(this).find( 'input[type=submit]' );
 
-                var action = 'aj_do_estimate';
-                var data = base + '&'
-                data = data+'&action='+action;
+                    var action = 'aj_do_estimate';
+                    var data = base + '&'
+                    data = data+'&action='+action;
 
-                var request = $.ajax({
-                    url: ws.ajaxurl,
-                    data: data,
-                    type: 'POST',
-                    dataType: 'html',
-                    cache: false,
-                    success: function(response) {
-                        jQuery.magnificPopup.open({
-                            items: {
-                                src:'<div id="estimator-dialog" class="estimate-dialog">'+response+'</div>',
-                                type: 'inline'
-                            },
-                            callbacks: {
-                                open: function() {
-                                    $(".carousel").slick({dots: !0, arrows: !1, infinite: !0, speed: 500, slidesToShow: 4, slidesToScroll: 4, autoplay: !1, autoplaySpeed: 7500})
+                    var request = $.ajax({
+                        url: ws.ajaxurl,
+                        data: data,
+                        type: 'POST',
+                        dataType: 'html',
+                        cache: false,
+                        success: function(response) {
+                            jQuery.magnificPopup.open({
+                                items: {
+                                    src:'<div id="estimator-dialog" class="estimate-dialog">'+response+'</div>',
+                                    type: 'inline'
+                                },
+                                callbacks: {
+                                    open: function() {
+                                        $(".carousel").slick({dots: !0, arrows: !1, infinite: !0, speed: 500, slidesToShow: 4, slidesToScroll: 4, autoplay: !1, autoplaySpeed: 7500})
+                                    }
                                 }
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
-            });
-    })
-    } )( jQuery );
-</script>
+        })
+        } )( jQuery );
+    </script>
+    </div>
 </div>

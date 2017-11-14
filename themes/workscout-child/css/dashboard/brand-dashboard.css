@@ -156,10 +156,11 @@
 }
 
 .table__text {
-    text-transform: uppercase;
     font-size: .9vw
 }
-
+.table__header .table__text {
+    text-transform: uppercase;
+}
 .table__header:first-child {
     width: 10.6vw;
     margin-left: 1.8vw
@@ -358,7 +359,8 @@
     border-radius: 5px;
     padding-bottom: 4.27vw;
     overflow: hidden;
-    margin-left: 3.7vw;
+    margin-right: 1vw;
+    margin-left: 1vw;
     margin-bottom: .2vw
 }
 
@@ -455,8 +457,6 @@
     line-height: 1;
     color: #fff
 }
-
-
 
 .slick-dots li {
     width: .67vw;
@@ -586,4 +586,8 @@
 }
 .estimate-dialog .list__options .button{
     width: auto;
+}
+
+.carousel-wrap {
+    width: calc(100vw - 5.2vw - 1.82vw - 1.82vw - 1.45vw - 1.45vw - 1vw);
 }
