@@ -132,7 +132,7 @@ get_sidebar();
                         <?php include ( locate_template('template-parts/campaign-pithes.php'));?>
                     <?php } ?>
                 </section>
-                <section class="section__container app-tab-content opened" id="completed">
+                <section class="section__container app-tab-content" id="completed">
                     <?php  $jobs_with_applications = get_applications( array('completed', 'in_review') );
                     $statuses = array('completed', 'in_review') ;
                     if ( $jobs_with_applications ) {?>
