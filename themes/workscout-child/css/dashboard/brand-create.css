@@ -1,3 +1,11 @@
+/*Redefine parent style*/
+.submit-page{
+    padding: 0;
+}
+.submit-page label {
+    color: #515365;
+}
+
 .button_search, .dropdown-item {
     height: 3.125vw
 }
@@ -8,7 +16,15 @@
     -moz-osx-font-smoothing: grayscale;
     text-transform: none;
 }
-
+.fake-input, input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"], input[type="tel"],
+input[type="phone"],
+input[type="url"],
+textarea, select {
+    color: #515365;
+}
 @font-face {
     font-family: Traverse;
     src: url(../fonts/Traverse.eot);
@@ -110,28 +126,28 @@
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: .93vw;
-    color: #888da8
+    color: #515365
 }
 
 .panel__search__input::-moz-placeholder {
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: .93vw;
-    color: #888da8
+    color: #515365
 }
 
 .panel__search__input:-ms-input-placeholder {
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: .93vw;
-    color: #888da8
+    color: #515365
 }
 
 .panel__search__input::placeholder {
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: .93vw;
-    color: #888da8
+    color: #515365
 }
 
 .button_search {
@@ -196,6 +212,8 @@
 .job-manager-term-checklist li label.selectit span {
     display: inline-block;
     cursor: pointer;
+    font-size: 16px;
+    color: #515365;
 }
 .job-manager-term-checklist li label.selectit span::before {
     align-items: center;
@@ -214,6 +232,7 @@
     padding-bottom: 0.364vw;
     background: url("../../img/check.png") no-repeat center center;
     text-transform: none;
+
 }
 .fieldset-application{
     display: none;
@@ -359,7 +378,6 @@
     background: #ff5e3a;
 }
 
-
 .inputs_listing .input__block.fieldset-block__header .form__input__label,
 .inputs_listing .input__block.fieldset-assets_header .form__input__label,
 .inputs_listing .input__block.fieldset-job_type .form__input__label{
@@ -413,9 +431,15 @@
     color: #515365;
     line-height: .7vw
 }
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    color: #515365;
+    font-size: 16px;
+    font-family: "Montserrat","HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 400;
+}
 
 .section__header_listing {
-    font-size: .98vw;
+    font-size: 1.6vw;
     color: #515365;
     border-bottom: 2px solid #e6ecf5;
     padding-left: 2.34vw;
@@ -452,7 +476,7 @@
     border: 1px solid #d8dbe6;
     border-radius: 0.25rem;
     color: #515365;
-    font-size: 0.729vw;
+    font-size: 16px;
     line-height: 1.1;
     padding: 1.35vw 1.04vw 0.57vw;
     width: 100%;
@@ -468,6 +492,7 @@
 .input-text:focus + .form__input__label {
     font-size: 0.52vw;
     transform: translateY(-5px);
+    color: #515365;;
 }
 li.file-name{
     background-color: #ff5e3a;
@@ -554,7 +579,7 @@ form .panel__search__input__label {
     z-index: 1;
     border: none;
     margin-bottom: 0;
-    color: #333;
+    color: #515365;
     padding-top: 1vw;
     padding-bottom: 1vw;
 }
@@ -579,7 +604,7 @@ form .button_search:before {
 }
 
 .block__description {
-    font-size: 1vw
+    font-size: 16px;
 }
 
 .checkbox__label {

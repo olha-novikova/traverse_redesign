@@ -20,8 +20,6 @@ function dashboard_enqueue_styles() {
 
 	wp_enqueue_style( 'vendor-style', get_stylesheet_directory_uri() . '/css/dashboard/vendor.css', array() );
 
-//	wp_enqueue_style( 'general-style', get_stylesheet_directory_uri() . '/css/general.css', array() );
-
 	if (is_page_template(['influencer-dashboard.php', 'recent-opportunities.php', 'influencer-pitches.php', 'template-new-balance.php'])) {
 
 		wp_enqueue_style( 'influencer-dashboard-style', get_stylesheet_directory_uri() . '/css/dashboard/influencer-dashboard.css', array() );
@@ -32,7 +30,7 @@ function dashboard_enqueue_styles() {
 
 	if (is_singular('resume')) {
 
-		wp_enqueue_style( 'influencer-single-grid', get_stylesheet_directory_uri() . '/css/images-grid.css', array() );
+		wp_enqueue_style( 'influencer-single-grid', get_stylesheet_directory_uri() . '/css/dashboard/images-grid.css', array() );
 
 		wp_enqueue_style( 'influencer-single-style', get_stylesheet_directory_uri() . '/css/dashboard/influencer-about.css', array() );
 
@@ -58,7 +56,7 @@ function dashboard_enqueue_styles() {
 
     if (is_page_template('browse-influencers.php') ){
 
-        wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/brand-browse.css');
+        wp_enqueue_style('brand-browse', get_stylesheet_directory_uri().'/css/dashboard/brand-browse.css');
 
     }
 

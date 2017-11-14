@@ -52,7 +52,7 @@
 .table__text {
     text-transform: uppercase;
     font-size: .9vw;
-    color: #9a9fbf;
+    color: #515365;
     font-weight: 400
 }
 
@@ -85,7 +85,7 @@
     box-sizing: content-box;
     font-weight: 400;
     font-size: .83vw;
-    color: #9a9fbf;
+    color: #515365;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
@@ -100,7 +100,7 @@
 .table__data:before {
     display: inline-block;
     font-family: Traverse;
-    color: #c3c6d9
+    color: #c3c6d9;
 }
 
 .table__data:first-child {
@@ -335,7 +335,7 @@
 }
 
 .empty .icon, .empty .icon:before {
-    color: #9a9fbf
+    color: #515365
 }
 
 .empty-text {

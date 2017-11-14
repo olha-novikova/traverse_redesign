@@ -1127,8 +1127,8 @@ function aj_do_estimate(){
             <p class="list__number"><span>Possible Reach: </span><span><?php echo $possible_reach; ?></span></p>
             <p>Average   audience   size   of   all   influencers   in   the   category selected   by   the   brand.</p>
         </div>
-        <div class="listing__wrapper">
-            <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
+        <div class="listing__wrapper">//.5%-2.5%
+            <p class="list__number"><span>Estimated Engagement: </span><span><?php echo round($possible_reach*0.005)." - ".round($possible_reach*0.025)?> </span></p>
             <p>Average   possible   reach</p>
         </div>
         <?php $submit_job_page = get_permalink(get_option('job_manager_submit_job_form_page_id')); ?>

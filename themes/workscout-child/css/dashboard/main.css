@@ -36,7 +36,7 @@ a, a:hover {
 }
 
 body {
-    background-color: #edf2f6
+    background-color: #515365
 }
 
 .clearfix:after {
@@ -58,7 +58,7 @@ a, h1, h2, h3, h4, h5, h6, p {
     padding: 0;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
-    color: #9a9fbf
+    color: #515365
 }
 
 a {
@@ -111,7 +111,7 @@ button::-moz-focus-inner {
     z-index: 2;
     left: 1.04vw;
     top: 0;
-    color: #888da8;
+    color: #515365;
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: .72vw;
@@ -153,7 +153,7 @@ button::-moz-focus-inner {
 
 .checkbox__label {
     font-size: .68vw;
-    color: #9a9fbf;
+    color: #515365;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
@@ -236,12 +236,12 @@ button::-moz-focus-inner {
 }
 .button_white, a.button_white {
     background-color: #fff !important;
-    color: #888da8 !important;
+    color: #515365 !important;
     border: 1px solid #e8e9f0 !important;
 }
 
 .button_white:hover, a.button_white:hover {
-    color: #888da8 !important;
+    color: #515365 !important;
 }
 
 .button_orange, a.button_orange {
@@ -690,7 +690,7 @@ button::-moz-focus-inner {
 
 
 .profile__link__a {
-    color: #9a9fbf;
+    color: #515365;
     font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: 1.14vw
@@ -783,7 +783,7 @@ footer{
     width: 100%;
     background: transparent;
     padding: 1vw 0;
-    color: #808080;
+    color: #515365;
 }
 #menu-main_footer li.menu-item{
     display: inline-block;

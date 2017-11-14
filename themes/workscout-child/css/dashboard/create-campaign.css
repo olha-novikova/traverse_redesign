@@ -60,7 +60,7 @@
 .panel__sort__label {
 	font-weight: 500;
 	font-size: .93vw;
-	color: #888da8
+	color: #515365
 }
 
 .dropdown-item, .panel__search__input, .panel__sort__input {
@@ -518,7 +518,7 @@ input[type=file] {
 	z-index: 2;
 	left: 1.04vw;
 	top: 0;
-	color: #9a9fbf;
+	color: #515365;
 	font-size: .72vw;
 	line-height: 1.25vw;
 	transition: .4s;

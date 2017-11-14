@@ -122,7 +122,7 @@
   top: 10px;
   width: 35px;
   height: 35px;
-  background-image: url(../img/imgs-grid-icons.png);
+  background-image: url(../../img/imgs-grid-icons.png);
   background-repeat: no-repeat;
   background-position: -100px;
 }
@@ -156,7 +156,7 @@
   height: 100%;
   width: 40px;
   background-repeat: no-repeat;
-  background-image: url(../img/imgs-grid-icons.png);
+  background-image: url(../../img/imgs-grid-icons.png);
 }
 .imgs-grid-modal .modal-inner .modal-control .arrow.left {
   background-position: 2px center;

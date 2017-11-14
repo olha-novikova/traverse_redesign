@@ -1,5 +1,5 @@
 .section_settings a, .section_settings h1, .section_settings h2, .section_settings h3, .section_settings h4, .section_settings h5, .section_settings h6, .section_settings p {
-    color: #9a9fbf;
+    color: #515365;
 }
 
 a.other_view{
@@ -40,7 +40,7 @@ a.other_view{
     background-color: #fcfcfc;
     border: 1px solid #e0e0e0;
     box-sizing: border-box;
-    color: #909090;
+    color: #515365;
     display: block;
     font-size: 15px;
     font-weight: 500;
@@ -54,7 +54,7 @@ a.other_view{
 
 .input__block.newsletterr_block label{
     position: relative;
-    color: #888da8;
+    color: #515365;
     cursor: pointer;
     font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
     font-size: 0.812rem;
@@ -97,7 +97,7 @@ a.other_view{
 }
 .panel__search .panel__search__input__label {
     border: medium none;
-    color: #9a9fbf;
+    color: #515365;
     height: auto;
     margin-bottom: 0;
     opacity: 1;

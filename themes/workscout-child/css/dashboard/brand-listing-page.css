@@ -95,7 +95,7 @@
     font-weight: 400;
     text-transform: uppercase;
     font-size: 0.9vw;
-    color: #9a9fbf;
+    color: #515365;
     font-weight: normal; }
 
 /* line 19, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
@@ -129,7 +129,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 0.83vw;
-    color: #9a9fbf;
+    color: #515365;
     display: flex;
     align-items: center; }
 /* line 41, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
@@ -256,7 +256,7 @@
     display: flex;
     flex-direction: row;
     font-size: 1.2vw;
-    color: #888da8;
+    color: #515365;
     align-items: center; }
 /* line 132, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .section__pitches_line a {
@@ -297,13 +297,13 @@
     width: 100%;
     border: 1px solid #e6ecf5;
     border-radius: .125rem;
-    color: #9a9fbf;
+    color: #515365;
     display: flex;
     flex-direction: column; }
 
 /* line 165, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .section_wrap_titles a {
-    color: #9a9fbf;
+    color: #515365;
     font-size: 1vw;
     width: auto;
     padding-left: 2vw; }
@@ -311,18 +311,20 @@
 /* line 170, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .button.button__title{
     background: transparent;
+    border-radius: 0;
 }
 .button__title.active {
     color: #515365;
     font-weight: bold;
     background: transparent;
 }
-
+a.button__title:hover, a.button__title:active, a.button__title:focus{
+    background:transparent ;
+}
 /* line 173, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .button__badge {
     background-color: #22cdbc;
     width: 2vw;
-    color: #FFF;
     color: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -384,7 +386,9 @@
 .section__persons_items span {
     font-weight: 300;
     line-height: 1; }
-
+.section__persons_items span:hover{
+    text-decoration: underline;
+}
 /* line 214, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .section__persons_items .person__single {
     font-weight: 300; }
@@ -393,7 +397,7 @@
 .section__list_footer {
     display: block;
     text-align: right;
-    color: #888da8;
+    color: #515365;
     margin-bottom: 3vw;
     padding-right: 1.1vw;}
 /* line 219, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
@@ -412,7 +416,7 @@
 /* line 230, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .section_right {
     font-size: 2vw;
-    color: #888da8;
+    color: #515365;
     line-height: 2vw; }
 
 /* line 234, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
@@ -429,7 +433,7 @@
 
 /* line 242, /Applications/MAMP/htdocs/aplicatie/sass/_sections/listing-page.sass */
 .person_time_ago {
-    color: #888da8;
+    color: #515365;
     font-size: 0.8vw;
     text-align: left; }
 .person_status {

@@ -89,8 +89,8 @@
 
                     </div>
                     <div class="section__persons_items">
-                        <a class="person__single" href="#"><?php echo $last_application->post_title;?></a>
-                        <span><?php echo ( ($total_count -1) > 0 ? ('and '.($total_count -1).' more pitched this'):'' ); ?> </span>
+                        <a href="#job-completed-<?php echo $job->ID; ?>" class="person__single pitches_toggle"><?php echo $last_application->post_title;?>
+                        <span><?php echo ( ($total_count -1) > 0 ? ('and '.($total_count -1).' more pitched this'):'' ); ?> </span></a>
                     </div>
                 </div>
                 <div class="section__persons" id="job-completed-<?php echo esc_attr( $job->ID ); ?>">
@@ -113,12 +113,12 @@
                                             <?php }; ?>
 
                                             <span class="person_time_ago">
-                                                            <?php printf( esc_html__( '%s ago', 'workscout' ), human_time_diff( get_post_time( 'U', true, $application->ID ), current_time( 'timestamp' ) ) ); ?>
-                                                        </span>
+                                                <?php printf( esc_html__( '%s ago', 'workscout' ), human_time_diff( get_post_time( 'U', true, $application->ID ), current_time( 'timestamp' ) ) ); ?>
+                                            </span>
 
-                                                        <span class="person_status status_<?php echo $application->post_status;?>">
-                                                            <?php echo $wp_post_statuses[ $application->post_status ]->label; ?>
-                                                        </span>
+                                            <span class="person_status status_<?php echo $application->post_status;?>">
+                                                <?php echo $wp_post_statuses[ $application->post_status ]->label; ?>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

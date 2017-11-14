@@ -46,7 +46,7 @@
 
 .table__data, .table__text {
     font-family: Roboto, sans-serif;
-    color: #9a9fbf;
+    color: #515365;
     font-weight: 400
 }
 
@@ -101,7 +101,7 @@
     background-color: #fcfcfc;
     border: 1px solid #e0e0e0;
     box-sizing: border-box;
-    color: #909090;
+    color: #515365;
     display: block;
     font-size: 15px;
     font-weight: 500;
@@ -340,7 +340,7 @@
 }
 
 .section__header_browse {
-    color: #9a9fbf;
+    color: #515365;
     font-size: 1vw;
     font-family: Roboto, sans-serif;
     font-weight: 500;
@@ -446,7 +446,6 @@
     justify-content: center;
     -ms-flex-align: center;
     align-items: center;
-    margin-left: 1.04vw
 }
 
 .carousel__influencer__button:before {
@@ -457,24 +456,7 @@
     color: #fff
 }
 
-.carousel__influencer__button_star {
-    background-color: #ff5e3a
-}
 
-.carousel__influencer__button_star:before {
-    content: '\0035';
-    font-size: 1.82vw;
-    position: relative
-}
-
-.carousel__influencer__button_message {
-    background-color: #916bdf
-}
-
-.carousel__influencer__button_message:before {
-    content: '\0063';
-    font-size: 2.03vw
-}
 
 .slick-dots li {
     width: .67vw;

@@ -109,7 +109,7 @@
 
 /* line 64, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat_content_text {
-  color: #888da8;
+  color: #515365;
   font-size: 1.2vw;
   line-height: 1.3; }
   /* line 68, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
@@ -139,7 +139,7 @@
 
 /* line 88, /Applications/MAMP/htdocs/aplicatie/sass/_sections/chat-messages.sass */
 .chat_content_time {
-  color: #888da8;
+  color: #515365;
   font-size: 0.9vw;
   padding-top: 0.5vw;
   display: inline-block; }
