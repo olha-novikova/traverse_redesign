@@ -216,7 +216,10 @@ button::-moz-focus-inner {
     display: -ms-flexbox;
     display: flex
 }
-
+.section_main_content{
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
 .container_firstscreen {
 	padding-top: 10.9375rem;
 	display: -ms-flexbox;
@@ -350,6 +353,19 @@ button::-moz-focus-inner {
 	flex-wrap: wrap;
 	-ms-flex-pack: justify;
 	justify-content: space-between
+}
+
+.form__main__body .woocommerce-error{
+    display: block;
+    font-weight: normal;
+    margin: 10px 0;
+    padding: 0.625rem;
+    line-height: .9375rem;
+    position: relative;
+    z-index: 2;
+    border: 1px solid #ff5e3a;
+    border-radius: .25rem;
+    color: #515365;
 }
 
 .checkbox__block, .checkbox__label {

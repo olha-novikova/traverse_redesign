@@ -36,8 +36,8 @@ if ( $order ) : ?>
 	<?php else : ?>
         <section class="section section_browse">
             <div class="section__container">
-                <div class="notification closeable success">
-                    <p><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your listing has been submitted, you will receive pitches from awesome influencers soon!', 'workscout' ), $order ); ?></p>
+                <div class="job-success">
+                    <p class="section__header"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your listing has been submitted. You will receive pitches from awesome influencers soon!', 'workscout' ), $order ); ?></p>
                 </div>
                 <p class="section__header section__header_browse">Influencers You Can Invite to Campaign</p>
 

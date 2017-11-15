@@ -17,8 +17,7 @@ get_header("newhomepage");
                 <div class="section__text-block">
                     <h1 class="section__header">Welcome to the #1 Influencer Platform in Travel</h1>
                     <p class="section__description">Range Influence is a platform for brands to discover and hire leading travel influencers.
-                  </ br>
-It's free to join.  Once you're signup up, you can create a campaign and discover thousands of travel, outdoor and lifestyle influencers </p>
+                        It's free to join.  Once you're signed up, you can create a campaign and discover thousands of travel, outdoor and lifestyle influencers. </p>
                   <!--  <div class="section__buttons"><a href="#" class="section__button">I’M A BRAND / AGENCY</a><a href="#" class="section__button">I’M AN INFLUENCER</a></div> -->
                 </div>
                 <?php if ( !is_user_logged_in() ) { ?>
@@ -37,12 +36,13 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                 <form method="post" class="login">
                                     <?php do_action( 'woocommerce_login_form_start' ); ?>
                                     <div class="form__main__body">
+
                                         <div class="input__block">
-                                            <input id="email" type="text" name="username" class="form__input" value="<?php if ( ! empty( $_POST['username'] ) ) echo esc_attr( $_POST['username'] ); ?>"/>
+                                            <input required="required" id="email" type="text" name="username" class="form__input" value="<?php if ( ! empty( $_POST['username'] ) ) echo esc_attr( $_POST['username'] ); ?>"/>
                                             <label for="email" class="form__input__label">Your Email</label>
                                         </div>
                                         <div class="input__block">
-                                            <input id="password" type="password" name="password" class="form__input"/>
+                                            <input required="required" id="password" type="password" name="password" class="form__input"/>
                                             <label for="password" class="form__input__label">Your Password</label>
                                         </div>
                                         <?php do_action( 'woocommerce_login_form' ); ?>
@@ -52,7 +52,8 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                                 <label for="remember" class="checkbox__label">Remember Me</label>
                                             </div><a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" class="login__recover-pass">Forgot my Password </a>
                                         </div>
-                                        <?php wp_nonce_field( 'woocommerce-login' ); ?>
+                                        <?php wc_print_notices(); ?>
+                                        <?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
                                         <input type="hidden" name="login" value="login"/>
                                         <button type="submit"  class="form__button form__button_orange">Login</button>
 
@@ -79,6 +80,7 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                             <form method="post" class="newhomapage_register">
                                 <?php do_action( 'woocommerce_register_form_start' ); ?>
                                 <div class="form__main__body">
+
                                     <div class="input__block">
                                         <input id="firstname" name="firstname" type="text" class="form__input"/>
                                         <label for="firstname" class="form__input__label">First Name</label>
@@ -113,13 +115,18 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                             <input id="terms" type="checkbox" name="agreement" class="form__checkbox"/>
                                             <label for="terms" class="checkbox__label">I accept the <a target="_blank" href="<?php echo home_url('/terms-of-service');?>" class="checkbox__link"> Terms and Conditions </a> of the website</label>
                                         </div>
+                                        <div class="form__erorrs"></div>
                                     </div>
-                                    <div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php _e( 'Anti-spam', 'workscout' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
+
+                                    <div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;">
+                                        <label for="trap"><?php _e( 'Anti-spam', 'workscout' ); ?></label>
+                                        <input type="text" name="email_2" id="trap" tabindex="-1" autocomplete="off"/>
+                                    </div>
 
                                     <?php do_action( 'woocommerce_register_form' ); ?>
                                     <?php wp_nonce_field( 'woocommerce-register' ); ?>
                                     <button type="submit" class="form__button">Complete Registration!</button>
-                                    <div class="form__erorrs"></div>
+
                                     <?php do_action( 'woocommerce_register_form_end' ); ?>
                                 </div>
                             </form>
@@ -135,12 +142,12 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
             <div class="container container_special">
                 <p class="brands__header">Brands we work with</p>
                 <ul class="brands">
-                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/SkyViewLogo.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/PureCycles.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/Heeltop.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/GrowlerWerks.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/aloftLogo.png" alt="" class="brand__img"/></li>
-                    <li class="brand"><img src="http://traverseinfluence.com/wp-content/uploads/2017/10/AlaskaAirlines.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri()?>/img/SkyViewLogo.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri()?>/img/PureCycles.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri()?>/img/Heeltop.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri()?>/img/GrowlerWerks.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri()?>/img/aloftLogo.png" alt="" class="brand__img"/></li>
+                    <li class="brand"><img src="<?php echo get_stylesheet_directory_uri()?>/img/AlaskaAirlines.png" alt="" class="brand__img"/></li>
                 </ul>
             </div>
         </section>
@@ -149,7 +156,7 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
             <div class="container container_special container_results">
                 <div class="video">
                     <p class="video__header">ALOFT HOTELS</p>
-                    <p class="video__descrtiption">30 Second Video with an Influencer to uniquely show things to do in their hotel, especially if it rains.</p>
+                    <p class="video__descrtiption">Check out this 30-second video, created by one of our influencers for Aloft Hotels, sharing some inspiration for a rainy day in Miami.</p>
                     <div class="wrapper_youtube">
                         <div data-embed="rQylzGaW0Zk" class="youtube">
                             <div class="play-button"></div>
@@ -183,7 +190,8 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                                 <p class="result__figure">1.9K</p>
                                 <p class="result__description">LIKES</p>
                             </li>
-                        </ul><a href="#" class="button button_results">Find Out More</a>
+                        </ul>
+<!--                        <a href="#" class="button button_results">Find Out More</a>-->
                     </div>
                 </div>
             </div>
@@ -194,7 +202,7 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                 <p class="section__header section__header_ready">Are you ready to sign up?</p>
                 <p class="section__description section__description_ready">It’s absolutely free to join.</p>
                 <div class="buttons__ready"><a href="#" class="button button_results button_ready">I'm A Brand</a><a href="#" class="button button_results button_ready">I'm An Agency</a><a href="#" class="button button_results button_ready">I'm An Influencer</a></div>
-                <p class="section__description section__description_small">* We don’t share your personal info with anyone. Check out our <a href="#" class="ready__link">Privacy Policy</a> for more information.</p>
+                <p class="section__description section__description_small">* We don’t share your personal info with anyone. Check out our <a href="<?php echo home_url('/privacy-policy/'); ?>" class="ready__link">Privacy Policy</a> for more information.</p>
             </div>
         </section>
 
@@ -204,14 +212,14 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                 <ul class="questions">
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
                         <div class="question__text">
-                            <p class="question__question">Does your platform support Agencies?</p>
+                            <p class="question__question">Does your platform support agencies?</p>
                             <p class="question__asnswer">Yes, we have agency partners to ensure our platform and tools serve the needs of small brands and large agencies alike. We are here to save you time</p>
                         </div>
                     </li>
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
                         <div class="question__text">
                             <p class="question__question">What categories do you serve?</p>
-                            <p class="question__asnswer">We serve all categories inside of travel. Some of the categories but not limited to: Adventure, Backpacker, Photographers, Videographers, Cannabis/Beverage, Food, Lifestyle and many more to find or share your expertise. </p>
+                            <p class="question__asnswer">We serve all categories inside of travel. Some of the categories include, but are not limited to: Backpacking, Photography, Videography, Cannabis/Beverage, Food, Lifestyle and many more. </p>
                         </div>
                     </li>
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
@@ -222,12 +230,12 @@ It's free to join.  Once you're signup up, you can create a campaign and discove
                     </li>
                     <li class="question"><img src="<?php echo get_stylesheet_directory_uri();?>/img/question.png" alt="" class="question__icon"/>
                         <div class="question__text">
-                            <p class="question__question">Im an influencer, how long does it take for payments to process?</p>
-                            <p class="question__asnswer">After you complete your campaign requirements, the brand will approve. They have 7 business days to confirm or request changes, once approved, you will be paid within 2-3 business days.</p>
+                            <p class="question__question">I'm an influencer. How long does it take for payments to process?</p>
+                            <p class="question__asnswer">After you complete the campaign requirements, the brand has 7 business days to confirm or request changes. Once approved, you will be paid within 2 - 3 business days.</p>
                         </div>
                     </li>
                 </ul>
-                <p class="section__description section__description_faq">Still have questions? Write on <a href="mailto:help@localeinfluence.com" class="faq__link">help@RangeInfluence.com</a> for answers.</p>
+                <p class="section__description section__description_faq">Still have questions? Write to <a href="mailto:help@localeinfluence.com" class="faq__link">help@localeinfluence.com</a> for answers.</p>
             </div>
         </section>
 

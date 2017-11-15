@@ -20,6 +20,15 @@ function dashboard_enqueue_styles() {
 
 	wp_enqueue_style( 'vendor-style', get_stylesheet_directory_uri() . '/css/dashboard/vendor.css', array() );
 
+    if (isset($GLOBALS["header_type"]) && $GLOBALS["header_type"]=="newhomepage" ) {
+        wp_dequeue_style('main-style');
+
+        wp_enqueue_style('newhomepage-vendor', get_stylesheet_directory_uri().'/css/home/home-vendor.css');
+
+        wp_enqueue_style('newhomepage-main', get_stylesheet_directory_uri().'/css/home/home-main.css', array('newhomepage-vendor') );
+    }
+
+
 	if (is_page_template(['influencer-dashboard.php', 'recent-opportunities.php', 'influencer-pitches.php', 'template-new-balance.php'])) {
 
 		wp_enqueue_style( 'influencer-dashboard-style', get_stylesheet_directory_uri() . '/css/dashboard/influencer-dashboard.css', array() );
@@ -96,7 +105,7 @@ function dashboard_enqueue_styles() {
 
     if ( is_checkout() ){
 
-        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/checkout-page.css');
+        wp_enqueue_style('brand-listing', get_stylesheet_directory_uri().'/css/dashboard/checkout-page.css');
 
         wp_enqueue_style('brand-dashboard', get_stylesheet_directory_uri().'/css/dashboard/brand-dashboard.css');
     }
@@ -170,6 +179,13 @@ function dashboard_child_scripts(){
 
 
     }
+
+    if (isset($GLOBALS["header_type"]) &&  $GLOBALS["header_type"]=="newhomepage"){
+
+        wp_enqueue_script('actions', get_stylesheet_directory_uri() . '/js/actions.js', array(), '1', true );
+
+    }
+
 
 }
 

@@ -13,19 +13,37 @@ wp_head();
 
 ?>
 </head>
-<?php $layout = Kirki::get_option( 'workscout','pp_body_style','fullwidth' ); ?>
-<body <?php body_class($layout); ?>>
+<body <?php body_class(); ?>>
 
   <header class="header">
     <div class="header__logo">
-      <img src="http://traverseinfluence.com/wp-content/uploads/2017/10/RangeLogoWhite-e1508105643871.png">
+      <a href="<?php echo home_url()?>"> <img src="<?php echo get_stylesheet_directory_uri()?>/img/RangeLogoWhite-e1508105643871.png"></a>
     </div><!-- /.header__logo -->
     <div class="header__menu">
       <?php
+
       if ( is_user_logged_in() ) {
-            wp_nav_menu( array( 'menu' => 'Logedin Menu','menu_id' => 'responsive_new','container' => false ) );
+
+          $user = new WP_User(get_current_user_id());
+
+          if($user->roles[0] =="employer" || $user->roles[0] =="administrator"){
+
+              wp_nav_menu( array( 'menu' => 'Brand Menu', 'menu_id' => 'responsive_new','container' => false ) );
+
+          }elseif($user->roles[0] =="candidate" ){
+
+              wp_nav_menu( array( 'menu' => 'Influencer Menu', 'menu_id' => 'responsive_new','container' => false ) );
+
+          } else{
+
+              wp_nav_menu( array( 'menu' => 'Logedin Menu ( Without Role)', 'menu_id' => 'responsive_new','container' => false ) );
+
+          }
+
       } else {
-            wp_nav_menu( array( 'menu' => 'Primary Menu','menu_id' => 'responsive_new','container' => false ) );
+
+          wp_nav_menu( array( 'menu' => 'Primary Menu','menu_id' => 'responsive_new','container' => false ) );
+
       }
       ?>
     </div><!-- /.header__menu -->

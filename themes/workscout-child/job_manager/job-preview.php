@@ -141,7 +141,7 @@
                 </p>
                 <p>
                     Based on your budget, you’re able to choose the following number of influencers.
-                    After selecting the level you’d like and checking out, influencers in that category will start to apply to your opportunity.
+                    What’s next? Simply select the level of influencer you’d like and check out. Influencers will be able to immediately begin pitching on your opportunity.
                 </p>
               
                 <p id="selected_option" class="listing__view__header"><span class="company-name">Select one of the following:</span> <span class="company-campaign option"></span></p>
@@ -172,13 +172,14 @@
                         <?php }
                     }
                     if ( !isset($can_pro) && isset($can_growth) && isset($can_micro))
-                        $text = "For a chance to use a PRO influencer, please add more budget or check out how many GROW or MICRO influencers you can have." ;
+                        $text = "If you’d like to use a PRO influencer, please increase your budget. Otherwise, check out how many GROWTH or MICRO influencers are available for your current budget." ;
 
                     if ( !isset($can_pro) && !isset($can_growth) && isset($can_micro))
-                        $text = "For a chance to use a PRO or a GROW influencer, please add more budget or check out how many  MICRO influencers you can have." ;
+                        $text = "If you’d like to use a PRO or a GROW influencer, please increase your budget. Otherwise, check out how many MICRO influencers are available for your current budget" ;
 
                     if ( !isset($can_pro) && !isset($can_growth) && !isset($can_micro)){
-                        $text = "For a chance to use an influencer, please add more budget." ;?>
+                        $text = "If you’d like to use an influencer, please increase your budget." ;?>
+
                     <?php }
                     ?>
                 </div>

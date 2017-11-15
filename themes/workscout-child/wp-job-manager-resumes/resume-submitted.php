@@ -3,7 +3,7 @@ switch ( $resume->post_status ) :
 	case 'publish' :
 		if ( resume_manager_user_can_view_resume( $resume->ID ) ) {
 			printf( '<h1 class="resume-submitted">' . __( 'You&#39;re all set to look for opportunities!</h1><br />
-<h3>Click <a href="http://traverseinfluence.com/influencer-php/">here</a> to look at what&#39;s available right now.  
+<h3>Click <a href="http://rangeinfluence.com/influencer-php/">here</a> to look at what&#39;s available right now.
 <br />You&#39;ll also get regular notifications about new opportunities being posted.
 <br />
 <br />

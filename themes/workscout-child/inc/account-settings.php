@@ -361,8 +361,8 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
         <div class="input__block panel__search panel__search fieldset-header_image">
             <input class="input-text panel__search__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo_img" value="<?php echo esc_attr( $logo ); ?>"   />
-            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO </label>
-            <div class="upload-btn button_search"></div>
+            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO <div class="upload-btn button_search"></div></label>
+
         </div>
 
         <div class="input__block">
@@ -402,8 +402,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
         <div class="full_width panel__search fieldset-header_image">
             <input class="form__input input-text panel__search__input" type="file" name="samples[]" id="samples" multiple/>
-            <label class="panel__search__input panel__search__input__label" for="samples">Add photography samples: </label>
-            <div class="upload-btn button_search"></div>
+            <label class="panel__search__input panel__search__input__label" for="samples">Add photography samples: <div class="upload-btn button_search"></div></label>
         </div>
 
         <div id="photos" class="photos">
@@ -540,8 +539,8 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
 
         <div class="input__block panel__search panel__search fieldset-header_image">
             <input class="input-text panel__search__input <?php if (!empty($logo)) echo 'has-value';?>"    type="file" name="logo"  id = "logo_img" value="<?php echo esc_attr( $logo ); ?>"   />
-            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO </label>
-            <div class="upload-btn button_search"></div>
+            <label class="panel__search__input panel__search__input__label" for="logo_img">YOUR PROFILE PHOTO  <div class="upload-btn button_search"></div></label>
+
         </div>
 
         <div class="input__block">

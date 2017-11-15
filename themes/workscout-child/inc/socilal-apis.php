@@ -50,7 +50,7 @@ function aj_fb_login(){
 
                 @update_finished_companies_for_user( $user->ID );
 
-                $redirect =  home_url().'/candidate-dashboard';
+                $redirect =  home_url().'/influencer-dashboard';
 
 
             } elseif ( $role == 'customer' || $role == 'subscriber' ) {
@@ -394,7 +394,7 @@ function twitter_create(){
 
                             @update_finished_companies_for_user( $user->ID );
 
-                            $redirect =  home_url().'/candidate-dashboard';
+                            $redirect =  home_url().'/influencer-dashboard';
 
 
                         } elseif ( $role == 'customer' || $role == 'subscriber' ) {

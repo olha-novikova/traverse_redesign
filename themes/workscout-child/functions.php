@@ -731,10 +731,11 @@ function paypal_request_payment(){
         $paypal_amount = $_POST['amount'];
         $success = 1;
 
+        $_SESSION['error'] = array();
 
         if ( !preg_match('/\$?((\d{1,4}(,\d{1,3})*)|(\d+))(\.\d{2})?\$?/', $paypal_amount)) {
 
-            $_SESSION['error'] = 'Please verify amount';
+            $_SESSION['error'][] = 'Please verify amount';
             $success = 0;
 
         }
@@ -743,7 +744,7 @@ function paypal_request_payment(){
 
 
         if ( !is_numeric($paypal_amount) ){
-            $_SESSION['error'] = 'Please verify amount';
+            $_SESSION['error'][] = 'Please verify amount';
             $success = 0;
         }
 
@@ -755,13 +756,13 @@ function paypal_request_payment(){
             $available_cash = get_candidate_cash_out_sum($user->ID);
 
         } else {
-            $_SESSION['error'] .= 'You don\'t have permission for this operation';
+            $_SESSION['error'][] .= 'You don\'t have permission for this operation\n';
             $success = 0;
         }
 
 
         if ( $available_cash < $paypal_amount) {
-            $_SESSION['error'] .= 'Available amount is less then Requested amount';
+            $_SESSION['error'][] .= 'Available amount is less then Requested amount';
             $success = 0;
         }
 
@@ -914,22 +915,6 @@ function remove_all_styles() {
 	}
 }
 add_action('wp_print_styles', 'remove_all_styles', 100);
-
-
-function custom_load_scripts(){
-		if ($GLOBALS["header_type"]=="newhomepage"){
-			//wp_dequeue_script( 'jquery' );
-
-			//wp_enqueue_script('vendor', get_stylesheet_directory_uri() . '/js/vendor.min.js', array(), '1', true );
-			//wp_enqueue_script('newhomepage-main', get_stylesheet_directory_uri() . '/js/main.min.js', array(), '1', true );
-
-			wp_enqueue_script('actions', get_stylesheet_directory_uri() . '/js/actions.js', array(), '1', true );
-		}
-		
-	}
-add_action('wp_enqueue_scripts', 'custom_load_scripts', 200);
-
-
 
 
 add_action('wp_ajax_aj_do_estimate', 'aj_do_estimate');

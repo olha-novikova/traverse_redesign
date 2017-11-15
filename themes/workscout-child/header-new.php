@@ -11,20 +11,17 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
     <?php
-    $GLOBALS['header_type'] = 'newhomepage';
     wp_head();
     ?>
 </head>
-<?php $layout = Kirki::get_option( 'workscout','pp_body_style','fullwidth' ); $user = wp_get_current_user(); ?>
-<body <?php body_class($layout); ?>>
+<body <?php body_class(); ?>>
 <header class="header">
-
     <p class="page__name">Range Dashboard</p>
     <div class="search__block">
         <input type="search" placeholder="Search here people or pages..." class="search"/>
     </div>
     <?php
-
+    $user = wp_get_current_user();
     if ( in_array( 'employer', (array) $user->roles) || in_array( 'administrator', (array) $user->roles) ) {
         ?>
         <a href="<?php echo home_url(). '/brandhome'?>" class="header__link">Find Influencers</a>

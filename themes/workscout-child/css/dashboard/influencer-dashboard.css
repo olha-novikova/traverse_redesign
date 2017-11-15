@@ -22,7 +22,10 @@
 .table__data, .table__influencer__number, .table__text {
     font-family: Roboto, sans-serif
 }
-
+/*.form__input.has-value + .form__input__label, .form__input:focus + .form__input__label {*/
+    /*font-size: .78125vw;*/
+    /*transform: translateY(.78125vw)*/
+/*}*/
 .section_campaigns .section__container {
     padding-top: 1.19vw;
     padding-bottom: 1.35vw

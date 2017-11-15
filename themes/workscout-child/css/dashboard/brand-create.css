@@ -16,6 +16,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-transform: none;
 }
+.fieldset-job_type label, .fieldset-job_category label{
+    display: none;
+}
 .fake-input, input[type="text"],
 input[type="password"],
 input[type="email"],

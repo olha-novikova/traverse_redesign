@@ -86,15 +86,20 @@ a.other_view{
     border-radius: 0.375rem 0 0 0.375rem;
     padding-left: 1.3vw;
 }
-.panel__search  .button_search {
-    border-radius: 0 0.375rem 0.375rem 0;
+.panel__search .button_search {
+    background-color: #ff5e3a;
     border-image: none;
+    border-radius: 0 0.375rem 0.375rem 0;
     border-style: none none none solid;
     border-width: medium medium medium 1px;
+    bottom: 0;
     margin-right: 0;
-    width: 3.125vw;
-    background-color: #ff5e3a ;
+    position: absolute;
+    right: 0;
+    top: 0;
+
 }
+
 .panel__search .panel__search__input__label {
     border: medium none;
     color: #515365;
@@ -117,7 +122,15 @@ a.other_view{
     font-weight: 400;
     line-height: 1;
     color: #fff;
-    font-size: 1.09vw
+    font-size: 1.09vw;
+    vertical-align: middle;
+}
+.job-success{
+    padding: 20px;
+
+}
+.job-success p{
+    font-weight: bold;
 }
 .input__block.newsletterr_block label input[type="radio"]:checked ~ .circle {
     border-color: #ff5e3a;
