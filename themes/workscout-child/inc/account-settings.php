@@ -426,7 +426,7 @@ function traverse_woocommerce_edit_account_form() {  //add_action( 'woocommerce_
         <?php if ( $video ){ ?>
             <div class="video">
                 <div data-embed="<?= $video[0] ?>" class="youtube">
-                    <div class="play-button video__play-button"></div>
+                    <div class="play-button "></div>
                 </div>
             </div>
         <?php } ?>

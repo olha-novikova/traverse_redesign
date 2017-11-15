@@ -47,7 +47,7 @@ get_sidebar();?>
                         <?php elseif( !candidates_can_apply() ):?>
                             <div class="job-manager-applications-applied-notice"> This job has expired or has filled already</div>
                         <?php elseif( !user_has_applied_for_job(get_current_user_id(), $post->ID) ):?>
-                            <div class="job-manager-applications-applied-notice"> You have already applied for this job.</div>
+                            <div class="job-manager-applications-applied-notice"> You have successfully pitched on this listing.</div>
                         <?php endif; ?>
                     </div>
                     <div class="section__body">
