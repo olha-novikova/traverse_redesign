@@ -192,11 +192,7 @@ function get_company_logo_url( $post, $size = 'thumbnail' ){
 
     $user_id = $post->post_author;
 
-    $logo =  get_user_meta( $user_id, 'logo', true );
-
-    $dir = wp_get_upload_dir();
-
-    $file_logo = $dir['baseurl']."/users/".$logo;
+    $file_logo =  get_user_meta( $user_id, 'logo', true );
 
     if ( ! empty( $file_logo ) && ( strstr( $file_logo, 'http' ) || file_exists( $file_logo ) ) ) {
         return  $file_logo;
@@ -765,7 +761,7 @@ function paypal_request_payment(){
 
 
         if ( $available_cash < $paypal_amount) {
-            $_SESSION['error'][] .= 'Available amount is less then Requested amount';
+            $_SESSION['error'][] .= 'Available amount is less then requested amount';
             $success = 0;
         }
 

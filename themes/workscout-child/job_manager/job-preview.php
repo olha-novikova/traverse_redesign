@@ -127,7 +127,12 @@
                             if ( $possible_product == 'pro_inf' )       $can_pro = true;
                             if ( $possible_product == 'growth_inf' )    $can_growth = true;
                             if ( $possible_product == 'micro_inf' )     $can_micro = true;
+                        }else{
+                            if ( $possible_product == 'pro_inf' )       $can_pro_need_to_add = $price - $budget;
+                            if ( $possible_product == 'growth_inf' )    $can_growth_need_to_add = $price - $budget;
+                            if ( $possible_product == 'micro_inf' )     $can_micro_need_to_add = $price - $budget;
                         }
+
                         $nuber_infl = '';
                         if ( $possible_product == 'pro_inf' )       $nuber_infl = ' (500k+ total followers)';
                         if ( $possible_product == 'growth_inf' )    $nuber_infl = ' (~250k followers)';
@@ -140,13 +145,13 @@
                         <?php }
                     }
                     if ( !isset($can_pro) && isset($can_growth) && isset($can_micro))
-                        $text = "If you’d like to use a PRO influencer, please increase your budget. Otherwise, check out how many GROWTH or MICRO influencers are available for your current budget." ;
+                        $text = "If you’d like to use a PRO influencer, please increase your budget at least on $$can_pro_need_to_add. Otherwise, check out how many GROWTH or MICRO influencers are available for your current budget." ;
 
                     if ( !isset($can_pro) && !isset($can_growth) && isset($can_micro))
-                        $text = "If you’d like to use a PRO or a GROW influencer, please increase your budget. Otherwise, check out how many MICRO influencers are available for your current budget" ;
+                        $text = "If you’d like to use a PRO or a GROW influencer, please increase your budget at least on $$can_growth_need_to_add (for use GROWTH) - $$can_pro_need_to_add (for use PRO). Otherwise, check out how many MICRO influencers are available for your current budget" ;
 
                     if ( !isset($can_pro) && !isset($can_growth) && !isset($can_micro)){
-                        $text = "If you’d like to use an influencer, please increase your budget." ;?>
+                        $text = "If you’d like to use an influencer, please increase your budget at least on $$can_micro_need_to_add (for use MICRO) or  $$can_growth_need_to_add (for use GROWTH) or $$can_pro_need_to_add (for use PRO)." ;?>
 
                     <?php }
                     ?>
@@ -176,10 +181,7 @@
         </form>
 
         <p class="listing__wrapper">
-            <?php echo $text;
-            if ( !isset($can_pro) && !$can_growth && !isset($can_micro) ){ ?>
-                <input type="submit" name="edit_job" class="button job-manager-button-edit-listing button_grey" value="<?php _e( 'Edit listing', 'wp-job-manager' ); ?>" />
-            <?php } ?>
+            <?php echo $text; ?>
         </p>
 
     </section>

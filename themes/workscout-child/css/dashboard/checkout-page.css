@@ -65,6 +65,9 @@
     font-size: 0.875rem;
     position: relative;
 }
+.woocomerce_page  .form-row textarea.input-text{
+    padding-top:  2vw;
+}
 .woocomerce_page  .form-row label {
     font-family: Roboto,sans-serif;
     pointer-events: none;
@@ -72,8 +75,8 @@
     transition: all 0.3s ease 0s;
     font-size: 11px;
     line-height: 1.07143;
-    top: 10px;
-    left: 20px;
+    top: 5px;
+    left: 8px;
     color: #888da8;
     z-index: 100;
 }
@@ -108,6 +111,9 @@
     padding: 1rem 6rem;
     background-color: #7c5ac2;
 }
+.clear{
+    clear: both;
+}
 .woocomerce_page .wc_payment_methods  label,
 .woocomerce_page .payment_box.payment_method_bacs p,
 .woocomerce_page .payment_box.payment_method_paypal p{
@@ -119,15 +125,20 @@
     font-weight: normal;
     line-height: 1.5;
 }
-
+.woocomerce_page .woocommerce-additional-fields h3,
+.woocomerce_page .woocommerce-billing-fields h3{
+    text-transform: capitalize!important;
+}
 .woocomerce_page .wc_payment_methods  label a{
     cursor: pointer;
     font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
     font-size: 0.812rem;
 }
-.woocomerce_page .wc_payment_methods.payment_methods.methods li input[type="radio"]{
+.woocomerce_page .wc_payment_methods.payment_methods.methods li input[type="radio"],
+.woocomerce_page .wc_payment_methods.payment_methods.methods li input#payment_method_paypal{
     display: none;
 }
+
 .woocomerce_page .wc_payment_methods.payment_methods.methods li span {
     display: block;
     left: 10px;

@@ -155,8 +155,8 @@ get_header("newhomepage");
         <section class="section section_results">
             <div class="container container_special container_results">
                 <div class="video">
-                    <p class="video__header">ALOFT HOTELS</p>
-                    <p class="video__descrtiption">Check out this 30-second video, created by one of our influencers for Aloft Hotels, sharing some inspiration for a rainy day in Miami.</p>
+                    <p class="video__header">Qatar Airlines</p>
+                    <p class="video__descrtiption">Here is a video recap of video content an influencer was able to create for Qatar Airlines.</p>
                     <div class="wrapper_youtube">
                         <div data-embed="rQylzGaW0Zk" class="youtube">
                             <div class="play-button"></div>

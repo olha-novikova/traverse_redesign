@@ -211,6 +211,9 @@ button::-moz-focus-inner {
 .section_about a, .section_about h1, .section_about h2, .section_about h3, .section_about h4, .section_about h5,.section_about  h6, .section_about p{
     color: #fff;
 }
+.section_about a{
+    text-decoration: underline;
+}
 .container_content{
     padding-top: 5rem;
     display: -ms-flexbox;

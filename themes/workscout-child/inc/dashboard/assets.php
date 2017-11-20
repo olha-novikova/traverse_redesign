@@ -134,6 +134,8 @@ function dashboard_child_scripts(){
 
 	wp_enqueue_script( 'dashboard-ajax', get_stylesheet_directory_uri() . '/js/influencer-ajax.js', array('jquery'), '20150705', true );
 
+    wp_enqueue_script( 'datepicker-redefine', get_stylesheet_directory_uri() . '/js/datepicker-redefine.js', array('jquery', 'jmfe-date-field'), '20150705', true );
+
     wp_register_script('job-file-upload', get_stylesheet_directory_uri() . '/js/job-file-upload.js', array('jquery'), '', true);
 
 	if (is_singular('resume')) {
@@ -141,7 +143,6 @@ function dashboard_child_scripts(){
 		wp_enqueue_script( 'single-grid-js', get_stylesheet_directory_uri() . '/js/images-grid.js', array('jquery'), '', true);
 
 	}
-
 
     if( is_page_template('my-listings.php')  ){
 
