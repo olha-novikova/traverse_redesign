@@ -715,13 +715,17 @@ function traverse_my_woocommerce_save_account_details( $user_id ) { //add_action
 
 
         foreach ( $_POST as $key => $value ){
-            if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
-                update_user_meta( $user_id, $key, htmlentities( $_POST[ $key ] ) );
-            elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ])){
-                delete_user_meta( $user_id, $key);
+            if ( $key != 'traveler_type'){
+                if ( isset($_POST[ $key ]) && !empty ($_POST[ $key ]))
+                    update_user_meta( $user_id, $key, htmlentities( $_POST[ $key ] ) );
+                elseif ( isset($_POST[ $key ]) && empty ($_POST[ $key ])){
+                    delete_user_meta( $user_id, $key);
+                }
+            }else{
+                update_user_meta( $user_id, $key, $_POST[ $key ] );
             }
-        }
 
+        }
 
         $user_resumes =  get_posts( array(
             'post_type'           => 'resume',
@@ -1007,10 +1011,10 @@ function traverse_save_account_details() { //add_action( 'template_redirect',  '
         wc_add_notice( __( 'Account details changed successfully.', 'woocommerce' ) );
         do_action( 'woocommerce_save_account_details', $user->ID );
 
-        $myaccount = wc_get_page_permalink( 'myaccount' ) ;
+        $myaccount = wc_customer_edit_account_url() ;
 
         if( $current_user->roles[0] == 'candidate'){
-            wp_safe_redirect( $myaccount );
+            wp_safe_redirect( wc_customer_edit_account_url().'?saved=1' );
             exit;
         }
 

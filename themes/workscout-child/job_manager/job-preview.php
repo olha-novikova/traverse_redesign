@@ -1,45 +1,10 @@
-<?php session_start(); $_SESSION['job_id'] = $form->get_job_id();?>
+<?php session_start(); $_SESSION['job_id'] = $form->get_job_id(); ?>
 <?php ?>
 <div class="content create-page">
     <?php
+
     $categories = wp_get_post_terms($form->get_job_id(), 'job_listing_category', array("fields" => "id=>slug"));
     $types  = wp_get_post_terms($form->get_job_id(), 'job_listing_type', array("fields" => "id=>slug"));
-
-    $meta_query = array('relation' => 'AND');
-
-    $meta_use = false;
-
-    if ( in_array('facebook', $types) ){
-        $meta_query[] = array(
-            'key'       => '_facebook_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
-
-    if ( in_array('instagram', $types) ){
-        $meta_query[] = array(
-            'key'       => '_instagram_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
-
-    if ( in_array('youtube', $types) ){
-        $meta_query[] = array(
-            'key'       => '_youtube_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
-
-    if ( in_array('twitter', $types) ){
-        $meta_query[] = array(
-            'key'       => '_twitter_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
 
     $budget = get_post_meta( $form->get_job_id(), '_targeted_budget', true);
 
@@ -47,6 +12,9 @@
 
     $product_pro = new WC_Product( $product_id );
     $price_pro = $product_pro -> get_price();
+
+    $meta_query = array('relation' => 'AND');
+    $meta_use = false;
 
     if ( $budget < $price_pro ) {
         $meta_query[] = array(
@@ -57,7 +25,6 @@
         );
         $meta_use = true;
     }
-
 
     $product_id = wc_get_product_id_by_sku( 'growth_inf' );
 
@@ -95,7 +62,7 @@
         'ignore_sticky_posts' => 1,
         'orderby'             => 'ASC',
         'order'               => 'date',
-        'posts_per_page'      => -1,
+        'posts_per_page'      => 20,
         'fields'              => 'ids'
     );
 
@@ -117,16 +84,17 @@
     }
 
     $resumes_query = new WP_Query($args);
+
     $resumes = $resumes_query->posts;
 
     $possible_reach = 0;
 
     if ( $resumes ) :?>
-        <?php foreach ($resumes as $resume_id ): ?>
-            <?php
-            $possible_reach += get_influencer_audience($resume_id);
-            ?>
-        <?php endforeach; wp_reset_postdata();?>
+            <?php foreach ($resumes as $resume_id ): ?>
+                <?php
+                $possible_reach += get_post_meta($resume_id, '_audience', true);
+                ?>
+    <?php endforeach; wp_reset_postdata();?>
     <?php endif; ?>
     <section class="section section_listing">
         <form method="post" id="job_preview" action="<?php echo esc_url( $form->get_action() ); ?>" class="section__container form form_listing">
@@ -188,7 +156,7 @@
                     <p class="list__number"><span>Estimated Reach: </span><span class="pos_rich"><?php echo $possible_reach; ?></span></p>
                 </div>
                 <div class="listing__wrapper">
-                    <p class="list__number"><span>Estimated Engagement: </span><span class="pos_eng"><?php echo round($possible_reach*0.03)." - ".round($possible_reach*0.07)?> </span></p>
+                    <p class="list__number"><span>Estimated Engagement: </span><span class="pos_eng"><?php echo round($possible_reach*0.0001)." - ".round($possible_reach*0.005)?> </span></p>
                 </div>
             </div>
 
@@ -245,7 +213,7 @@
                     var prodCount = $this.data('prod_count');
                     var include = $this.data('include');
 
-                    base = base+"&include=" +include;
+                    base = base+"&include=" +include+"&number="+prodCount;
 
                     var text = $this.val();
 

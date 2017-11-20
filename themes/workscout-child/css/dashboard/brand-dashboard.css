@@ -378,7 +378,7 @@
     align-items: center;
     margin-bottom: 2.86vw
 }
-
+.woocommerce img .carousel__influencer__image, .woocommerce-page .carousel__influencer__image,
 .carousel__influencer__image {
     background-color: #3f4257;
     width: 7.29vw;
@@ -388,7 +388,8 @@
     display: -ms-flexbox;
     display: flex;
     margin-top: -3.645vw;
-    margin-bottom: 2.34vw
+    margin-bottom: 2.34vw;
+    object-fit: cover;
 }
 
 .carousel__influencer__name {

@@ -26,16 +26,12 @@ do_action( 'woocommerce_before_account_navigation' );
 <ul class="settings__menu__list">
 <?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
     <?php
-    if($label !='Orders' && $label !='Downloads' && $label !='Addresses' ){?>
+    if( $endpoint !='orders' && $endpoint !='downloads' && $endpoint !='edit-address' && $endpoint != 'dashboard' ){?>
         <?php
-        if ( $endpoint == 'dashboard') { ?>
-            <li class="settings__menu__list-item">
-                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">Personal Information</a>
-            </li>
-        <?php }
+
         if ( $endpoint == 'edit-account') { ?>
             <li class="settings__menu__list-item">
-                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">Edit Options</a>
+                <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">Edit Profile</a>
             </li>
             <li class="settings__menu__list-item">
                 <a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ).'?password=change'; ?>"><?php echo esc_html( ucwords('Change Password') ); ?></a>

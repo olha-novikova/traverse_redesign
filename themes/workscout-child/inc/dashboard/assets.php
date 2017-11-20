@@ -130,6 +130,8 @@ function dashboard_child_scripts(){
 
 	wp_enqueue_script( 'dashboard-main', get_stylesheet_directory_uri() . '/js/main.min.js', array('jquery'), '20150705', true );
 
+    wp_enqueue_script( 'search', get_stylesheet_directory_uri() . '/js/search.js', array('jquery'), '20150705', true );
+
 	wp_enqueue_script( 'dashboard-ajax', get_stylesheet_directory_uri() . '/js/influencer-ajax.js', array('jquery'), '20150705', true );
 
     wp_register_script('job-file-upload', get_stylesheet_directory_uri() . '/js/job-file-upload.js', array('jquery'), '', true);

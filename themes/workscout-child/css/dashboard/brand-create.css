@@ -16,7 +16,8 @@
     -moz-osx-font-smoothing: grayscale;
     text-transform: none;
 }
-.fieldset-job_type label, .fieldset-job_category label{
+
+.inputs_listing .input__block.fieldset-job_type .form__input__label, .inputs_listing .input__block.fieldset-job_category .form__input__label{
     display: none;
 }
 .fake-input, input[type="text"],
@@ -382,8 +383,7 @@ textarea, select {
 }
 
 .inputs_listing .input__block.fieldset-block__header .form__input__label,
-.inputs_listing .input__block.fieldset-assets_header .form__input__label,
-.inputs_listing .input__block.fieldset-job_type .form__input__label{
+.inputs_listing .input__block.fieldset-assets_header .form__input__label{
     display: block;
     position: static;
 }

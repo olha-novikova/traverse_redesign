@@ -54,41 +54,40 @@ if ( $order ) : ?>
                 $categories = wp_get_post_terms($job_id, 'job_listing_category', array("fields" => "id=>slug"));
                 $types  = wp_get_post_terms($job_id, 'job_listing_type', array("fields" => "id=>slug"));
 
-                $meta_query = array('relation' => 'AND');
-
-                $meta_use = false;
+                $social_media_query = array();
+                $social_media_query_use = false;
 
                 if ( in_array('facebook', $types) ){
-                    $meta_query[] = array(
-                        'key'       => '_facebook_link',
-                        'compare'   => 'EXISTS'
-                    );
-                    $meta_use = true;
+                    $social_media_query[] = '_facebook_link';
+                    $social_media_query_use = true;
                 }
 
                 if ( in_array('instagram', $types) ){
-                    $meta_query[] = array(
-                        'key'       => '_instagram_link',
-                        'compare'   => 'EXISTS'
-                    );
-                    $meta_use = true;
+                    $social_media_query[] = '_instagram_link';
+                    $social_media_query_use = true;
                 }
 
                 if ( in_array('youtube', $types) ){
-                    $meta_query[] = array(
-                        'key'       => '_youtube_link',
-                        'compare'   => 'EXISTS'
-                    );
-                    $meta_use = true;
+                    $social_media_query[] = '_youtube_link';
+                    $social_media_query_use = true;
                 }
 
                 if ( in_array('twitter', $types) ){
-                    $meta_query[] = array(
-                        'key'       => '_twitter_link',
-                        'compare'   => 'EXISTS'
-                    );
-                    $meta_use = true;
+                    $social_media_query[] =  '_twitter_link';
+                    $social_media_query_use = true;
                 }
+
+
+
+                $meta_query = array('relation' => 'AND');
+                $meta_use = false;
+
+                $meta_query[] = array(
+                    'key'       => '_audience',
+                    'compare'   => '>',
+                    'value'     => '0',
+                    'type'      => 'NUMERIC'
+                );
 
                 if ( $_sku == 'pro_inf' ){
                     $meta_query[] = array(
@@ -122,7 +121,8 @@ if ( $order ) : ?>
                     'ignore_sticky_posts' => 1,
                     'orderby'             => 'ASC',
                     'order'               => 'date',
-                    'posts_per_page'      => -1
+                    'posts_per_page'      => -1,
+                    'fields'              => 'ids'
                 );
 
                 if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
@@ -143,6 +143,28 @@ if ( $order ) : ?>
                 }
 
                 $resumes = new WP_Query($args);
+                $resumes_ids  = $resumes->posts;
+
+                foreach ($resumes_ids as $key => $resume){
+                    $metas = array();
+
+                    foreach ( $social_media_query as $meta_value ){
+                       if ( get_post_meta($resume, $meta_value, true) )
+                           $metas[] = $meta_value ;
+                    }
+                    $exists = array_intersect ($social_media_query,$metas );
+                    if ( !$exists ) unset( $resumes_ids[$key] );
+                }
+
+                $resumes = new WP_Query(array(
+                    'post_type'           => 'resume',
+                    'post_status'         => array( 'publish'),
+                    'ignore_sticky_posts' => 1,
+                    'orderby'             => 'ASC',
+                    'order'               => 'date',
+                    'posts_per_page'      => -1,
+                    'post__in'              => $resumes_ids
+                ));
 
                 if ( $resumes->have_posts() ) :?>
 
@@ -153,7 +175,7 @@ if ( $order ) : ?>
 
                     <?php endwhile; ?>
                 </div>
-            <?php endif; ?>
+            <?php  wp_reset_postdata(); endif; ?>
             </div>
         </section>
 	<?php endif; ?>

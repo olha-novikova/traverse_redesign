@@ -6,7 +6,14 @@ $canidate_dashboard_page_id = get_option( 'resume_manager_candidate_dashboard_pa
 ?>
 <sidebar class="sidebar">
   <div class="logo">
-    <a href="<?php echo  home_url(); ?>" <p class="logo__text">r</p></a>
+      <?php
+      $dashboard_link =  home_url();
+      if ( in_array( 'candidate', (array) $user->roles ))
+          $dashboard_link = get_permalink( $canidate_dashboard_page_id);
+      if ( in_array( 'employer', (array) $user->roles ) || in_array( 'administrator', (array) $user->roles ))
+          $dashboard_link = get_permalink( $employer_dashboard_page_id);
+      ?>
+      <a href="<?php echo $dashboard_link; ?>" <p class="logo__text">r</p></a>
   </div>
     <ul class="icon-list">
         <?php if ( in_array( 'candidate', (array) $user->roles )) : ?>

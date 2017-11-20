@@ -235,7 +235,7 @@ get_header("newhomepage");
                         </div>
                     </li>
                 </ul>
-                <p class="section__description section__description_faq">Still have questions? Write to <a href="mailto:help@localeinfluence.com" class="faq__link">help@localeinfluence.com</a> for answers.</p>
+                <p class="section__description section__description_faq">Still have questions? Write to <a href="mailto:help@rangeinfluence.com" class="faq__link">help@rangeinfluence.com</a> for answers.</p>
             </div>
         </section>
 

@@ -43,9 +43,12 @@ function overwrite_shortcode() {
     add_shortcode( 'spotlight_jobs', 'spotlight_jobs_custom' );
     add_shortcode( 'spotlight_resumes', 'spotlight_resumes_custom' );
     add_shortcode( 'jobs', 'jobs_custom' );
+
+
 }
 
 add_action( 'wp_loaded', 'overwrite_shortcode' );
+add_action( 'manage_job_listing_posts_custom_column', 'job_custom_columns', 2 );
 
 include_once get_stylesheet_directory() . '/inc/brand-functions.php';
 
@@ -1246,112 +1249,27 @@ function aj_preview_estimate_summary(){
 
     $response = array();
 
-    $budget = $_POST['target_budget'];
-    $meta_query = array('relation' => 'AND');
+    $number = $_POST['number'];
 
-    $meta_use = false;
+    $koef = 1;
 
-    if ( isset($_POST['fb_channel']) && $_POST['fb_channel'] == 'on' ){
-        $meta_query[] = array(
-            'key'       => '_fb_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
-
-    if ( isset($_POST['ig_channel']) && $_POST['ig_channel'] == 'on' ){
-        $meta_query[] = array(
-            'key'       => '_instagram_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
-
-    if ( isset($_POST['yt_channel']) && $_POST['yt_channel'] == 'on' ){
-        $meta_query[] = array(
-            'key'       => '_youtube_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
-
-    if ( isset($_POST['tw_channel']) && $_POST['tw_channel'] == 'on' ){
-        $meta_query[] = array(
-            'key'       => '_twitter_link',
-            'compare'   => 'EXISTS'
-        );
-        $meta_use = true;
-    }
 
     if ( isset($_POST['include']) && $_POST['include'] == 'pro_inf' ){
-        $meta_query[] = array(
-            'key'       => '_audience',
-            'compare'   => '>=',
-            'value'     => '500000',
-            'type'      => 'NUMERIC'
-        );
-        $meta_use = true;
+        $koef = 5000000;
     }
 
     if ( isset($_POST['include']) && $_POST['include'] == 'growth_inf' ){
-        $meta_query[] = array(
-            'key'       => '_audience',
-            'compare'   => 'BETWEEN',
-            'value'     => array(50000, 499999),
-            'type'      => 'NUMERIC'
-        );
-        $meta_use = true;
+        $koef = 500000;
     }
 
     if ( isset($_POST['include']) && $_POST['include'] == 'micro_inf' ){
-        $meta_query[] = array(
-            'key'       => '_audience',
-            'compare'   => '<',
-            'value'     => '50000',
-            'type'      => 'NUMERIC'
-        );
-        $meta_use = true;
+        $koef = 50000;
     }
 
-    $args = array(
-        'post_type'           => 'resume',
-        'post_status'         => array( 'publish'),
-        'ignore_sticky_posts' => 1,
-        'orderby'             => 'ASC',
-        'order'               => 'date',
-        'posts_per_page'      => -1
-    );
-
-    if ( isset($_POST['traveler_type']) && !empty($_POST['traveler_type']) )
-        $categories = $_POST['traveler_type'];
-
-    if ( $categories ){
-        $args['tax_query'][] = array(
-            'taxonomy'         => 'resume_category',
-            'field'            => 'slug',
-            'terms'            => array_values( $categories ),
-            'include_children' => false,
-            'operator'         => 'IN'
-        );
-    }
-
-    if ( $meta_use ) {
-        $args['meta_query'] = $meta_query;
-    }
-
-    $resumes = new WP_Query($args);
-
-    $possible_reach = 0;
-    if ( $resumes->have_posts() ) :
-        while ( $resumes->have_posts() ) : $resumes->the_post();
-            $resume_id = get_the_ID();
-            $possible_reach += get_influencer_audience($resume_id);
-        endwhile;
-    endif;
-
+    $possible_reach = $koef*$number;
     if ( $possible_reach != 0 ){
         $response['possible_reach'] = $possible_reach;
-        $response['possible_engagement'] = (round($possible_reach*0.03)." - ".round($possible_reach*0.07));
+        $response['possible_engagement'] = (round(($koef*$number)*0.0001)." - ".round(($koef*$number)*0.005));
     }else {
         $response['found'] = false;
     }
@@ -1386,3 +1304,94 @@ function scrape_insta($username) {
 }
 
 require_once 'settings.php';
+
+function job_custom_columns( $column ) {
+    global $post;
+
+    switch ( $column ) {
+        case "job_listing_type" :
+            $post = get_post( $post );
+
+            if ( $post->post_type !== 'job_listing' ) {
+                return;
+            }
+
+            $types = wp_get_post_terms( $post->ID, 'job_listing_type' );
+
+            if ( $types ) {
+                $type_current = current( $types );
+                $output = '';
+                foreach ($types as $type){
+                    if ( $type != $type_current ) $output .=  '<span class="job-type ' . $type->slug . '">' . $type->name . '</span>';
+                }
+            } else {
+                $type = false;
+            }
+
+            if ( $type )
+                echo $output;
+            break;
+    }
+}
+
+add_action('wp_ajax_aj_search', 'aj_search');
+
+function aj_search(){
+    $str = addslashes($_POST['search']);
+
+    $arg = array(
+        'post_status'         => array( 'publish'),
+        'ignore_sticky_posts' => 1,
+        'orderby'             => 'ASC',
+        'order'               => 'date',
+        'posts_per_page'      => -1
+    );
+
+    $user = wp_get_current_user();
+
+    $post_type = 'resume';
+
+    if ( in_array( 'candidate', (array) $user->roles ) ) {
+        $post_type = 'job_listing';
+    }
+
+
+    $arg['post_type'] = $post_type;
+
+    $arg['s'] = $str;
+
+    $result = new WP_Query($arg);
+
+    if($result->have_posts()):
+        while ($result->have_posts()) : $result->the_post(); ?>
+            <div class="inline-items" data-selectable="" data-value="<?php the_title()?>">
+                <div class="author-thumb">
+                    <a href="<?php the_permalink()?>" >
+                        <?php if ($post_type == 'resume'){?>
+                            <img src="<?php echo get_the_candidate_photo(get_the_ID())?>" alt="avatar">
+                    <?php }?>
+                    </a>
+                </div>
+                <div class="notification-event">
+                    <span class="title-result"><a href="<?php the_permalink()?>" ><?php the_title()?></a></span>
+                    <?php if ($post_type == 'resume'){?>
+                        <?php $tags = explode(', ', get_the_resume_category(get_the_ID()));?>
+                    <?php }elseif( $post_type == 'job_listing'){?>
+                        <?php $tags = wp_get_object_terms( get_the_ID(), 'job_listing_category', array('fields'=>'names') );?>
+                    <?php }?>
+                    <span class="chat-message-item">
+                        <?php foreach($tags as $tag) : if ( $tag ):?>
+                            <p class="tag-gray"><?php esc_html_e($tag) ?></p>
+                        <?php endif; endforeach; ?>
+                    </span>
+                </div>
+            </div>
+        <?php endwhile;
+    else: ?>
+        <div class="inline-items">
+            No matches
+        </div>
+    <?php endif;
+
+    die;
+}

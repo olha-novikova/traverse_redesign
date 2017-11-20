@@ -19,8 +19,9 @@ if ( isset( $_GET['password']) && $_GET['password'] == 'change') $part = 'pass';
         <?php do_action( 'woocommerce_edit_account_form_start' ); ?>
 
         <?php if ($part == 'main'){ ?>
-        <p class="form__header">Account Settings</p>
+        <p class="form__header">Account Settings <?php wc_print_notices(); ?></p>
             <div class="form__inputs inputs">
+
                 <?php
                 if( $roles=="candidate" || $roles=="employer"){?>
                     <div class="input__block">

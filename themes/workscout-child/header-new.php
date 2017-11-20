@@ -18,7 +18,8 @@
 <header class="header">
     <p class="page__name">Range Dashboard</p>
     <div class="search__block">
-        <input type="search" placeholder="Search here people or pages..." class="search"/>
+        <input type="search" id="search" placeholder="Search here ..." class="search"/>
+        <div id="aj_searchresults"></div>
     </div>
     <?php
     $user = wp_get_current_user();
